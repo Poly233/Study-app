@@ -157,7 +157,7 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 .today-body { flex: 1; }
 .today-body .btn { margin-top: 8px; }
 .ring { --p: 0; width: 88px; height: 88px; border-radius: 50%; flex-shrink: 0;
-  background: conic-gradient(var(--good) calc(var(--p) * 360deg), var(--line) 0);
+  background: conic-gradient(var(--rc, var(--good)) calc(var(--p) * 360deg), var(--line) 0);
   display: grid; place-items: center; }
 .ring > div { width: 70px; height: 70px; border-radius: 50%; background: var(--card); display: grid; place-items: center; align-content: center; }
 .ring b { font-size: 22px; line-height: 1; }
@@ -307,3 +307,15 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 
 .katex { font-size: 1.05em; }
 .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+
+/* ---------- feynman ---------- */
+.big-btn.fey { margin: 0 0 10px; border-color: color-mix(in srgb, var(--good) 45%, var(--line));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--good) 16%, var(--card)), var(--card)); }
+.fey-score { display: flex; gap: 14px; align-items: center; }
+.fey-pill { min-width: 36px; text-align: center; padding: 2px 8px; border-radius: 99px; background: var(--sc); color: #fff; font-size: 13px; }
+.bubble .who { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+.fc { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+.fc.off { opacity: .4; }
+.fc-box { font-size: 20px; line-height: 1.2; color: var(--good); }
+.fey-wrong { padding: 8px 0; border-top: 1px solid var(--line); }
+.fey-wrong:first-of-type { border-top: 0; }

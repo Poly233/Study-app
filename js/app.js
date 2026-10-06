@@ -27,6 +27,7 @@ const S = {
   cards: [],
   problems: [],
   sources: [],
+  feynman: [],
   settings: null,
   stats: null,
 };
@@ -51,13 +52,14 @@ function defaultSettings() {
 }
 
 async function load() {
-  const [cards, problems, sources, settings, stats] = await Promise.all([
-    db.all('cards'), db.all('problems'), db.all('sources'),
+  const [cards, problems, sources, feynman, settings, stats] = await Promise.all([
+    db.all('cards'), db.all('problems'), db.all('sources'), db.all('feynman'),
     db.getMeta('settings', null), db.getMeta('stats', null),
   ]);
   S.cards = cards;
   S.problems = problems;
   S.sources = sources;
+  S.feynman = feynman;
   S.settings = { ...defaultSettings(), ...(settings || {}) };
   S.settings.exams = { ...defaultSettings().exams, ...(settings?.exams || {}) };
   if (!settings) await db.setMeta('settings', S.settings);
@@ -235,8 +237,9 @@ async function route() {
   document.body.dataset.view = name;
   header();
   const map = { home: viewHome, add: viewAdd, review: viewReview, session: viewSession, lib: viewLib,
-    problem: viewProblem, tutor: viewTutor, source: viewSource, settings: viewSettings };
-  tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review' }[name] || name);
+    problem: viewProblem, tutor: viewTutor, source: viewSource, settings: viewSettings,
+    feynman: viewFeynmanList, fey: viewFey };
+  tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review' }[name] || name);
   await (map[name] || viewHome)(arg);
 }
 
@@ -611,6 +614,7 @@ async function viewReview() {
     <button class="big-btn" data-act="startMode" data-mode="problems"><b>✏️ 错题重做</b><span>先想 60 秒再看提示</span></button>
     <button class="big-btn danger" data-act="startMode" data-mode="cram"><b>🔥 考前冲刺</b><span>不管到期，专刷弱项</span></button>
   </div>
+  <button class="big-btn fey" data-act="nav" data-to="feynman"><b>🗣 费曼模式：讲给 AI 听</b><span>用自己的话讲出来 → AI 追问 → 评分 → 漏洞自动变成闪卡${S.feynman.filter(f => f.result).length ? ` · 已讲 ${S.feynman.filter(f => f.result).length} 次` : ''}</span></button>
   <h3 class="sec">按科目</h3>
   <div class="list">
     ${SUBJECTS.map(s => {
@@ -731,7 +735,8 @@ function renderCardItem(prog, c) {
       ${c.type === 'method' ? '<div class="muted small">看到这道题，第一步做什么？用什么解法？先在脑中说出来。</div>' : ''}
       <div class="flash-front">${md(c.front)}</div>
       ${f ? `<div class="flash-sep"></div><div class="flash-back">${md(c.back)}</div>${c.note ? `<div class="note">${md(c.note)}</div>` : ''}
-        ${c.type === 'method' && c.problemId ? `<button class="btn ghost small" data-act="openProblemFromSession" data-id="${c.problemId}">看完整解法 →</button>` : ''}` : '<div class="tap-hint">点卡片看答案</div>'}
+        <div class="row wrap">${c.type === 'method' && c.problemId ? `<button class="btn ghost small" data-act="openProblemFromSession" data-id="${c.problemId}">看完整解法 →</button>` : ''}
+        <button class="btn ghost small" data-act="feyStart" data-kind="card" data-id="${c.id}">🗣 讲给 AI 听</button></div>` : '<div class="tap-hint">点卡片看答案</div>'}
     </div>
     ${f ? gradeBar(['忘了', '模糊', '记得', '秒答']) : `<button class="btn primary block big" data-act="flip">显示答案</button>`}
   `);
@@ -917,6 +922,7 @@ async function viewSource(id) {
     <div class="card"><h4>📌 考前一页纸</h4><div class="summary">${md(src.summary)}</div></div>
     ${await imgsHTML(src.imageIds)}
     <div class="row"><button class="btn primary" data-act="studySource" data-id="${id}">▶ 只刷这份资料</button>
+      <button class="btn" data-act="feyStart" data-kind="source" data-id="${id}">🗣 讲给 AI 听</button>
       <button class="btn danger ghost" data-act="delSource" data-id="${id}">删除</button></div>
     <div class="list">${cards.map(cardRow).join('')}</div>
   `);
@@ -934,7 +940,8 @@ function editCard(id) {
     <div class="muted small">数式可以用 $x^2$，化学式 $\\ce{H2O}$</div>
     <div class="stack">
       <button class="btn primary block" data-act="saveCard" data-id="${c.id || ''}">保存</button>
-      ${c.id ? `<button class="btn block" data-act="resetCard" data-id="${c.id}">重置进度（当新卡）</button>
+      ${c.id ? `<button class="btn block" data-act="feyStart" data-kind="card" data-id="${c.id}">🗣 讲给 AI 听（费曼模式）</button>
+      <button class="btn block" data-act="resetCard" data-id="${c.id}">重置进度（当新卡）</button>
       <button class="btn danger ghost block" data-act="delCard" data-id="${c.id}">删除</button>` : ''}
     </div>`);
 }
@@ -985,6 +992,7 @@ async function viewProblem(id) {
       <button class="big-btn primary" data-act="nav" data-to="tutor/${p.id}" ${hasKey ? '' : 'disabled'}><b>🎓 AI 辅导</b><span>一步步引导，不直接给答案</span></button>
       <button class="big-btn" data-act="makeVariant" data-id="${p.id}" ${hasKey && p.analysis ? '' : 'disabled'}><b>🔁 出类题</b><span>改数值、同解法</span></button>
     </div>
+    ${p.analysis ? `<button class="big-btn fey" data-act="feyStart" data-kind="problem" data-id="${p.id}"><b>🗣 讲给 AI 听</b><span>把“为什么这样解”讲清楚，才算真的会了</span></button>` : ''}
     ${!hasKey ? '<div class="muted small">AI 辅导和类题需要 API Key（设置里填写）。</div>' : ''}
     ${p.analysis ? problemBody(p.analysis) : `
       <div class="card">还没有解析。
@@ -1167,6 +1175,277 @@ async function buildTutorMessages(p) {
   }
   if (out[0]?.role !== 'user') out.unshift({ role: 'user', content: [{ type: 'text', text: '开始' }] });
   return out;
+}
+
+// ====================================================================
+// FEYNMAN mode (讲给 AI 听)
+// Explain in your own words → "小明" asks about vague spots → score →
+// gaps become flashcards that go into the spaced-repetition queue.
+// ====================================================================
+
+const plain = s => String(s || '').replace(/\*\*/g, '').trim();
+
+function feynmanContext(ref) {
+  if (ref.kind === 'source') {
+    const src = S.sources.find(s => s.id === ref.id);
+    if (!src) return null;
+    const cards = S.cards.filter(c => c.sourceId === src.id).slice(0, 150);
+    return {
+      subject: src.subject,
+      topic: src.title,
+      reference: `【${src.title}】\n要点：\n${src.summary}\n\n闪卡：\n${cards.map(c => `- ${c.front} → ${c.back}`).join('\n')}`,
+    };
+  }
+  if (ref.kind === 'card') {
+    const c = S.cards.find(x => x.id === ref.id);
+    if (!c) return null;
+    if (c.problemId) return feynmanContext({ kind: 'problem', id: c.problemId });
+    const src = c.sourceId && S.sources.find(s => s.id === c.sourceId);
+    const back = plain(c.back);
+    return {
+      subject: c.subject,
+      topic: back.length <= 30 ? back : plain(c.front),
+      reference: `问：${c.front}\n答：${c.back}${c.note ? `\n备注：${c.note}` : ''}${src ? `\n\n所属资料「${src.title}」要点：\n${src.summary}` : ''}`,
+    };
+  }
+  if (ref.kind === 'problem') {
+    const p = S.problems.find(x => x.id === ref.id);
+    if (!p) return null;
+    const a = p.analysis;
+    return {
+      subject: p.subject,
+      topic: a ? `${plain(a.pattern)}：为什么这样解` : p.title,
+      reference: a ? [
+        `题目：${a.problemText}`, `解法の型：${a.pattern}`, `识别信号：${a.trigger}`, `核心思路：${a.keyIdea}`,
+        `第一步：${a.firstStep}`, `步骤：\n${(a.steps || []).map((st, i) => `${i + 1}. ${st.title}：${st.detail}`).join('\n')}`,
+        `答案：${a.answer}`,
+      ].join('\n') : '',
+    };
+  }
+  return { subject: ref.subject, topic: ref.topic, reference: '' };
+}
+
+async function putFey(f) { await db.put('feynman', f); upsert(S.feynman, f); }
+
+const sameRef = (a, b) => a.kind === b.kind && a.id && a.id === b.id;
+
+function feyPrevBest(f) {
+  const scores = S.feynman.filter(x => x.id !== f.id && x.result && (sameRef(x.ref, f.ref) || x.topic === f.topic)).map(x => x.result.score);
+  return scores.length ? Math.max(...scores) : null;
+}
+
+async function startFeynman(ref, extra = {}) {
+  const ctx = feynmanContext(ref);
+  if (!ctx) return toast('找不到这个内容');
+  const reuse = ref.kind !== 'free' && !extra.prevId && S.feynman.find(x => !x.result && !x.chat.length && sameRef(x.ref, ref));
+  const f = reuse || {
+    id: uid(), ref: { kind: ref.kind, id: ref.id || null }, subject: ctx.subject, topic: ctx.topic,
+    reference: ctx.reference, chat: [], result: null, created: Date.now(), ...extra,
+  };
+  await putFey(f);
+  closeModal();
+  go('fey/' + f.id);
+}
+
+async function viewFeynmanList() {
+  const hist = [...S.feynman].filter(f => f.result || f.chat.length).sort((a, b) => b.created - a.created);
+  const srcs = [...S.sources].sort((a, b) => b.created - a.created).slice(0, 5);
+  const probs = S.problems.filter(p => p.analysis).sort((a, b) => weakness(b.srs) - weakness(a.srs)).slice(0, 3);
+  const scoreTag = f => f.result ? `<b class="fey-pill" style="--sc:${scoreColor(f.result.score)}">${f.result.score}</b>` : '<span class="muted small">未评分</span>';
+  setView(`
+    <button class="back" data-act="nav" data-to="review">‹ 复习</button>
+    <h2>🗣 费曼模式</h2>
+    <div class="card small">
+      <b>能讲给别人听，才是真的懂了。</b><br>
+      ① 合上资料，用自己的话讲给“小明”（AI 扮演的初中生）听<br>
+      ② 小明会追问你讲不清楚的地方<br>
+      ③ 评分，指出漏掉的、讲错的要点<br>
+      ④ 漏洞自动做成闪卡，按遗忘曲线复习，然后再讲一遍
+    </div>
+    <button class="btn primary block" data-act="feyNew">＋ 自己定一个主题</button>
+    ${srcs.length || probs.length ? `<h3 class="sec">推荐讲这些</h3><div class="list">
+      ${srcs.map(s => `<button class="li" data-act="feyStart" data-kind="source" data-id="${s.id}" style="--c:${SUBJ[s.subject].color}">
+        <span class="dot"></span><span class="li-t">📄 ${esc(s.title)}</span><span class="muted small">讲 ›</span></button>`).join('')}
+      ${probs.map(p => `<button class="li" data-act="feyStart" data-kind="problem" data-id="${p.id}" style="--c:${SUBJ[p.subject].color}">
+        <span class="dot"></span><span class="li-t">✏️ ${esc(p.title)}<br><small class="muted">讲清楚为什么这样解</small></span><span class="muted small">讲 ›</span></button>`).join('')}
+    </div>` : ''}
+    <h3 class="sec">记录</h3>
+    <div class="list">${hist.length ? hist.map(f => `<button class="li" data-act="nav" data-to="fey/${f.id}" style="--c:${SUBJ[f.subject].color}">
+        <span class="dot"></span><span class="li-t">${esc(f.topic)}<br><small class="muted">${todayKey(f.created).slice(5)} · ${SUBJ[f.subject].name}</small></span>${scoreTag(f)}</button>`).join('')
+      : '<div class="empty">还没有记录。挑一份资料讲讲看吧！</div>'}</div>
+  `);
+}
+
+function scoreColor(n) {
+  return n >= 80 ? 'var(--good)' : n >= 60 ? 'var(--warn)' : 'var(--bad)';
+}
+
+async function viewFey(id) {
+  const f = S.feynman.find(x => x.id === id);
+  if (!f) return go('feynman');
+  if (f.result) return renderFeyResult(f);
+  const s = SUBJ[f.subject];
+  const hasKey = !!S.settings.apiKey;
+  const empty = !f.chat.length;
+  const prev = f.prevId && S.feynman.find(x => x.id === f.prevId);
+  const best = feyPrevBest(f);
+  setView(`
+    <button class="back" data-act="nav" data-to="feynman">‹ 费曼模式</button>
+    ${empty ? `
+      <label class="lbl">${s.icon} ${s.name} · 要讲的主题（可以改得更具体）</label>
+      <input data-fey-topic value="${esc(f.topic)}">` : `<h2>${esc(f.topic)}</h2><div class="muted small">${s.icon} ${s.name}${best != null ? ` · 之前最高 ${best} 分` : ''}</div>`}
+    ${empty ? `<div class="card small">
+      📕 <b>先合上资料。</b>用自己的话讲，就像讲给初中生听：<br>
+      · 少用术语，用了就解释它是什么意思<br>
+      · 讲“为什么”，不只是讲结论<br>
+      · 最好举一个例子或打个比方<br>
+      🎤 长段文字可以用键盘上的语音输入。
+    </div>` : ''}
+    ${prev?.result ? `<details class="card"><summary>🎯 上次 ${prev.result.score} 分，这次要补上的漏洞</summary>
+      ${md([...prev.result.missing, ...prev.result.wrong.map(w => w.fix)].map(x => '- ' + x).join('\n'))}</details>` : ''}
+    <div class="chat" id="chat">
+      ${f.chat.map(m => `<div class="bubble ${m.role}">${m.role === 'assistant' ? '<div class="who">🧒 小明</div>' : ''}${md(m.text)}</div>`).join('')}
+    </div>
+    <textarea id="fey-in" rows="${empty ? 7 : 3}" placeholder="${empty ? '开始讲吧：「○○是……，因为……，比如……」' : '回答小明的问题，或者继续讲'}"></textarea>
+    <div class="stack">
+      ${hasKey ? `<button class="btn primary block" data-act="feySend" data-id="${f.id}">${empty ? '🗣 讲给小明听' : '发送'}</button>
+        ${empty ? '' : `<button class="btn block" data-act="feyEval" data-id="${f.id}">📝 结束并评分</button>`}`
+      : `<button class="btn primary block" data-act="feyManual" data-id="${f.id}">🆓 免费评分（复制提示词到 ChatGPT 等）</button>
+        <div class="muted small">没有 API Key 时，小明不能追问，但可以把你的讲解拿去免费评分。</div>`}
+    </div>
+  `);
+  if (!empty) document.getElementById('chat').lastElementChild?.scrollIntoView({ block: 'end' });
+}
+
+function feyMessages(f) {
+  const out = [];
+  f.chat.forEach((m, i) => {
+    const text = i === 0 ? `（我要给你讲「${f.topic}」）\n${m.text}` : m.text;
+    const last = out[out.length - 1];
+    if (last && last.role === m.role) last.content += '\n\n' + text;
+    else out.push({ role: m.role, content: text });
+  });
+  return out;
+}
+
+const feyTranscript = f => f.chat.map(m => `${m.role === 'user' ? '讲解者' : '小明'}：${m.text}`).join('\n\n');
+
+// Takes what's typed into the box (and the edited topic on the first turn).
+async function feyTakeInput(f) {
+  const topicEl = document.querySelector('[data-fey-topic]');
+  if (topicEl && topicEl.value.trim()) f.topic = topicEl.value.trim();
+  const text = (document.getElementById('fey-in')?.value || '').trim();
+  if (text) {
+    f.chat.push({ role: 'user', text });
+    addXP(5);
+  }
+  await putFey(f);
+  return text;
+}
+
+async function feySend(id) {
+  const f = S.feynman.find(x => x.id === id);
+  if (!f || busy) return;
+  if (!(document.getElementById('fey-in')?.value || '').trim()) return toast('先讲点什么吧');
+  busy = true;
+  await feyTakeInput(f);
+  await viewFey(id);
+  const chatEl = document.getElementById('chat');
+  chatEl.insertAdjacentHTML('beforeend', '<div class="bubble assistant typing"><i></i><i></i><i></i></div>');
+  chatEl.lastElementChild.scrollIntoView({ block: 'end' });
+  try {
+    const system = AI.feynmanStudentSystem({ subject: SUBJ[f.subject], topic: f.topic, reference: f.reference, settings: S.settings });
+    const reply = await AI.chat(S.settings, system, feyMessages(f));
+    f.chat.push({ role: 'assistant', text: reply });
+    await putFey(f);
+  } catch (e) {
+    toast(e.message, 4000);
+  } finally {
+    busy = false;
+  }
+  header();
+  if (location.hash === '#/fey/' + id) viewFey(id);
+}
+
+function feyEvalPromptFor(f) {
+  return AI.feynmanEvalPrompt({ subject: SUBJ[f.subject], topic: f.topic, reference: f.reference, transcript: feyTranscript(f), settings: S.settings });
+}
+
+async function feyEval(id) {
+  const f = S.feynman.find(x => x.id === id);
+  if (!f || busy) return;
+  await feyTakeInput(f);
+  if (!f.chat.some(m => m.role === 'user')) return toast('先讲点什么吧');
+  busy = true;
+  const done = aiOverlay('AI 正在评分、找漏洞…');
+  try {
+    const r = await AI.generateJSON(S.settings, feyEvalPromptFor(f), [], 'feynman', 'medium');
+    await applyFeyResult(f, r);
+  } catch (e) {
+    alertBox('出错了', e.message);
+  } finally {
+    done();
+    busy = false;
+  }
+}
+
+async function feyManual(id) {
+  const f = S.feynman.find(x => x.id === id);
+  if (!f) return;
+  await feyTakeInput(f);
+  if (!f.chat.some(m => m.role === 'user')) return toast('先把你的讲解写在框里');
+  modalData.prompt = AI.manualPrompt(feyEvalPromptFor(f), 'feynman');
+  modal(`<h3>🆓 免费评分</h3>
+    <ol class="small"><li>复制提示词（里面已经包含你的讲解）</li><li>打开 ChatGPT / Gemini / Claude App，新对话里粘贴发送（不用附照片）</li><li>复制 AI 的完整回复，粘贴到下面</li></ol>
+    <button class="btn primary block" data-act="copyPrompt">📋 复制提示词</button>
+    <textarea id="manual-json" rows="6" placeholder="把 AI 的回复粘贴到这里"></textarea>
+    <button class="btn primary block" data-act="importFey" data-id="${f.id}">导入</button>`);
+}
+
+async function applyFeyResult(f, r) {
+  if (typeof r.score !== 'number' || !Array.isArray(r.cards)) throw new Error('格式不对：没有 score / cards');
+  r.score = Math.max(0, Math.min(100, Math.round(r.score)));
+  for (const k of ['covered', 'missing', 'wrong']) r[k] = Array.isArray(r[k]) ? r[k] : [];
+  f.result = r;
+  f.evaluatedAt = Date.now();
+  await putFey(f);
+  const xp = 10 + Math.round(r.score / 10);
+  addXP(xp);
+  toast(`+${xp} XP 讲解完成`);
+  if (location.hash === '#/fey/' + f.id) route(); else go('fey/' + f.id);
+}
+
+async function renderFeyResult(f) {
+  const r = f.result;
+  const s = SUBJ[f.subject];
+  const prev = f.prevId && S.feynman.find(x => x.id === f.prevId)?.result;
+  const list = (arr) => md(arr.map(x => '- ' + x).join('\n'));
+  const on = r.cards.filter(c => !c._off).length;
+  setView(`
+    <button class="back" data-act="nav" data-to="feynman">‹ 费曼模式</button>
+    <h2>${esc(f.topic)}</h2>
+    <div class="muted small">${s.icon} ${s.name}</div>
+    <div class="card fey-score">
+      <div class="ring" style="--p:${r.score / 100}; --rc:${scoreColor(r.score)}"><div><b>${r.score}</b><small>分</small></div></div>
+      <div>${prev ? `<div class="small muted">上次 ${prev.score} 分 → 这次 ${r.score} 分 ${r.score > prev.score ? '📈' : ''}</div>` : ''}${md(r.verdict)}</div>
+    </div>
+    ${r.covered.length ? `<div class="card"><h4>✅ 讲对了</h4>${list(r.covered)}</div>` : ''}
+    ${r.missing.length ? `<div class="card"><h4>❌ 漏掉的要点</h4>${list(r.missing)}</div>` : ''}
+    ${r.wrong.length ? `<div class="card"><h4>⚠️ 讲错的地方</h4>${r.wrong.map(w => `<div class="fey-wrong"><div class="muted">${md('✗ ' + w.point)}</div><div>${md('✓ ' + w.fix)}</div></div>`).join('')}</div>` : ''}
+    ${r.simpler ? `<div class="card"><h4>💡 更简单的讲法</h4>${md(r.simpler)}</div>` : ''}
+    ${r.cards.length ? `<div class="card"><h4>📌 补漏闪卡</h4>
+      ${f.cardsAdded ? '<div class="small">✅ 已加入复习，会按遗忘曲线出现。</div>' : '<div class="muted small">点卡片可以取消勾选。</div>'}
+      ${r.cards.map((c, i) => `<div class="fc ${c._off ? 'off' : ''}" ${f.cardsAdded ? '' : `data-act="feyToggleCard" data-id="${f.id}" data-i="${i}"`}>
+        <span class="fc-box">${c._off ? '☐' : '☑'}</span><div><div class="pv-f">${md(c.front)}</div><div class="pv-b">${md(c.back)}</div>${c.note ? `<div class="muted small">${md(c.note)}</div>` : ''}</div></div>`).join('')}
+      ${f.cardsAdded ? '' : `<button class="btn primary block" data-act="feyAddCards" data-id="${f.id}" ${on ? '' : 'disabled'}>加入复习（${on} 张）</button>`}
+    </div>` : ''}
+    <details class="card"><summary>💬 讲解记录</summary>${f.chat.map(m => `<div class="bubble ${m.role}">${m.role === 'assistant' ? '<div class="who">🧒 小明</div>' : ''}${md(m.text)}</div>`).join('')}</details>
+    ${f.reference ? `<details class="card"><summary>📖 回去看资料（费曼第3步）</summary>${md(f.reference)}</details>` : ''}
+    <div class="stack">
+      <button class="btn primary block" data-act="feyAgain" data-id="${f.id}">🔁 再讲一遍（补上漏洞、讲得更简单）</button>
+      <button class="btn danger ghost small" data-act="feyDel" data-id="${f.id}">删除这条记录</button>
+    </div>
+  `);
 }
 
 // ====================================================================
@@ -1410,6 +1689,70 @@ const acts = {
 
   // tutor
   tutorSend: d => tutorSend(d.id),
+
+  // feynman
+  feyStart: d => startFeynman({ kind: d.kind, id: d.id }),
+  feyNew: () => modal(`
+    <h3>🗣 自己定一个主题</h3>
+    <label class="lbl">科目</label>
+    <select id="fn-sub">${SUBJECTS.map(s => `<option value="${s.id}">${s.name}</option>`).join('')}</select>
+    <label class="lbl">主题（越具体越好）</label>
+    <input id="fn-topic" placeholder="例：法の支配と人の支配の違い / 酸化還元反応 / 等差数列の和の公式の導き方">
+    <button class="btn primary block" data-act="feyCreateFree">开始</button>`),
+  feyCreateFree: () => {
+    const topic = document.getElementById('fn-topic').value.trim();
+    if (!topic) return toast('写一个主题');
+    return startFeynman({ kind: 'free', subject: document.getElementById('fn-sub').value, topic });
+  },
+  feySend: d => feySend(d.id),
+  feyEval: d => feyEval(d.id),
+  feyManual: d => feyManual(d.id),
+  importFey: async d => {
+    const f = S.feynman.find(x => x.id === d.id);
+    try {
+      const r = AI.parseLooseJSON(document.getElementById('manual-json').value);
+      closeModal();
+      await applyFeyResult(f, r);
+    } catch (e) {
+      toast('解析失败：' + e.message, 4000);
+    }
+  },
+  feyToggleCard: d => {
+    const f = S.feynman.find(x => x.id === d.id);
+    const c = f.result.cards[+d.i];
+    c._off = !c._off;
+    putFey(f);
+    renderFeyResult(f);
+  },
+  feyAddCards: async d => {
+    const f = S.feynman.find(x => x.id === d.id);
+    const srcCard = f.ref.kind === 'card' && S.cards.find(c => c.id === f.ref.id);
+    const sourceId = f.ref.kind === 'source' ? f.ref.id : srcCard?.sourceId;
+    const now = Date.now();
+    const cards = f.result.cards.filter(c => !c._off).map((c, i) => ({
+      id: uid(), subject: f.subject, type: 'qa', front: c.front, back: c.back, note: c.note || '', importance: 3,
+      ...(sourceId ? { sourceId } : {}), feynmanId: f.id, srs: newSrs(), created: now + i,
+    }));
+    await db.putMany('cards', cards);
+    S.cards.push(...cards);
+    f.cardsAdded = true;
+    await putFey(f);
+    addXP(cards.length * 2);
+    toast(`已加入 ${cards.length} 张，会按遗忘曲线出现`);
+    header();
+    renderFeyResult(f);
+  },
+  feyAgain: d => {
+    const f = S.feynman.find(x => x.id === d.id);
+    return startFeynman(f.ref.kind === 'free' ? { kind: 'free', subject: f.subject, topic: f.topic } : f.ref,
+      { prevId: f.id, topic: f.topic, reference: f.reference, subject: f.subject });
+  },
+  feyDel: async d => {
+    if (!confirm('删除这条讲解记录？（已加入复习的卡片会保留）')) return;
+    await db.del('feynman', d.id);
+    S.feynman = S.feynman.filter(x => x.id !== d.id);
+    go('feynman');
+  },
   quickSay: d => tutorSend(d.id, d.q),
   rmAttach: () => { tutorAttach = null; document.getElementById('attach-prev').innerHTML = ''; },
   clearChat: async d => {
@@ -1467,8 +1810,8 @@ const acts = {
   wipe: async () => {
     if (!confirm('真的要清空全部闪卡、错题和记录吗？（API Key 和考试日期保留）')) return;
     if (!confirm('再确认一次：不可恢复！')) return;
-    for (const s of ['cards', 'problems', 'images', 'sources']) await db.clear(s);
-    S.cards = []; S.problems = []; S.sources = [];
+    for (const s of ['cards', 'problems', 'images', 'sources', 'feynman']) await db.clear(s);
+    S.cards = []; S.problems = []; S.sources = []; S.feynman = [];
     S.stats = { xp: 0, streak: 0, lastDay: null, days: {} };
     await saveStats();
     go('home');

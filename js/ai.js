@@ -61,6 +61,15 @@ export const SCHEMAS = {
     steps: strArr,
     answer: str,
   }),
+  feynman: obj({
+    score: { type: 'integer' },
+    verdict: str,
+    covered: strArr,
+    missing: strArr,
+    wrong: { type: 'array', items: obj({ point: str, fix: str }) },
+    simpler: str,
+    cards: { type: 'array', items: obj({ front: str, back: str, note: str }) },
+  }),
 };
 
 // ---------------- prompts ----------------
@@ -156,6 +165,53 @@ export function tutorSystem({ subject, problem, settings }) {
 完整步骤：${(problem.steps || []).map((s, i) => `${i + 1}. ${s.title}：${s.detail}`).join(' / ')}
 答案：${problem.answer || ''}
 易错点：${(problem.pitfalls || []).join(' / ')}`;
+}
+
+// ---------------- Feynman mode ----------------
+
+function feynmanRef(reference) {
+  return reference
+    ? `参考资料（讲解者看不到，只用来判断对错和遗漏，不要照抄给他）：\n${reference}`
+    : '没有参考资料，请用你对日本高中课程（定期考试范围）的知识判断对错和遗漏。';
+}
+
+export function feynmanStudentSystem({ subject, topic, reference, settings }) {
+  const L = explLang(settings);
+  return `你在扮演“小明”：一个聪明、好奇，但对这个知识完全不懂的初中二年级学生。
+一位高中生正在用费曼学习法给你讲解「${topic}」（科目：${subject.name}）。你的任务是用提问帮他发现自己哪里没真正懂。
+
+规则：
+- 用${L}，语气像好奇的初中生，每次回复简短（不超过4行），一次最多问2个问题。
+- 专门追问这些地方：讲得模糊的、跳步的、用了术语却没解释的、只背了结论没讲“为什么”的、和参考资料不一致的。
+- 你是“不懂的学生”，不要直接纠正或讲答案，而是用问题让他自己发现，例如“为什么会这样？”“○○是什么意思？”“如果△△会怎样？”“能举个例子吗？”。
+- 他讲错时，用“可是我好像听说……？”这种方式追问。
+- 他讲清楚的地方，简短地说“懂了！”并复述你懂了什么（复述可以稍微简化，看他会不会纠正你）。
+- 数式用 KaTeX（$...$），化学式 $\\ce{...}$。
+- 如果你觉得重要的地方都懂了，就说“我全懂了！可以点「结束并评分」啦 🎉”。
+
+${feynmanRef(reference)}`;
+}
+
+export function feynmanEvalPrompt({ subject, topic, reference, transcript, settings }) {
+  const L = explLang(settings);
+  const system = `你是费曼学习法教练，也是日本高中定期考试的专家。你要评价一位高中生对「${topic}」的讲解，找出他的知识漏洞，并把漏洞变成复习用的闪卡。`;
+  const user = `科目：${subject.name}
+主题：${topic}
+
+${feynmanRef(reference)}
+
+讲解记录（“讲解者”是高中生，“小明”是扮演初中生的 AI）：
+${transcript}
+
+请评价，说明文字全部用${L}：
+- score：0–100 的整数。准确性 40 分 + 完整性 30 分（对照考试会考的要点）+ 用自己的话讲清楚（不是照背术语）20 分 + 能举例/打比方 10 分。
+- verdict：一句话总评，要具体，带点鼓励。
+- covered：他讲对、讲清楚的要点（每条一句）。
+- missing：考试会考、但他没讲到的要点（每条一句）。
+- wrong：讲错或混淆的地方：point=他怎么说的，fix=正确说法。
+- simpler：示范一段更简单的讲法（150 字以内，最好有比喻），让他下次讲得更好。
+- cards：只针对 missing 和 wrong 的要点做闪卡（0–8 张，讲对的不要做）。front/back 用与考试一致的日语，front 是问题、back 是答案；note 用${L}写一句提示。数式用 KaTeX（$...$），化学式 $\\ce{...}$。`;
+  return { system, user };
 }
 
 // Prompt the student can paste into the free Claude / ChatGPT app together
