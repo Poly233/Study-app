@@ -319,3 +319,7 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 .fc-box { font-size: 20px; line-height: 1.2; color: var(--good); }
 .fey-wrong { padding: 8px 0; border-top: 1px solid var(--line); }
 .fey-wrong:first-of-type { border-top: 0; }
+.bubble.teacher { border-color: color-mix(in srgb, var(--good) 55%, var(--line)); background: color-mix(in srgb, var(--good) 10%, var(--card)); }
+.chip.hot { background: var(--good); border-color: var(--good); color: #fff; }
+.toggle { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 10px; font-size: 14px; }
+.toggle input { width: 22px; height: 22px; margin: 2px 0 0; flex-shrink: 0; accent-color: var(--primary); }

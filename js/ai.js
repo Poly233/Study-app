@@ -182,7 +182,7 @@ function feynmanScope(reference, subject) {
     : `范围是日本高中「${subject.name}」教科书的基本内容、定期考试会考的程度。教科书正文以外的内容（大学内容、冷知识、时事细节等）一律视为超纲。`;
 }
 
-export function feynmanStudentSystem({ subject, topic, reference, settings }) {
+export function feynmanStudentSystem({ subject, topic, reference, stretch, settings }) {
   const L = explLang(settings);
   return `你在扮演“小明”：一个聪明、好奇，但对这个知识完全不懂的初中二年级学生。
 一位高中生正在用费曼学习法给你讲解「${topic}」（科目：${subject.name}）。你的任务是用提问帮他发现自己哪里没真正懂。
@@ -198,9 +198,13 @@ export function feynmanStudentSystem({ subject, topic, reference, settings }) {
 
 提问范围（非常重要，这是为定期考试复习，不是考研究）：
 - ${feynmanScope(reference, subject)}
-- 只问在范围内能找到答案的问题。问“为什么”之前，先确认范围内有答案；没有就不要问。
+${stretch
+    ? `- 主要问范围内的问题。偶尔（大约每 3 轮最多 1 次）可以问一个超出范围、但能加深理解的拓展问题，开头必须标「🔭拓展：」，让他知道这题不考。拓展问题也要是高中生能想的程度，不要问大学专业内容或冷门知识。
+- 范围内的问题，问“为什么”之前先确认范围内有答案。`
+    : '- 只问在范围内能找到答案的问题。问“为什么”之前，先确认范围内有答案；没有就不要问。'}
 - 不要钻牛角尖：同一个点最多追问一次，他答得基本对就放过，去问下一个要点。
-- 如果他说“超纲”“プリント上没有”“跳过”，马上说“好的～”并换一个范围内的问题，不要再纠缠。
+- 如果他说“超纲”“プリント上没有”“跳过”，马上说“好的～”并换一个问题，不要再纠缠。
+- 记录里标着【老师的解说】的是老师替他回答的内容，不是他讲的。之后可以请他用自己的话复述一下老师讲的要点。
 - 优先追问考试最可能考的要点（资料里的重点、穴埋め、定义、因果）。
 
 ${feynmanRef(reference)}`;
@@ -214,7 +218,7 @@ export function feynmanEvalPrompt({ subject, topic, reference, transcript, setti
 
 ${feynmanRef(reference)}
 
-讲解记录（“讲解者”是高中生，“小明”是扮演初中生的 AI）：
+讲解记录（“讲解者”是高中生，“小明”是扮演初中生的 AI，“老师”是讲解者答不上来时 AI 给的解说）：
 ${transcript}
 
 评分范围：${feynmanScope(reference, subject)}
@@ -222,11 +226,30 @@ ${transcript}
 请评价，说明文字全部用${L}：
 - score：0–100 的整数。准确性 40 分 + 完整性 30 分（对照考试会考的要点）+ 用自己的话讲清楚（不是照背术语）20 分 + 能举例/打比方 10 分。
 - verdict：一句话总评，要具体，带点鼓励。
+- 注意：“老师”解说的内容不是讲解者讲的，不能算进 covered。老师解说过的范围内要点，除非讲解者之后用自己的话复述对了，否则算进 missing。
 - covered：他讲对、讲清楚的要点（每条一句）。
 - missing：范围内、考试会考、但他没讲到的要点（每条一句）。超纲的内容不算漏掉、不扣分。
 - wrong：讲错或混淆的地方：point=他怎么说的，fix=正确说法。小明问到超纲问题而他答不上来的，不算错。
 - simpler：示范一段更简单的讲法（150 字以内，最好有比喻），让他下次讲得更好。
 - cards：只针对 missing 和 wrong 的要点做闪卡（0–8 张，讲对的不要做，超纲的不要做）。front/back 用与考试一致的日语，front 是问题、back 是答案；note 用${L}写一句提示。数式用 KaTeX（$...$），化学式 $\\ce{...}$。`;
+  return { system, user };
+}
+
+export function feynmanTeacherPrompt({ subject, topic, reference, transcript, settings }) {
+  const L = explLang(settings);
+  const system = `你是一位讲解清楚的日本高中${subject.name}老师。学生在用费曼学习法给“小明”（AI 扮演的初中生）讲「${topic}」，小明最后问的问题学生答不上来。请你直接解说这个问题的答案，省得学生自己去查。`;
+  const user = `${feynmanRef(reference)}
+
+讲解记录：
+${transcript}
+
+请解说小明最后一个问题的答案，规则：
+- 用${L}，数式用 KaTeX（$...$），化学式 $\\ce{...}$。
+- 第一行标明：「📘 考试范围内」（参考资料或高中教科书里有）或「🔭 拓展（不考）」。
+- 先用一句话直接回答，再用 2–5 行解释为什么，能举例就举例。
+- 先依据参考资料；资料里没有的，用高中教科书程度的知识解释。
+- 年份、数字、人名等事实如果不确定，要说明“不确定，建议查教科书”，绝对不要编造。
+- 最后一句请学生用自己的话把这个答案复述给小明听。`;
   return { system, user };
 }
 
@@ -323,12 +346,12 @@ export async function generateJSON(settings, { system, user }, images, schemaNam
 }
 
 // messages: [{role, content}] already in API shape (consecutive roles merged by caller)
-export async function chat(settings, system, messages) {
+export async function chat(settings, system, messages, effort = 'low') {
   const { text } = await send(settings, {
     system,
     messages,
     max_tokens: 4000,
-    output_config: { effort: 'low' },
+    output_config: { effort },
   });
   return text;
 }

@@ -1293,7 +1293,9 @@ async function viewFey(id) {
     <button class="back" data-act="nav" data-to="feynman">‹ 费曼模式</button>
     ${empty ? `
       <label class="lbl">${s.icon} ${s.name} · 要讲的主题（可以改得更具体）</label>
-      <input data-fey-topic value="${esc(f.topic)}">` : `<h2>${esc(f.topic)}</h2><div class="muted small">${s.icon} ${s.name}${best != null ? ` · 之前最高 ${best} 分` : ''}</div>`}
+      <input data-fey-topic value="${esc(f.topic)}">
+      ${hasKey ? `<label class="toggle"><input type="checkbox" data-fey-stretch ${feyStretch(f) ? 'checked' : ''}>
+        <span>🔭 允许拓展问题<br><small class="muted">小明偶尔会问超出考试范围、但能加深理解的问题（标「🔭拓展」，不计分）。答不上来就点“直接告诉我”。</small></span></label>` : ''}` : `<h2>${esc(f.topic)}</h2><div class="muted small">${s.icon} ${s.name}${best != null ? ` · 之前最高 ${best} 分` : ''}</div>`}
     ${empty ? `<div class="card small">
       📕 <b>先合上资料。</b>用自己的话讲，就像讲给初中生听：<br>
       · 少用术语，用了就解释它是什么意思<br>
@@ -1304,9 +1306,11 @@ async function viewFey(id) {
     ${prev?.result ? `<details class="card"><summary>🎯 上次 ${prev.result.score} 分，这次要补上的漏洞</summary>
       ${md([...prev.result.missing, ...prev.result.wrong.map(w => w.fix)].map(x => '- ' + x).join('\n'))}</details>` : ''}
     <div class="chat" id="chat">
-      ${f.chat.map(m => `<div class="bubble ${m.role}">${m.role === 'assistant' ? '<div class="who">🧒 小明</div>' : ''}${md(m.text)}</div>`).join('')}
+      ${f.chat.map(feyBubble).join('')}
     </div>
-    ${!empty && hasKey ? `<div class="quick">${['这个超纲了 / プリント上没有', '我不确定，先跳过'].map(q => `<button class="chip" data-act="feyQuick" data-id="${f.id}" data-q="${q}">${q}</button>`).join('')}</div>` : ''}
+    ${!empty && hasKey && f.chat.at(-1).role === 'assistant' && f.chat.at(-1).who !== 'teacher' ? `<div class="quick">
+      <button class="chip hot" data-act="feyTeacher" data-id="${f.id}">🔍 我不知道，直接告诉我</button>
+      ${['跳过这个问题', '这个超纲了 / プリント上没有'].map(q => `<button class="chip" data-act="feyQuick" data-id="${f.id}" data-q="${q}">${q}</button>`).join('')}</div>` : ''}
     <textarea id="fey-in" rows="${empty ? 7 : 3}" placeholder="${empty ? '开始讲吧：「○○是……，因为……，比如……」' : '回答小明的问题，或者继续讲'}"></textarea>
     <div class="stack">
       ${hasKey ? `<button class="btn primary block" data-act="feySend" data-id="${f.id}">${empty ? '🗣 讲给小明听' : '发送'}</button>
@@ -1318,10 +1322,18 @@ async function viewFey(id) {
   if (!empty) document.getElementById('chat').lastElementChild?.scrollIntoView({ block: 'end' });
 }
 
+const feyStretch = f => f.stretch ?? S.settings.feyStretch ?? true;
+
+function feyBubble(m) {
+  const who = m.role === 'user' ? '' : m.who === 'teacher' ? '<div class="who">👩‍🏫 老师</div>' : '<div class="who">🧒 小明</div>';
+  return `<div class="bubble ${m.role} ${m.who || ''}">${who}${md(m.text)}</div>`;
+}
+
 function feyMessages(f) {
   const out = [];
   f.chat.forEach((m, i) => {
-    const text = i === 0 ? `（我要给你讲「${f.topic}」）\n${m.text}` : m.text;
+    let text = i === 0 ? `（我要给你讲「${f.topic}」）\n${m.text}` : m.text;
+    if (m.who === 'teacher') text = `【老师的解说（不是小明说的）】\n${m.text}`;
     const last = out[out.length - 1];
     if (last && last.role === m.role) last.content += '\n\n' + text;
     else out.push({ role: m.role, content: text });
@@ -1329,12 +1341,18 @@ function feyMessages(f) {
   return out;
 }
 
-const feyTranscript = f => f.chat.map(m => `${m.role === 'user' ? '讲解者' : '小明'}：${m.text}`).join('\n\n');
+const feyTranscript = f => f.chat.map(m => `${m.role === 'user' ? '讲解者' : m.who === 'teacher' ? '老师' : '小明'}：${m.text}`).join('\n\n');
 
 // Takes what's typed into the box (and the edited topic on the first turn).
 async function feyTakeInput(f) {
   const topicEl = document.querySelector('[data-fey-topic]');
   if (topicEl && topicEl.value.trim()) f.topic = topicEl.value.trim();
+  const stretchEl = document.querySelector('[data-fey-stretch]');
+  if (stretchEl) {
+    f.stretch = stretchEl.checked;
+    S.settings.feyStretch = stretchEl.checked;
+    saveSettings();
+  }
   const text = (document.getElementById('fey-in')?.value || '').trim();
   if (text) {
     f.chat.push({ role: 'user', text });
@@ -1355,7 +1373,7 @@ async function feySend(id) {
   chatEl.insertAdjacentHTML('beforeend', '<div class="bubble assistant typing"><i></i><i></i><i></i></div>');
   chatEl.lastElementChild.scrollIntoView({ block: 'end' });
   try {
-    const system = AI.feynmanStudentSystem({ subject: SUBJ[f.subject], topic: f.topic, reference: f.reference, settings: S.settings });
+    const system = AI.feynmanStudentSystem({ subject: SUBJ[f.subject], topic: f.topic, reference: f.reference, stretch: feyStretch(f), settings: S.settings });
     const reply = await AI.chat(S.settings, system, feyMessages(f));
     f.chat.push({ role: 'assistant', text: reply });
     await putFey(f);
@@ -1365,6 +1383,27 @@ async function feySend(id) {
     busy = false;
   }
   header();
+  if (location.hash === '#/fey/' + id) viewFey(id);
+}
+
+async function feyTeacher(id) {
+  const f = S.feynman.find(x => x.id === id);
+  if (!f || busy) return;
+  busy = true;
+  const chatEl = document.getElementById('chat');
+  chatEl.insertAdjacentHTML('beforeend', '<div class="bubble assistant teacher typing"><i></i><i></i><i></i></div>');
+  chatEl.lastElementChild.scrollIntoView({ block: 'end' });
+  try {
+    const { system, user } = AI.feynmanTeacherPrompt({ subject: SUBJ[f.subject], topic: f.topic, reference: f.reference, transcript: feyTranscript(f), settings: S.settings });
+    const text = await AI.chat(S.settings, system, [{ role: 'user', content: user }], 'medium');
+    f.chat.push({ role: 'assistant', who: 'teacher', text });
+    await putFey(f);
+    addXP(1);
+  } catch (e) {
+    toast(e.message, 4000);
+  } finally {
+    busy = false;
+  }
   if (location.hash === '#/fey/' + id) viewFey(id);
 }
 
@@ -1440,7 +1479,7 @@ async function renderFeyResult(f) {
         <span class="fc-box">${c._off ? '☐' : '☑'}</span><div><div class="pv-f">${md(c.front)}</div><div class="pv-b">${md(c.back)}</div>${c.note ? `<div class="muted small">${md(c.note)}</div>` : ''}</div></div>`).join('')}
       ${f.cardsAdded ? '' : `<button class="btn primary block" data-act="feyAddCards" data-id="${f.id}" ${on ? '' : 'disabled'}>加入复习（${on} 张）</button>`}
     </div>` : ''}
-    <details class="card"><summary>💬 讲解记录</summary>${f.chat.map(m => `<div class="bubble ${m.role}">${m.role === 'assistant' ? '<div class="who">🧒 小明</div>' : ''}${md(m.text)}</div>`).join('')}</details>
+    <details class="card"><summary>💬 讲解记录</summary>${f.chat.map(feyBubble).join('')}</details>
     ${f.reference ? `<details class="card"><summary>📖 回去看资料（费曼第3步）</summary>${md(f.reference)}</details>` : ''}
     <div class="stack">
       <button class="btn primary block" data-act="feyAgain" data-id="${f.id}">🔁 再讲一遍（补上漏洞、讲得更简单）</button>
@@ -1706,6 +1745,7 @@ const acts = {
     return startFeynman({ kind: 'free', subject: document.getElementById('fn-sub').value, topic });
   },
   feySend: d => feySend(d.id),
+  feyTeacher: d => feyTeacher(d.id),
   feyQuick: d => {
     const input = document.getElementById('fey-in');
     input.value = d.q;
@@ -1751,7 +1791,7 @@ const acts = {
   feyAgain: d => {
     const f = S.feynman.find(x => x.id === d.id);
     return startFeynman(f.ref.kind === 'free' ? { kind: 'free', subject: f.subject, topic: f.topic } : f.ref,
-      { prevId: f.id, topic: f.topic, reference: f.reference, subject: f.subject });
+      { prevId: f.id, topic: f.topic, reference: f.reference, subject: f.subject, stretch: f.stretch });
   },
   feyDel: async d => {
     if (!confirm('删除这条讲解记录？（已加入复习的卡片会保留）')) return;
