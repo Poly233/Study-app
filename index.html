@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>StudyQuest</title>
+  <meta name="description" content="定期考试冲刺：拍照生成闪卡、错题解法训练、AI 苏格拉底辅导">
+  <meta name="theme-color" content="#0f1222">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="StudyQuest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script defer src="vendor/katex/katex.min.js"></script>
+  <script defer src="vendor/katex/contrib/mhchem.min.js"></script>
+  <script defer src="vendor/katex/contrib/auto-render.min.js"></script>
+</head>
+<body>
+  <header id="hud"></header>
+  <main id="view"></main>
+  <nav id="tabbar">
+    <a href="#/home" data-tab="home"><span>🏠</span>首页</a>
+    <a href="#/add" data-tab="add"><span>📷</span>拍照</a>
+    <a href="#/review" data-tab="review"><span>🔁</span>复习</a>
+    <a href="#/lib" data-tab="lib"><span>📚</span>题库</a>
+    <a href="#/settings" data-tab="settings"><span>⚙️</span>设置</a>
+  </nav>
+  <div id="modal"></div>
+  <div id="overlay"></div>
+  <div id="viewer"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
