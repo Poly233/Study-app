@@ -175,6 +175,13 @@ function feynmanRef(reference) {
     : '没有参考资料，请用你对日本高中课程（定期考试范围）的知识判断对错和遗漏。';
 }
 
+// Keeps both the questions and the grading inside what the exam can ask.
+function feynmanScope(reference, subject) {
+  return reference
+    ? `范围以参考资料为准：资料里有的才算考试范围。资料里没有的内容（更深的原理、大学内容、冷知识、时事细节、资料外的人名年份等）一律视为超纲。`
+    : `范围是日本高中「${subject.name}」教科书的基本内容、定期考试会考的程度。教科书正文以外的内容（大学内容、冷知识、时事细节等）一律视为超纲。`;
+}
+
 export function feynmanStudentSystem({ subject, topic, reference, settings }) {
   const L = explLang(settings);
   return `你在扮演“小明”：一个聪明、好奇，但对这个知识完全不懂的初中二年级学生。
@@ -188,6 +195,13 @@ export function feynmanStudentSystem({ subject, topic, reference, settings }) {
 - 他讲清楚的地方，简短地说“懂了！”并复述你懂了什么（复述可以稍微简化，看他会不会纠正你）。
 - 数式用 KaTeX（$...$），化学式 $\\ce{...}$。
 - 如果你觉得重要的地方都懂了，就说“我全懂了！可以点「结束并评分」啦 🎉”。
+
+提问范围（非常重要，这是为定期考试复习，不是考研究）：
+- ${feynmanScope(reference, subject)}
+- 只问在范围内能找到答案的问题。问“为什么”之前，先确认范围内有答案；没有就不要问。
+- 不要钻牛角尖：同一个点最多追问一次，他答得基本对就放过，去问下一个要点。
+- 如果他说“超纲”“プリント上没有”“跳过”，马上说“好的～”并换一个范围内的问题，不要再纠缠。
+- 优先追问考试最可能考的要点（资料里的重点、穴埋め、定义、因果）。
 
 ${feynmanRef(reference)}`;
 }
@@ -203,14 +217,16 @@ ${feynmanRef(reference)}
 讲解记录（“讲解者”是高中生，“小明”是扮演初中生的 AI）：
 ${transcript}
 
+评分范围：${feynmanScope(reference, subject)}
+
 请评价，说明文字全部用${L}：
 - score：0–100 的整数。准确性 40 分 + 完整性 30 分（对照考试会考的要点）+ 用自己的话讲清楚（不是照背术语）20 分 + 能举例/打比方 10 分。
 - verdict：一句话总评，要具体，带点鼓励。
 - covered：他讲对、讲清楚的要点（每条一句）。
-- missing：考试会考、但他没讲到的要点（每条一句）。
-- wrong：讲错或混淆的地方：point=他怎么说的，fix=正确说法。
+- missing：范围内、考试会考、但他没讲到的要点（每条一句）。超纲的内容不算漏掉、不扣分。
+- wrong：讲错或混淆的地方：point=他怎么说的，fix=正确说法。小明问到超纲问题而他答不上来的，不算错。
 - simpler：示范一段更简单的讲法（150 字以内，最好有比喻），让他下次讲得更好。
-- cards：只针对 missing 和 wrong 的要点做闪卡（0–8 张，讲对的不要做）。front/back 用与考试一致的日语，front 是问题、back 是答案；note 用${L}写一句提示。数式用 KaTeX（$...$），化学式 $\\ce{...}$。`;
+- cards：只针对 missing 和 wrong 的要点做闪卡（0–8 张，讲对的不要做，超纲的不要做）。front/back 用与考试一致的日语，front 是问题、back 是答案；note 用${L}写一句提示。数式用 KaTeX（$...$），化学式 $\\ce{...}$。`;
   return { system, user };
 }
 

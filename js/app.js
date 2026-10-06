@@ -1306,6 +1306,7 @@ async function viewFey(id) {
     <div class="chat" id="chat">
       ${f.chat.map(m => `<div class="bubble ${m.role}">${m.role === 'assistant' ? '<div class="who">🧒 小明</div>' : ''}${md(m.text)}</div>`).join('')}
     </div>
+    ${!empty && hasKey ? `<div class="quick">${['这个超纲了 / プリント上没有', '我不确定，先跳过'].map(q => `<button class="chip" data-act="feyQuick" data-id="${f.id}" data-q="${q}">${q}</button>`).join('')}</div>` : ''}
     <textarea id="fey-in" rows="${empty ? 7 : 3}" placeholder="${empty ? '开始讲吧：「○○是……，因为……，比如……」' : '回答小明的问题，或者继续讲'}"></textarea>
     <div class="stack">
       ${hasKey ? `<button class="btn primary block" data-act="feySend" data-id="${f.id}">${empty ? '🗣 讲给小明听' : '发送'}</button>
@@ -1705,6 +1706,11 @@ const acts = {
     return startFeynman({ kind: 'free', subject: document.getElementById('fn-sub').value, topic });
   },
   feySend: d => feySend(d.id),
+  feyQuick: d => {
+    const input = document.getElementById('fey-in');
+    input.value = d.q;
+    return feySend(d.id);
+  },
   feyEval: d => feyEval(d.id),
   feyManual: d => feyManual(d.id),
   importFey: async d => {
