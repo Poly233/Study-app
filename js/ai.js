@@ -61,6 +61,24 @@ export const SCHEMAS = {
     steps: strArr,
     answer: str,
   }),
+  lesson: obj({
+    title: str,
+    overview: str,
+    prerequisites: strArr,
+    sections: { type: 'array', items: obj({ heading: str, explain: str, example: str, checkQ: str, checkA: str }) },
+    keyPoints: strArr,
+    formulas: strArr,
+    cards: {
+      type: 'array',
+      items: obj({
+        type: { type: 'string', enum: ['qa', 'cloze'] },
+        front: str,
+        back: str,
+        note: str,
+        importance: { type: 'integer', enum: [1, 2, 3] },
+      }),
+    },
+  }),
   feynman: obj({
     score: { type: 'integer' },
     verdict: str,
@@ -118,6 +136,52 @@ export function problemPrompt({ subject, ref, note, reason, hasSolution, setting
 - recallFront：“解法闪卡”正面——用1–2句概括题目条件和所求（不看原图也能看懂，含关键数式）
 - recallBack：“解法闪卡”背面——解法の型 + 第一步 + 关键式
 数式一律用 KaTeX 语法（$...$），化学式用 $\\ce{...}$。答案务必验算。看不清的地方说明，不要编造。`;
+  return { system, user };
+}
+
+export function lessonPrompt({ subject, note, settings }) {
+  const L = explLang(settings);
+  const system = `你是一位非常会讲课的日本高中${subject.name}老师，正在给一个学生一对一补课。
+这个学生因为生病缺了几天课，回到学校后上课完全听不懂。他拍下了缺课期间的教科书、同学的笔记、プリント或黑板。
+请你从零开始把这部分内容讲懂，目标是他能在定期考试里拿分。`;
+  const user = `${note ? `学生说哪里不懂：${note}
+
+` : ''}请根据图片里的内容补课，讲解全部用${L}（日语术语保留原文，第一次出现时解释是什么意思）：
+- title：本节标题（例：「数学Ⅱ 微分係数と導関数」）。
+- overview：这一节在学什么、为什么要学，2–3 句，让他先有个全局印象。
+- prerequisites：理解这一节需要先会的旧知识。每条格式为“旧知识：一句话复习”。没有就给空数组。
+- sections：按资料的顺序拆成 3–6 个小节，从易到难。每节包括：
+  - heading：小节名（用资料里的日语标题或要点名）
+  - explain：从零讲解，先给直觉或比喻，再讲正式的说法，最后讲注意点。用 Markdown，300 字以内
+  - example：一道有代表性的例题加完整解答；纯背诵的内容就写“考试会怎么问”加答案
+  - checkQ：一个检查他是否真懂的小问题
+  - checkA：checkQ 的答案，加一句解释
+- keyPoints：考试最可能考的要点，5–10 条。
+- formulas：本节的公式（没有就给空数组）。
+- cards：把需要背的东西做成闪卡，10–25 张。front/back 用与考试一致的日语，note 用${L}写一句提示。type="cloze" 时把原句的关键词挖空成「（　　）」。importance：3 = 几乎必考。
+- 只讲资料里的内容，以及理解它必需的基础，不要超纲。
+- 数式用 KaTeX（$...$），化学式用 $\\ce{...}$。
+- 图片看不清的地方要说明，不要编造。`;
+  return { system, user };
+}
+
+export function lessonMorePrompt({ subject, lesson, section, settings }) {
+  const L = explLang(settings);
+  const system = `你是一位非常有耐心的日本高中${subject.name}老师，正在给缺课的学生一对一补课。`;
+  const user = `本节：${lesson.title}
+概要：${lesson.overview}
+
+学生说下面这个小节“还是不懂”：
+【${section.heading}】
+${section.explain}
+例题：${section.example}
+${(section.more || []).length ? `\n之前已经换过的讲法：\n${section.more.join('\n---\n')}\n` : ''}
+请用${L}，换一个完全不同的角度重新讲：
+- 用更生活化的比喻，或者从更基础的地方讲起
+- 步骤拆得更细，每一步只做一件事
+- 给一个比原例题更简单的例子，并完整解答
+- 15 行以内，数式用 KaTeX（$...$），化学式用 $\\ce{...}$
+- 不要超出这一节的范围`;
   return { system, user };
 }
 
@@ -331,10 +395,11 @@ async function send(settings, params) {
   return { text, usage: res.usage };
 }
 
-export async function generateJSON(settings, { system, user }, images, schemaName, effort = 'medium') {
+export async function generateJSON(settings, { system, user }, images, schemaName, effort = 'medium', maxTokens = 16000) {
   const content = [...images.map(imageBlock), { type: 'text', text: user }];
   const { text } = await send(settings, {
     system,
+    max_tokens: maxTokens,
     messages: [{ role: 'user', content }],
     output_config: { effort, format: { type: 'json_schema', schema: SCHEMAS[schemaName] } },
   });

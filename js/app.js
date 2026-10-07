@@ -39,16 +39,21 @@ let lib = { subject: 'all', tab: 'problems', q: '' };
 let timerHandle = null;
 let busy = false;
 
+// 2026年度 2学期中間考査 · 高校2年 国立クラス 理系
+const EXAM_PRESET = { math2: '2026-10-20', chem: '2026-10-21', joho: '2026-10-22', mathB: '2026-10-22', kokyo: '2026-10-23', phys: '2026-10-23' };
+const EXAM_PERIOD = { math2: '1限', chem: '2限', joho: '1限', mathB: '2限', kokyo: '1限', phys: '3限' };
+// the timetable stays the default until its last exam day has passed
+const presetActive = () => SUBJECTS.some(s => daysUntil(EXAM_PRESET[s.id]) >= 0);
+
 function defaultSettings() {
-  // 中间考试 starts 10/20; afterwards fall back to "3 weeks from now"
-  const preset = '2026-10-20';
-  const ds = daysUntil(preset) > 0 ? preset : todayKey(Date.now() + 22 * DAY);
+  const later = todayKey(Date.now() + 22 * DAY);
   return {
     apiKey: '',
     model: AI.MODELS[0].id,
     lang: 'zh',
     dailyGoal: 60,
-    exams: Object.fromEntries(SUBJECTS.map(s => [s.id, ds])),
+    exams: Object.fromEntries(SUBJECTS.map(s => [s.id, presetActive() ? EXAM_PRESET[s.id] : later])),
+    examsV2: true,
   };
 }
 
@@ -64,6 +69,17 @@ async function load() {
   S.settings = { ...defaultSettings(), ...(settings || {}) };
   S.settings.exams = { ...defaultSettings().exams, ...(settings?.exams || {}) };
   if (!settings) await db.setMeta('settings', S.settings);
+  // Older installs got one auto date for every subject; switch them to the
+  // real per-subject timetable unless the dates were customised.
+  if (settings && !settings.examsV2) {
+    const vals = SUBJECTS.map(s => S.settings.exams[s.id]);
+    if (presetActive() && vals.every(v => v === vals[0])) {
+      S.settings.exams = { ...EXAM_PRESET };
+      setTimeout(() => toast('已按考试时间表更新每科的考试日期 📅', 3500), 600);
+    }
+    S.settings.examsV2 = true;
+    await saveSettings();
+  }
   S.stats = stats || { xp: 0, streak: 0, lastDay: null, days: {} };
 }
 
@@ -267,11 +283,22 @@ async function viewHome() {
   S.problems.forEach(p => (p.reason || []).forEach(r => { reasons[r] = (reasons[r] || 0) + 1; }));
   const reasonMax = Math.max(1, ...Object.values(reasons));
 
+  const upcoming = SUBJECTS.map(s => ({ s, d: daysTo(s.id) })).filter(x => x.d != null && x.d >= 0).sort((a, b) => a.d - b.d);
+  const examLabel = x => `${x.s.name}${S.settings.exams[x.s.id] === EXAM_PRESET[x.s.id] ? `（${EXAM_PERIOD[x.s.id]}）` : ''}`;
+  const todayExams = upcoming.filter(x => x.d === 0);
+  const tomorrowExams = upcoming.filter(x => x.d === 1);
+  const next = upcoming.find(x => x.d > 0);
+
   setView(`
+  ${todayExams.length ? `<section class="card exam-banner today-exam">📝 <b>今天考：${todayExams.map(examLabel).join('、')}</b><br><span class="small">考前用 10 分钟刷一下弱项就好，相信自己！</span>
+    <div class="row wrap">${todayExams.map(x => `<button class="btn small" data-act="startMode" data-mode="cram" data-sid="${x.s.id}">🔥 ${x.s.name} 弱项</button>`).join('')}</div></section>` : ''}
+  ${tomorrowExams.length ? `<section class="card exam-banner">⏰ <b>明天考：${tomorrowExams.map(examLabel).join('、')}</b><br><span class="small">今晚集中复习这${tomorrowExams.length > 1 ? '几' : ''}科：先冲刺弱项，再看“考前一页纸”，然后早点睡。</span>
+    <div class="row wrap">${tomorrowExams.map(x => `<button class="btn primary small" data-act="startMode" data-mode="cram" data-sid="${x.s.id}">🔥 ${x.s.name} 冲刺</button>`).join('')}</div></section>` : ''}
   <section class="hero">
     <div class="hero-days"><b>${d == null ? '?' : Math.max(0, d)}</b><span>天后考试</span></div>
     <div class="hero-txt">
       <div class="phase">${esc(ph.name)}</div>
+      ${next ? `<div class="small next-exam">下一科：${examLabel(next)} · ${S.settings.exams[next.s.id].slice(5).replace('-', '/')}</div>` : ''}
       <div class="muted small">${esc(ph.tip)}</div>
       <div class="muted small">称号：${TITLES[Math.min(TITLES.length - 1, lv.level - 1)]} · 再 ${lv.toNext} XP 升级</div>
     </div>
@@ -282,7 +309,7 @@ async function viewHome() {
     <h3>👋 3步开始</h3>
     <ol>
       <li><b>设置</b>：填 API Key（AI 自动做卡）和每科考试日期。没有 Key 也能用“免费：复制提示词”。</li>
-      <li><b>拍照</b>：プリント → 自动生成闪卡；做错的题 + 解答页 → 自动解析解法。</li>
+      <li><b>拍照</b>：プリント → 自动生成闪卡；做错的题 + 解答页 → 自动解析解法；缺课听不懂的 → 📖 补课。</li>
       <li><b>复习</b>：每天点“开始今日任务”，把数字清零就赢了。</li>
     </ol>
     <div class="row"><button class="btn" data-act="nav" data-to="settings">去设置</button><button class="btn primary" data-act="nav" data-to="add">📷 拍第一张</button></div>
@@ -366,16 +393,22 @@ async function viewAdd() {
   if (draft.preview) return viewPreview();
   const photoList = (arr, key) => arr.map((p, i) => `<div class="ph"><img src="${p.url}"><button data-act="rmPhoto" data-key="${key}" data-i="${i}">×</button></div>`).join('');
   const isP = draft.mode === 'problem';
+  const isL = draft.mode === 'lesson';
   setView(`
   <h2>📷 拍照导入</h2>
   <div class="chips">${SUBJECTS.map(x => subjChip(x.id, x.id === draft.subject)).join('')}</div>
 
-  <div class="seg">
-    <button class="${!isP ? 'on' : ''}" data-act="setMode" data-mode="cards">📄 背诵资料 → 闪卡</button>
-    <button class="${isP ? 'on' : ''}" data-act="setMode" data-mode="problem">✏️ 错题 → 解法</button>
+  <div class="seg seg3">
+    <button class="${draft.mode === 'cards' ? 'on' : ''}" data-act="setMode" data-mode="cards">📄 背诵<br><small>资料→闪卡</small></button>
+    <button class="${isP ? 'on' : ''}" data-act="setMode" data-mode="problem">✏️ 错题<br><small>→解法</small></button>
+    <button class="${isL ? 'on' : ''}" data-act="setMode" data-mode="lesson">📖 补课<br><small>没听懂的</small></button>
   </div>
 
-  ${!isP ? `
+  ${isL ? `
+  <div class="card">
+    <b>缺课了、上课听不懂？</b>把那部分的<b>教科书、同学的笔记、プリント、黑板照片</b>拍进来，AI 会像一对一补课一样从零讲起，一节一节讲到你懂，最后自动做成闪卡。
+    <div class="muted small">💡 一次拍一个小节（2–4 张）效果最好，太多会讲得很粗。</div>
+  </div>` : !isP ? `
   <div class="card">
     <div class="muted small">资料类型</div>
     <div class="seg small">
@@ -392,7 +425,7 @@ async function viewAdd() {
   </div>`}
 
   <div class="card">
-    <div class="lbl">${isP ? '① 题目照片' : '资料照片'}</div>
+    <div class="lbl">${isP ? '① 题目照片' : isL ? '教科书 / 笔记 / プリント照片' : '资料照片'}</div>
     <div class="photos">${photoList(draft.photos, 'photos')}</div>
     <div class="row">
       <label class="btn"><input type="file" accept="image/*" capture="environment" data-file="photos" hidden>📷 拍照</label>
@@ -405,15 +438,15 @@ async function viewAdd() {
       <label class="btn"><input type="file" accept="image/*" capture="environment" data-file="solPhotos" hidden>📷 拍照</label>
       <label class="btn"><input type="file" accept="image/*" multiple data-file="solPhotos" hidden>🖼 相册</label>
     </div>` : ''}
-    <label class="lbl">${isP ? '卡在哪里？（可选）' : '备注（可选，例如“老师说第3页必考”）'}</label>
+    <label class="lbl">${isP ? '卡在哪里？（可选）' : isL ? '哪里不懂？（可选，例：“完全不知道导数是什么”）' : '备注（可选，例如“老师说第3页必考”）'}</label>
     <textarea data-bind="note" rows="2">${esc(draft.note)}</textarea>
   </div>
 
   <div class="stack">
-    <button class="btn primary block" data-act="runAI" ${draft.photos.length ? '' : 'disabled'}>🤖 AI ${isP ? '解析解法' : '生成闪卡'}</button>
+    <button class="btn primary block" data-act="runAI" ${draft.photos.length ? '' : 'disabled'}>🤖 AI ${isP ? '解析解法' : isL ? '开始补课' : '生成闪卡'}</button>
     <button class="btn block" data-act="manualAI" ${draft.photos.length ? '' : 'disabled'}>🆓 免费：复制提示词到 Claude/ChatGPT App</button>
     ${isP ? `<button class="btn ghost block" data-act="saveRawProblem" ${draft.photos.length ? '' : 'disabled'}>只保存照片（以后再解析）</button>`
-          : `<button class="btn ghost block" data-act="manualCard">✍️ 手动添加一张卡</button>`}
+          : isL ? '' : `<button class="btn ghost block" data-act="manualCard">✍️ 手动添加一张卡</button>`}
   </div>
   `);
 }
@@ -448,13 +481,14 @@ function draftPrompt() {
     return AI.problemPrompt({ subject, ref: draft.ref, note: draft.note, reason: draft.reason.join('、'),
       hasSolution: draft.solPhotos.length > 0, settings: S.settings });
   }
+  if (draft.mode === 'lesson') return AI.lessonPrompt({ subject, note: draft.note, settings: S.settings });
   return AI.cardsPrompt({ subject, sourceKind: draft.sourceKind, note: draft.note, settings: S.settings });
 }
 
 async function runAI() {
   if (busy) return;
   busy = true;
-  const done = aiOverlay(draft.mode === 'problem' ? 'AI 正在拆解这道题…' : 'AI 正在找重点、做闪卡…');
+  const done = aiOverlay({ problem: 'AI 正在拆解这道题…', lesson: '老师正在备课…（补课内容比较多，可能要 1–2 分钟）' }[draft.mode] || 'AI 正在找重点、做闪卡…');
   try {
     const imgs = [];
     for (const p of draft.photos) imgs.push(await blobToBase64(p.blob));
@@ -465,6 +499,10 @@ async function runAI() {
     if (draft.mode === 'problem') {
       if (sol.length) prompt.user = `（共 ${imgs.length} 张题目图片，之后 ${sol.length} 张是【解答】图片）\n` + prompt.user;
       result = await AI.generateJSON(S.settings, prompt, [...imgs, ...sol], 'problem', 'high');
+    } else if (draft.mode === 'lesson') {
+      const lesson = await AI.generateJSON(S.settings, prompt, imgs, 'lesson', lessonEffort(draft.subject), 20000);
+      await saveLesson(lesson);
+      return;
     } else {
       result = await AI.generateJSON(S.settings, prompt, imgs, 'cards', 'medium');
     }
@@ -479,7 +517,7 @@ async function runAI() {
 }
 
 function manualAI() {
-  const schema = draft.mode === 'problem' ? 'problem' : 'cards';
+  const schema = { problem: 'problem', lesson: 'lesson' }[draft.mode] || 'cards';
   const prompt = draftPrompt();
   if (draft.mode === 'problem' && draft.solPhotos.length) {
     prompt.user = `（前 ${draft.photos.length} 张是题目图片，后 ${draft.solPhotos.length} 张是【解答】图片）\n` + prompt.user;
@@ -886,7 +924,7 @@ async function viewLib() {
   } else if (lib.tab === 'sources') {
     const ss = S.sources.filter(inSub).filter(s => match(s.title, s.summary)).sort((a, b) => b.created - a.created);
     list = ss.length ? ss.map(s => `<button class="li" data-act="nav" data-to="source/${s.id}" style="--c:${SUBJ[s.subject].color}">
-        <span class="dot"></span><span class="li-t">${esc(s.title)}</span>
+        <span class="dot"></span><span class="li-t">${s.kind === 'lesson' ? `📖 ${esc(s.title)}<br><small class="muted">补课 ${Math.min(s.step || 0, s.lesson.sections.length)}/${s.lesson.sections.length} 节</small>` : esc(s.title)}</span>
         <span class="muted small">${S.cards.filter(c => c.sourceId === s.id).length} 张</span></button>`).join('')
       : '<div class="empty">还没有资料。</div>';
   } else {
@@ -915,6 +953,7 @@ function cardRow(c) {
 async function viewSource(id) {
   const src = S.sources.find(s => s.id === id);
   if (!src) return go('lib');
+  if (src.lesson) return viewLesson(src);
   const cards = S.cards.filter(c => c.sourceId === id);
   setView(`
     <button class="back" data-act="back">‹ 返回</button>
@@ -970,7 +1009,7 @@ function problemBody(a, open = false) {
     </div>
     <div class="card">
       <h4>📝 完整步骤</h4>
-      ${(a.steps || []).map((st, i) => `<details ${open ? 'open' : ''}><summary>${i + 1}. ${md(st.title)}</summary>${md(st.detail)}</details>`).join('')}
+      ${(a.steps || []).map((st, i) => `<details ${open ? 'open' : ''}><summary>${i + 1}. ${esc(plain(st.title))}</summary>${md(st.detail)}</details>`).join('')}
       <details ${open ? 'open' : ''}><summary>✅ 答案</summary>${md(a.answer)}</details>
     </div>
     ${a.pitfalls?.length ? `<div class="card"><h4>⚠️ 易错点</h4>${md(a.pitfalls.map(x => '- ' + x).join('\n'))}</div>` : ''}
@@ -1179,6 +1218,108 @@ async function buildTutorMessages(p) {
 }
 
 // ====================================================================
+// LESSON (补课): learn what you missed, section by section
+// ====================================================================
+
+const lessonEffort = sid => (['math2', 'mathB', 'phys', 'chem'].includes(sid) ? 'high' : 'medium');
+
+async function saveLesson(r) {
+  if (!Array.isArray(r.sections) || !r.sections.length) throw new Error('格式不对：没有 sections');
+  for (const k of ['prerequisites', 'keyPoints', 'formulas', 'cards']) r[k] = Array.isArray(r[k]) ? r[k] : [];
+  const created = Date.now();
+  const imageIds = await saveImages(draft.photos.map(p => p.blob));
+  const { cards: rawCards, ...lesson } = r;
+  const src = {
+    id: uid(), subject: draft.subject, kind: 'lesson', title: r.title || '补课', imageIds, created,
+    summary: r.keyPoints.map(x => '- ' + x).join('\n'), lesson, step: 0,
+  };
+  await putSource(src);
+  const cards = rawCards.map((c, i) => ({
+    id: uid(), subject: src.subject, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back,
+    note: c.note || '', importance: c.importance || 2, sourceId: src.id, srs: newSrs(), created: created + i,
+  }));
+  await db.putMany('cards', cards);
+  S.cards.push(...cards);
+  addXP(10);
+  draft = newDraft(src.subject);
+  go('source/' + src.id);
+}
+
+function lessonSectionBody(sec) {
+  return `<div>${md(sec.explain)}</div>
+    ${sec.example ? `<div class="example"><h4>✍️ 例题</h4>${md(sec.example)}</div>` : ''}
+    ${(sec.more || []).map(m => `<div class="more"><h4>🔄 换个讲法</h4>${md(m)}</div>`).join('')}`;
+}
+
+async function viewLesson(src) {
+  const L = src.lesson;
+  const n = L.sections.length;
+  const step = Math.min(src.step || 0, n);
+  const s = SUBJ[src.subject];
+  const cards = S.cards.filter(c => c.sourceId === src.id);
+  const hasKey = !!S.settings.apiKey;
+  const cur = L.sections[step];
+  setView(`
+    <button class="back" data-act="back">‹ 返回</button>
+    <h2>📖 ${esc(src.title)}</h2>
+    <div class="muted small">${s.icon} ${s.name} · 补课 · 进度 ${step}/${n}</div>
+    <div class="prog lesson-prog"><i style="width:${step / n * 100}%"></i></div>
+    <div class="card"><h4>🎯 这一节在学什么</h4>${md(L.overview)}</div>
+    ${L.prerequisites.length ? `<details class="card"><summary>🧱 需要先会的旧知识（${L.prerequisites.length}）</summary>${md(L.prerequisites.map(x => '- ' + x).join('\n'))}</details>` : ''}
+    ${L.sections.slice(0, step).map((sec, i) => `<details class="card"><summary>✅ ${i + 1}. ${esc(plain(sec.heading))}</summary>${lessonSectionBody(sec)}</details>`).join('')}
+    ${cur ? `
+    <div class="card lesson-sec" id="cur-sec">
+      <div class="muted small">第 ${step + 1} / ${n} 节</div>
+      <h3>${md(cur.heading)}</h3>
+      ${lessonSectionBody(cur)}
+      <div class="check"><h4>🤔 检查一下</h4>${md(cur.checkQ)}<details><summary>先自己想，再看答案</summary>${md(cur.checkA)}</details></div>
+      <div class="stack">
+        <button class="btn primary block" data-act="lessonNext" data-id="${src.id}">✅ 懂了，${step + 1 < n ? '下一节' : '完成'}</button>
+        ${hasKey ? `<button class="btn block" data-act="lessonMore" data-id="${src.id}">🤔 还是不懂，换个讲法</button>` : ''}
+      </div>
+    </div>` : `
+    <div class="card lesson-done">
+      <h3>🎉 这一节补完了！</h3>
+      <h4>📌 考试要点</h4>${md(L.keyPoints.map(x => '- ' + x).join('\n'))}
+      ${L.formulas.length ? `<h4>📐 公式</h4>${md(L.formulas.map(x => '- ' + x).join('\n'))}` : ''}
+      <div class="muted small">已经自动做成 ${cards.length} 张闪卡，会按遗忘曲线出现在“今日任务”里。</div>
+      <div class="stack">
+        <button class="btn primary block" data-act="feyStart" data-kind="source" data-id="${src.id}">🗣 用费曼模式讲一遍（检验是不是真懂了）</button>
+        <button class="btn block" data-act="studySource" data-id="${src.id}">▶ 马上刷这一节的闪卡</button>
+        <button class="btn ghost block" data-act="lessonReset" data-id="${src.id}">从头再看一遍</button>
+      </div>
+    </div>`}
+    ${src.imageIds?.length ? `<details class="card"><summary>📷 原始照片</summary>${await imgsHTML(src.imageIds)}</details>` : ''}
+    <details class="card"><summary>🃏 这一节的闪卡（${cards.length}）</summary><div class="list">${cards.map(cardRow).join('')}</div></details>
+    <div class="row"><button class="btn danger ghost" data-act="delSource" data-id="${src.id}">删除这节补课</button></div>
+  `);
+  if (step > 0 && cur) document.getElementById('cur-sec')?.scrollIntoView({ block: 'start' });
+}
+
+async function lessonMore(id) {
+  const src = S.sources.find(s => s.id === id);
+  if (!src || busy) return;
+  const sec = src.lesson.sections[src.step || 0];
+  if (!sec) return;
+  busy = true;
+  const done = aiOverlay('老师在想另一种讲法…');
+  try {
+    const prompt = AI.lessonMorePrompt({ subject: SUBJ[src.subject], lesson: src.lesson, section: sec, settings: S.settings });
+    const text = await AI.chat(S.settings, prompt.system, [{ role: 'user', content: prompt.user }], 'medium');
+    sec.more = [...(sec.more || []), text];
+    await putSource(src);
+  } catch (e) {
+    alertBox('出错了', e.message);
+  } finally {
+    done();
+    busy = false;
+  }
+  await viewLesson(src);
+  const more = document.querySelectorAll('#cur-sec .more');
+  more[more.length - 1]?.scrollIntoView({ block: 'start' });
+}
+
+// ====================================================================
 // FEYNMAN mode (讲给 AI 听)
 // Explain in your own words → "小明" asks about vague spots → score →
 // gaps become flashcards that go into the spaced-repetition queue.
@@ -1194,7 +1335,7 @@ function feynmanContext(ref) {
     return {
       subject: src.subject,
       topic: src.title,
-      reference: `【${src.title}】\n要点：\n${src.summary}\n\n闪卡：\n${cards.map(c => `- ${c.front} → ${c.back}`).join('\n')}`,
+      reference: `【${src.title}】\n要点：\n${src.summary}\n\n${src.lesson ? `讲解：\n${src.lesson.sections.map(sec => `■ ${sec.heading}\n${sec.explain}`).join('\n\n')}\n\n` : ''}闪卡：\n${cards.map(c => `- ${c.front} → ${c.back}`).join('\n')}`,
     };
   }
   if (ref.kind === 'card') {
@@ -1266,7 +1407,7 @@ async function viewFeynmanList() {
     <button class="btn primary block" data-act="feyNew">＋ 自己定一个主题</button>
     ${srcs.length || probs.length ? `<h3 class="sec">推荐讲这些</h3><div class="list">
       ${srcs.map(s => `<button class="li" data-act="feyStart" data-kind="source" data-id="${s.id}" style="--c:${SUBJ[s.subject].color}">
-        <span class="dot"></span><span class="li-t">📄 ${esc(s.title)}</span><span class="muted small">讲 ›</span></button>`).join('')}
+        <span class="dot"></span><span class="li-t">${s.kind === 'lesson' ? '📖' : '📄'} ${esc(s.title)}</span><span class="muted small">讲 ›</span></button>`).join('')}
       ${probs.map(p => `<button class="li" data-act="feyStart" data-kind="problem" data-id="${p.id}" style="--c:${SUBJ[p.subject].color}">
         <span class="dot"></span><span class="li-t">✏️ ${esc(p.title)}<br><small class="muted">讲清楚为什么这样解</small></span><span class="muted small">讲 ›</span></button>`).join('')}
     </div>` : ''}
@@ -1592,7 +1733,12 @@ const acts = {
   addFor: d => { closeModal(); draft = newDraft(d.sid); go('add'); },
 
   // add
-  pickSubject: d => { const keep = draft; draft = { ...newDraft(d.sid), photos: keep.photos, solPhotos: keep.solPhotos }; viewAdd(); },
+  pickSubject: d => {
+    const keep = draft;
+    draft = { ...newDraft(d.sid), photos: keep.photos, solPhotos: keep.solPhotos, note: keep.note };
+    if (keep.mode === 'lesson') draft.mode = 'lesson';
+    viewAdd();
+  },
   setMode: d => { draft.mode = d.mode; viewAdd(); },
   setKind: d => { draft.sourceKind = d.kind; viewAdd(); },
   toggleReason: d => { draft.reason = draft.reason.includes(d.r) ? draft.reason.filter(x => x !== d.r) : [...draft.reason, d.r]; viewAdd(); },
@@ -1609,6 +1755,10 @@ const acts = {
         closeModal();
         applyAnalysis(p, data);
         return;
+      }
+      if (d.schema === 'lesson') {
+        closeModal();
+        return saveLesson(data).catch(e => toast('解析失败：' + e.message, 4000));
       }
       if (d.schema === 'cards' && !Array.isArray(data.cards)) throw new Error('格式不对：没有 cards');
       if (d.schema === 'problem' && !data.pattern) throw new Error('格式不对：没有 pattern');
@@ -1746,6 +1896,23 @@ const acts = {
     const topic = document.getElementById('fn-topic').value.trim();
     if (!topic) return toast('写一个主题');
     return startFeynman({ kind: 'free', subject: document.getElementById('fn-sub').value, topic });
+  },
+  lessonNext: async d => {
+    const src = S.sources.find(s => s.id === d.id);
+    src.step = (src.step || 0) + 1;
+    await putSource(src);
+    const finished = src.step >= src.lesson.sections.length;
+    addXP(finished ? 10 : 3);
+    if (finished) toast('🎉 补完一节！+10 XP');
+    header();
+    await viewLesson(src);
+  },
+  lessonMore: d => lessonMore(d.id),
+  lessonReset: async d => {
+    const src = S.sources.find(s => s.id === d.id);
+    src.step = 0;
+    await putSource(src);
+    viewLesson(src);
   },
   feySend: d => feySend(d.id),
   feyTeacher: d => feyTeacher(d.id),

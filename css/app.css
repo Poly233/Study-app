@@ -323,3 +323,19 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 .chip.hot { background: var(--good); border-color: var(--good); color: #fff; }
 .toggle { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 10px; font-size: 14px; }
 .toggle input { width: 22px; height: 22px; margin: 2px 0 0; flex-shrink: 0; accent-color: var(--primary); }
+
+/* ---------- exam banner / lesson ---------- */
+.exam-banner { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, var(--card)); }
+.exam-banner.today-exam { border-color: var(--good); background: color-mix(in srgb, var(--good) 14%, var(--card)); }
+.next-exam { font-weight: 700; margin: 2px 0; }
+.seg3 button { line-height: 1.25; padding: 7px 2px; }
+.seg3 small { font-size: 11px; font-weight: 500; opacity: .8; }
+.lesson-prog { margin: 8px 0; }
+.lesson-sec { border-top: 4px solid var(--primary); }
+.lesson-sec h3 { margin-top: 4px; }
+.example, .more, .check { margin-top: 12px; padding: 10px 12px; border-radius: 12px; }
+.example { background: color-mix(in srgb, var(--primary) 10%, transparent); }
+.more { background: color-mix(in srgb, var(--good) 12%, transparent); }
+.check { background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.example h4, .more h4, .check h4 { margin-bottom: 4px; }
+.lesson-done { border-color: var(--good); }

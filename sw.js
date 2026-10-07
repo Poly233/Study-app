@@ -1,6 +1,6 @@
 // Offline cache for the app shell. Bump VERSION whenever files change so
 // phones pick up the new version.
-const VERSION = 'sq-v5';
+const VERSION = 'sq-v6';
 const FILES = [
   './',
   'index.html',
