@@ -40,8 +40,9 @@ let timerHandle = null;
 let busy = false;
 
 function defaultSettings() {
-  const exam = new Date(Date.now() + 22 * DAY);
-  const ds = todayKey(exam.getTime());
+  // 中间考试 starts 10/20; afterwards fall back to "3 weeks from now"
+  const preset = '2026-10-20';
+  const ds = daysUntil(preset) > 0 ? preset : todayKey(Date.now() + 22 * DAY);
   return {
     apiKey: '',
     model: AI.MODELS[0].id,
@@ -162,8 +163,8 @@ function nearestExam() {
 
 function phase(d) {
   if (d == null) return { name: '设置考试日期', tip: '到 设置 里填写每科考试日期。' };
-  if (d > 14) return { name: '第1阶段：全部收进来', tip: '把所有プリント拍成闪卡，问题集做完后把错题全部拍进来。每天把闪卡清零。' };
-  if (d > 7) return { name: '第2阶段：解法训练', tip: '重点做“解法闪卡”和错题重做：看到题→30秒内说出第一步。每道错题至少做一次类题。' };
+  if (d > 8) return { name: '第1阶段：全部收进来', tip: '把所有プリント拍成闪卡，问题集边做边把错题拍进来（带解答页）。每天把闪卡清零。' };
+  if (d > 3) return { name: '第2阶段：解法训练', tip: '重点做“解法闪卡”和错题重做：看到题→30秒内说出第一步。每道错题至少做一次类题。' };
   if (d > 0) return { name: '第3阶段：考前冲刺', tip: '每天用“冲刺模式”刷弱项，错题全部再过一遍。考前一天看资料的要点总结。' };
   if (d === 0) return { name: '考试当天', tip: '早上用冲刺模式过一遍弱项闪卡，然后相信自己！' };
   return { name: '考试结束', tip: '辛苦了！可以在设置里改下次考试的日期。' };
@@ -1514,7 +1515,9 @@ async function viewSettings() {
       <div class="row"><button class="btn primary" data-act="saveKey">保存</button><button class="btn" data-act="testKey">测试</button></div>
       <details><summary class="small">怎么获取？要钱吗？</summary><div class="small">
         1. 用浏览器打开 <b>console.anthropic.com</b>，注册登录。<br>
-        2. Billing 里充值（最低 5 美元左右，够用整个考试期间：一页プリント约 2–5 日元，一道错题解析约 5–15 日元）。<br>
+        2. Billing 里充值。建议先充 10 美元，用两三天后在 Console 的 Usage 里看花了多少，不够再补。<br>
+        大约费用（Opus 5.5；选 Sonnet 5.5 约一半）：导入 2 页プリント 15–30 日元，解析一道错题 15–40 日元，AI 辅导每轮对话 3–6 日元，一次费曼讲解 15–30 日元。<br>
+        建议关掉 Auto-reload（自动续充），避免多扣钱。<br>
         3. API Keys → Create Key，复制粘贴到上面。<br>
         Key 只保存在你的手机里，只发送给 Anthropic 官方 API。<br>
         不想花钱：导入时用“🆓 免费：复制提示词”，配合免费的 Claude App 也能做卡和解析（AI 辅导聊天需要 Key）。
