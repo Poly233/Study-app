@@ -255,8 +255,8 @@ async function route() {
   header();
   const map = { home: viewHome, add: viewAdd, review: viewReview, session: viewSession, lib: viewLib,
     problem: viewProblem, tutor: viewTutor, source: viewSource, settings: viewSettings,
-    feynman: viewFeynmanList, fey: viewFey };
-  tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review' }[name] || name);
+    feynman: viewFeynmanList, fey: viewFey, packs: viewPacks };
+  tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review', packs: 'add' }[name] || name);
   await (map[name] || viewHome)(arg);
 }
 
@@ -396,6 +396,7 @@ async function viewAdd() {
   const isL = draft.mode === 'lesson';
   setView(`
   <h2>📷 拍照导入</h2>
+  <button class="big-btn pack-entry" data-act="nav" data-to="packs"><b>📦 导入卡包</b><span>Claude 在聊天里帮你做好的闪卡・错题解法・补课（不花 API 费用）</span></button>
   <div class="chips">${SUBJECTS.map(x => subjChip(x.id, x.id === draft.subject)).join('')}</div>
 
   <div class="seg seg3">
@@ -609,18 +610,24 @@ async function savePreview() {
   }
   const imageIds = await saveImages(draft.photos.map(p => p.blob));
   const src = { id: uid(), subject: draft.subject, kind: draft.sourceKind, title: r.title || '资料', summary: r.summary || '', imageIds, created };
-  await putSource(src);
-  const cards = (r.cards || []).filter(c => !c._del).map((c, i) => ({
-    id: uid(), subject: draft.subject, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back,
-    note: c.note || '', importance: c.importance || 2, sourceId: src.id, srs: newSrs(), created: created + i,
-  }));
-  await db.putMany('cards', cards);
-  S.cards.push(...cards);
+  const cards = await addSourceWithCards(src, (r.cards || []).filter(c => !c._del));
   addXP(Math.min(30, cards.length));
   toast(`已保存 ${cards.length} 张卡`);
   const sid = draft.subject;
   draft = newDraft(sid);
   go('source/' + src.id);
+}
+
+// Saves a 资料/补课 source and turns its raw cards into deck cards.
+async function addSourceWithCards(src, rawCards) {
+  await putSource(src);
+  const cards = rawCards.map((c, i) => ({
+    id: uid(), subject: src.subject, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back,
+    note: c.note || '', importance: c.importance || 2, sourceId: src.id, srs: newSrs(), created: src.created + i,
+  }));
+  await db.putMany('cards', cards);
+  S.cards.push(...cards);
+  return cards;
 }
 
 async function saveRawProblem() {
@@ -1218,28 +1225,139 @@ async function buildTutorMessages(p) {
 }
 
 // ====================================================================
+// PACKS (卡包): cards / problems / lessons Claude made in the chat,
+// published as JSON under packs/ in the repo and imported with one tap.
+// ====================================================================
+
+const PACK_INDEX = 'packs/index.json';
+
+async function fetchJSON(url) {
+  const r = await fetch(url, { cache: 'no-store' });
+  if (!r.ok) throw new Error(`下载失败（${r.status}）`);
+  return r.json();
+}
+
+async function fetchImages(urls) {
+  const blobs = [];
+  for (const u of urls || []) {
+    try {
+      const r = await fetch(u, { cache: 'no-store' });
+      if (r.ok) blobs.push(await r.blob());
+    } catch { /* skip a missing image */ }
+  }
+  return saveImages(blobs);
+}
+
+async function importPack(pack) {
+  if (!SUBJ[pack.subject]) throw new Error(`未知科目：${pack.subject}`);
+  const created = Date.now();
+  if (pack.kind === 'cards') {
+    await addSourceWithCards({
+      id: uid(), subject: pack.subject, kind: pack.sourceKind || 'print', title: pack.title || '资料',
+      summary: pack.summary || '', imageIds: await fetchImages(pack.images), created, packId: pack.id,
+    }, pack.cards || []);
+  } else if (pack.kind === 'problem') {
+    const a = pack.analysis;
+    const p = {
+      id: uid(), subject: pack.subject, ref: pack.ref || a?.ref || '', title: pack.title || a?.title || '错题',
+      imageIds: await fetchImages(pack.images), solutionImageIds: await fetchImages(pack.solutionImages),
+      reason: pack.reason || [], note: pack.note || '', analysis: a || null,
+      srs: newSrs(), chat: [], variants: pack.variants || [], created, packId: pack.id,
+    };
+    await putProblem(p);
+    if (a) await putCard(methodCardFor(p));
+  } else if (pack.kind === 'lesson') {
+    const { src, cards } = buildLessonSource(pack.lesson, pack.subject, await fetchImages(pack.images));
+    src.packId = pack.id;
+    await addSourceWithCards(src, cards);
+  } else {
+    throw new Error(`未知卡包类型：${pack.kind}`);
+  }
+  const done = await db.getMeta('importedPacks', []);
+  if (pack.id && !done.includes(pack.id)) await db.setMeta('importedPacks', [...done, pack.id]);
+}
+
+const PACK_ICON = { cards: '📄', problem: '✏️', lesson: '📖' };
+
+async function viewPacks() {
+  setView('<button class="back" data-act="nav" data-to="add">‹ 拍照导入</button><h2>📦 卡包</h2><div class="empty">正在检查新卡包…</div>');
+  const imported = await db.getMeta('importedPacks', []);
+  let list = [];
+  let err = '';
+  try {
+    list = (await fetchJSON(PACK_INDEX)).packs || [];
+  } catch (e) {
+    err = e.message;
+  }
+  list.sort((a, b) => (b.created || '').localeCompare(a.created || ''));
+  const fresh = list.filter(p => !imported.includes(p.id));
+  setView(`
+    <button class="back" data-act="nav" data-to="add">‹ 拍照导入</button>
+    <h2>📦 卡包</h2>
+    <div class="card small">在 Claude 聊天里发プリント或错题的照片，Claude 做好的闪卡和解法会出现在这里。点“导入”就进 App，<b>不花 API 费用</b>。</div>
+    ${err ? `<div class="card warn small">没能读取卡包列表（${esc(err)}）。确认联网后再试，或者用下面的“粘贴卡包”。</div>` : ''}
+    ${fresh.length > 1 ? `<button class="btn primary block" data-act="packImportAll">⬇️ 全部导入新的（${fresh.length}）</button>` : ''}
+    <div class="list">
+      ${list.length ? list.map(p => {
+        const done = imported.includes(p.id);
+        const s = SUBJ[p.subject];
+        return `<div class="li" style="--c:${s?.color || '#888'}">
+          <span class="dot"></span>
+          <span class="li-t">${PACK_ICON[p.kind] || '📦'} ${esc(p.title)}<br><small class="muted">${s?.name || p.subject}${p.count ? ` · ${p.count} 张卡` : ''}${p.created ? ` · ${esc(p.created.slice(5, 10).replace('-', '/'))}` : ''}</small></span>
+          ${done ? '<span class="muted small">✅ 已导入</span>' : `<button class="btn primary small" data-act="packImport" data-id="${esc(p.id)}">导入</button>`}
+        </div>`;
+      }).join('') : err ? '' : '<div class="empty">还没有卡包。在聊天里把照片发给 Claude 吧！</div>'}
+    </div>
+    <details class="card"><summary>📋 粘贴卡包（Claude 直接在聊天里给你的 JSON）</summary>
+      <textarea id="pack-json" rows="5" placeholder='{"kind":"cards", ...}'></textarea>
+      <button class="btn primary block" data-act="packPaste">导入</button>
+    </details>
+  `);
+}
+
+async function runPackImports(entries) {
+  if (busy) return;
+  busy = true;
+  const done = aiOverlay('正在导入卡包…');
+  let ok = 0;
+  try {
+    for (const e of entries) {
+      const pack = e.file ? await fetchJSON('packs/' + e.file) : e;
+      await importPack(pack);
+      ok++;
+    }
+    if (ok) addXP(ok * 3);
+    toast(`已导入 ${ok} 个卡包`);
+  } catch (e) {
+    alertBox('导入失败', `${ok ? `前 ${ok} 个已导入。` : ''}${e.message}`);
+  } finally {
+    done();
+    busy = false;
+  }
+  header();
+  if (location.hash === '#/packs') viewPacks();
+}
+
+// ====================================================================
 // LESSON (补课): learn what you missed, section by section
 // ====================================================================
 
 const lessonEffort = sid => (['math2', 'mathB', 'phys', 'chem'].includes(sid) ? 'high' : 'medium');
 
-async function saveLesson(r) {
-  if (!Array.isArray(r.sections) || !r.sections.length) throw new Error('格式不对：没有 sections');
+function buildLessonSource(r, subject, imageIds) {
+  if (!Array.isArray(r?.sections) || !r.sections.length) throw new Error('格式不对：没有 sections');
   for (const k of ['prerequisites', 'keyPoints', 'formulas', 'cards']) r[k] = Array.isArray(r[k]) ? r[k] : [];
-  const created = Date.now();
-  const imageIds = await saveImages(draft.photos.map(p => p.blob));
-  const { cards: rawCards, ...lesson } = r;
+  const { cards, ...lesson } = r;
   const src = {
-    id: uid(), subject: draft.subject, kind: 'lesson', title: r.title || '补课', imageIds, created,
+    id: uid(), subject, kind: 'lesson', title: r.title || '补课', imageIds, created: Date.now(),
     summary: r.keyPoints.map(x => '- ' + x).join('\n'), lesson, step: 0,
   };
-  await putSource(src);
-  const cards = rawCards.map((c, i) => ({
-    id: uid(), subject: src.subject, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back,
-    note: c.note || '', importance: c.importance || 2, sourceId: src.id, srs: newSrs(), created: created + i,
-  }));
-  await db.putMany('cards', cards);
-  S.cards.push(...cards);
+  return { src, cards };
+}
+
+async function saveLesson(r) {
+  const { src, cards } = buildLessonSource(r, draft.subject, await saveImages(draft.photos.map(p => p.blob)));
+  await addSourceWithCards(src, cards);
   addXP(10);
   draft = newDraft(src.subject);
   go('source/' + src.id);
@@ -1908,6 +2026,26 @@ const acts = {
     await viewLesson(src);
   },
   lessonMore: d => lessonMore(d.id),
+  packImport: async d => {
+    const idx = await fetchJSON(PACK_INDEX);
+    const entry = (idx.packs || []).find(p => p.id === d.id);
+    if (!entry) return toast('找不到这个卡包');
+    await runPackImports([entry]);
+  },
+  packImportAll: async () => {
+    const imported = await db.getMeta('importedPacks', []);
+    const idx = await fetchJSON(PACK_INDEX);
+    await runPackImports((idx.packs || []).filter(p => !imported.includes(p.id)));
+  },
+  packPaste: () => {
+    let data;
+    try {
+      data = AI.parseLooseJSON(document.getElementById('pack-json').value);
+    } catch (e) {
+      return toast('JSON 解析失败：' + e.message, 4000);
+    }
+    return runPackImports(Array.isArray(data.packs) ? data.packs : [data]);
+  },
   lessonReset: async d => {
     const src = S.sources.find(s => s.id === d.id);
     src.step = 0;

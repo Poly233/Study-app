@@ -339,3 +339,5 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 .check { background: color-mix(in srgb, var(--warn) 14%, transparent); }
 .example h4, .more h4, .check h4 { margin-bottom: 4px; }
 .lesson-done { border-color: var(--good); }
+.big-btn.pack-entry { margin: 0 0 10px; border-color: color-mix(in srgb, var(--warn) 55%, var(--line));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--warn) 16%, var(--card)), var(--card)); }
