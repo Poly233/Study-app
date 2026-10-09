@@ -1,1 +1,58 @@
-{ "packs": [] }
+{
+ "packs": [
+  {
+   "id": "kokyo-jinken-1",
+   "title": "公共 基本的人権の尊重① 人権の基本原則・公共の福祉・国民の義務",
+   "subject": "kokyo",
+   "kind": "cards",
+   "file": "kokyo-jinken-1.json",
+   "count": 30,
+   "created": "2026-10-10T02:11+09:00"
+  },
+  {
+   "id": "kokyo-jinken-2",
+   "title": "公共 基本的人権の尊重② 精神の自由（思想・信教・表現・学問）",
+   "subject": "kokyo",
+   "kind": "cards",
+   "file": "kokyo-jinken-2.json",
+   "count": 35,
+   "created": "2026-10-10T02:11+09:00"
+  },
+  {
+   "id": "kokyo-jinken-3",
+   "title": "公共 基本的人権の尊重③ 身体の自由・経済活動の自由",
+   "subject": "kokyo",
+   "kind": "cards",
+   "file": "kokyo-jinken-3.json",
+   "count": 30,
+   "created": "2026-10-10T02:11+09:00"
+  },
+  {
+   "id": "kokyo-jinken-4",
+   "title": "公共 基本的人権の尊重④ 平等権",
+   "subject": "kokyo",
+   "kind": "cards",
+   "file": "kokyo-jinken-4.json",
+   "count": 29,
+   "created": "2026-10-10T02:11+09:00"
+  },
+  {
+   "id": "kokyo-jinken-5",
+   "title": "公共 基本的人権の尊重⑤ 社会権・参政権・請求権",
+   "subject": "kokyo",
+   "kind": "cards",
+   "file": "kokyo-jinken-5.json",
+   "count": 38,
+   "created": "2026-10-10T02:11+09:00"
+  },
+  {
+   "id": "kokyo-jinken-6",
+   "title": "公共 基本的人権の尊重⑥ 新しい人権（環境権・プライバシー）",
+   "subject": "kokyo",
+   "kind": "cards",
+   "file": "kokyo-jinken-6.json",
+   "count": 19,
+   "created": "2026-10-10T02:11+09:00"
+  }
+ ]
+}
