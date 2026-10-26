@@ -2,21 +2,21 @@ import { db, uid, exportAll, importAll } from './db.js';
 import { schedule, newSrs, isDue, mastery, weakness, daysUntil } from './srs.js';
 import * as AI from './ai.js';
 import { esc, md, renderMath, resizeImage, blobToBase64, blobURL, toast, todayKey, shuffle, copyText } from './util.js';
+import { WRITING_TASKS, WRITING_RULES, countWords } from './eiken.js';
 
 // ====================================================================
 // constants
 // ====================================================================
 
+// 英検準1級 一次試験の4つのパート
 export const SUBJECTS = [
-  { id: 'math2', name: '数学Ⅱ', book: 'PRIME', color: '#4f7cff', icon: '∫', modes: ['problem', 'cards'] },
-  { id: 'mathB', name: '数学B', book: 'PRIME', color: '#8a5cff', icon: 'Σ', modes: ['problem', 'cards'] },
-  { id: 'phys', name: '物理', book: 'リードα', color: '#ff8a3d', icon: '⚡', modes: ['problem', 'cards'] },
-  { id: 'chem', name: '化学', book: 'セミナー', color: '#16b26b', icon: '⚗', modes: ['cards', 'problem'] },
-  { id: 'kokyo', name: '公共', book: 'プリント', color: '#e24a6b', icon: '⚖', modes: ['cards'] },
-  { id: 'joho', name: '情報', book: 'プリント', color: '#12a5c9', icon: '⌨', modes: ['cards', 'problem'] },
+  { id: 'vocab', name: '語彙・熟語', book: '単熟語EX', color: '#4f7cff', icon: '🔤', modes: ['cards', 'problem', 'lesson'] },
+  { id: 'read', name: '長文読解', book: '過去問', color: '#16b26b', icon: '📰', modes: ['problem', 'lesson', 'cards'] },
+  { id: 'write', name: '英作文', book: '過去問', color: '#e24a6b', icon: '✍️', modes: ['cards', 'lesson'] },
+  { id: 'listen', name: 'リスニング', book: '過去問', color: '#ff8a3d', icon: '🎧', modes: ['problem', 'cards'] },
 ];
 const SUBJ = Object.fromEntries(SUBJECTS.map(s => [s.id, s]));
-const REASONS = ['没思路', '公式忘了', '计算错误', '看错题', '太慢'];
+const REASONS = ['不认识单词', '没读懂句子', '找不到根据', '被选项骗了', '听不清', '时间不够'];
 const DAY = 86400000;
 
 // ====================================================================
@@ -28,6 +28,7 @@ const S = {
   problems: [],
   sources: [],
   feynman: [],
+  essays: [],
   settings: null,
   stats: null,
 };
@@ -39,10 +40,10 @@ let lib = { subject: 'all', tab: 'problems', q: '' };
 let timerHandle = null;
 let busy = false;
 
-// 2026年度 2学期中間考査 · 高校2年 国立クラス 理系
-const EXAM_PRESET = { math2: '2026-10-20', chem: '2026-10-21', joho: '2026-10-22', mathB: '2026-10-22', kokyo: '2026-10-23', phys: '2026-10-23' };
-const EXAM_PERIOD = { math2: '1限', chem: '2限', joho: '1限', mathB: '2限', kokyo: '1限', phys: '3限' };
-// the timetable stays the default until its last exam day has passed
+// 2026年度 第3回 英検 一次試験（本会場）。出願前に公式サイトで確認すること。
+const EXAM_DAY = '2027-01-24';
+const EXAM_PRESET = Object.fromEntries(SUBJECTS.map(s => [s.id, EXAM_DAY]));
+// the preset stays the default until the exam day has passed
 const presetActive = () => SUBJECTS.some(s => daysUntil(EXAM_PRESET[s.id]) >= 0);
 
 function defaultSettings() {
@@ -52,33 +53,33 @@ function defaultSettings() {
     model: AI.MODELS[0].id,
     lang: 'zh',
     dailyGoal: 60,
+    autoSpeak: false,
     exams: Object.fromEntries(SUBJECTS.map(s => [s.id, presetActive() ? EXAM_PRESET[s.id] : later])),
-    examsV2: true,
+    eikenV1: true,
   };
 }
 
 async function load() {
-  const [cards, problems, sources, feynman, settings, stats] = await Promise.all([
-    db.all('cards'), db.all('problems'), db.all('sources'), db.all('feynman'),
+  const [cards, problems, sources, feynman, essays, settings, stats] = await Promise.all([
+    db.all('cards'), db.all('problems'), db.all('sources'), db.all('feynman'), db.all('essays'),
     db.getMeta('settings', null), db.getMeta('stats', null),
   ]);
-  S.cards = cards;
-  S.problems = problems;
-  S.sources = sources;
-  S.feynman = feynman;
+  // Data from the old school-subject version stays in the database but is not shown.
+  const known = x => SUBJ[x.subject];
+  S.cards = cards.filter(known);
+  S.problems = problems.filter(known);
+  S.sources = sources.filter(known);
+  S.feynman = feynman.filter(known);
+  S.essays = essays;
   S.settings = { ...defaultSettings(), ...(settings || {}) };
   S.settings.exams = { ...defaultSettings().exams, ...(settings?.exams || {}) };
   if (!settings) await db.setMeta('settings', S.settings);
-  // Older installs got one auto date for every subject; switch them to the
-  // real per-subject timetable unless the dates were customised.
-  if (settings && !settings.examsV2) {
-    const vals = SUBJECTS.map(s => S.settings.exams[s.id]);
-    if (presetActive() && vals.every(v => v === vals[0])) {
-      S.settings.exams = { ...EXAM_PRESET };
-      setTimeout(() => toast('已按考试时间表更新每科的考试日期 📅', 3500), 600);
-    }
-    S.settings.examsV2 = true;
+  // Installs from the school version: switch to the 英検 exam date once.
+  if (settings && !settings.eikenV1) {
+    S.settings.exams = { ...S.settings.exams, ...defaultSettings().exams };
+    S.settings.eikenV1 = true;
     await saveSettings();
+    setTimeout(() => toast('已切换为英検準1級模式 📚', 3500), 600);
   }
   S.stats = stats || { xp: 0, streak: 0, lastDay: null, days: {} };
 }
@@ -89,6 +90,7 @@ const saveStats = () => db.setMeta('stats', S.stats);
 async function putCard(c) { await db.put('cards', c); upsert(S.cards, c); }
 async function putProblem(p) { await db.put('problems', p); upsert(S.problems, p); }
 async function putSource(s) { await db.put('sources', s); upsert(S.sources, s); }
+async function putEssay(e) { await db.put('essays', e); upsert(S.essays, e); }
 function upsert(arr, obj) {
   const i = arr.findIndex(x => x.id === obj.id);
   if (i >= 0) arr[i] = obj; else arr.push(obj);
@@ -178,12 +180,13 @@ function nearestExam() {
 }
 
 function phase(d) {
-  if (d == null) return { name: '设置考试日期', tip: '到 设置 里填写每科考试日期。' };
-  if (d > 8) return { name: '第1阶段：全部收进来', tip: '把所有プリント拍成闪卡，问题集边做边把错题拍进来（带解答页）。每天把闪卡清零。' };
-  if (d > 3) return { name: '第2阶段：解法训练', tip: '重点做“解法闪卡”和错题重做：看到题→30秒内说出第一步。每道错题至少做一次类题。' };
-  if (d > 0) return { name: '第3阶段：考前冲刺', tip: '每天用“冲刺模式”刷弱项，错题全部再过一遍。考前一天看资料的要点总结。' };
-  if (d === 0) return { name: '考试当天', tip: '早上用冲刺模式过一遍弱项闪卡，然后相信自己！' };
-  return { name: '考试结束', tip: '辛苦了！可以在设置里改下次考试的日期。' };
+  if (d == null) return { name: '设置考试日期', tip: '到 设置 里填写考试日期。' };
+  if (d > 45) return { name: '第1阶段：词汇打底', tip: '每天把单词卡清零；単熟語EX里不会的词做上记号拍进来。每周写 1 篇作文。' };
+  if (d > 14) return { name: '第2阶段：过去问＋写作', tip: '每周做 1 回过去问，错题拍进来分析；每周写 2 篇作文并批改。单词卡继续每天清零。' };
+  if (d > 3) return { name: '第3阶段：冲刺', tip: '用“考前冲刺”刷弱项单词；按考试时间做过去问；作文每天 1 篇，把范文里的表达背下来。' };
+  if (d > 0) return { name: '最后调整', tip: '不再加新词，只复习弱项；看一遍自己作文里的常见错误。早点睡！' };
+  if (d === 0) return { name: '考试当天', tip: '早上用冲刺模式过一遍弱项单词，然后相信自己！' };
+  return { name: '考试结束', tip: '辛苦了！可以在设置里改成二次考试（面接）或下次考试的日期。' };
 }
 
 function newQuota(sid) {
@@ -255,8 +258,9 @@ async function route() {
   header();
   const map = { home: viewHome, add: viewAdd, review: viewReview, session: viewSession, lib: viewLib,
     problem: viewProblem, tutor: viewTutor, source: viewSource, settings: viewSettings,
-    feynman: viewFeynmanList, fey: viewFey, packs: viewPacks };
-  tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review', packs: 'add' }[name] || name);
+    feynman: viewFeynmanList, fey: viewFey, packs: viewPacks, writing: viewWriting, essay: viewEssay, essayr: viewEssayResult };
+  tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review', packs: 'add',
+    writing: 'review', essay: 'review', essayr: 'review' }[name] || name);
   await (map[name] || viewHome)(arg);
 }
 
@@ -284,21 +288,24 @@ async function viewHome() {
   const reasonMax = Math.max(1, ...Object.values(reasons));
 
   const upcoming = SUBJECTS.map(s => ({ s, d: daysTo(s.id) })).filter(x => x.d != null && x.d >= 0).sort((a, b) => a.d - b.d);
-  const examLabel = x => `${x.s.name}${S.settings.exams[x.s.id] === EXAM_PRESET[x.s.id] ? `（${EXAM_PERIOD[x.s.id]}）` : ''}`;
+  const allSame = new Set(SUBJECTS.map(s => S.settings.exams[s.id])).size === 1;
+  const examLabel = x => x.s.name;
+  const groupLabel = xs => (allSame && xs.length === SUBJECTS.length ? '英検準1級 一次試験' : xs.map(examLabel).join('、'));
+  const weekEssays = S.essays.filter(e => e.result && e.gradedAt > Date.now() - 7 * DAY).length;
   const todayExams = upcoming.filter(x => x.d === 0);
   const tomorrowExams = upcoming.filter(x => x.d === 1);
   const next = upcoming.find(x => x.d > 0);
 
   setView(`
-  ${todayExams.length ? `<section class="card exam-banner today-exam">📝 <b>今天考：${todayExams.map(examLabel).join('、')}</b><br><span class="small">考前用 10 分钟刷一下弱项就好，相信自己！</span>
+  ${todayExams.length ? `<section class="card exam-banner today-exam">📝 <b>今天考：${groupLabel(todayExams)}</b><br><span class="small">考前用 10 分钟刷一下弱项就好，相信自己！</span>
     <div class="row wrap">${todayExams.map(x => `<button class="btn small" data-act="startMode" data-mode="cram" data-sid="${x.s.id}">🔥 ${x.s.name} 弱项</button>`).join('')}</div></section>` : ''}
-  ${tomorrowExams.length ? `<section class="card exam-banner">⏰ <b>明天考：${tomorrowExams.map(examLabel).join('、')}</b><br><span class="small">今晚集中复习这${tomorrowExams.length > 1 ? '几' : ''}科：先冲刺弱项，再看“考前一页纸”，然后早点睡。</span>
+  ${tomorrowExams.length ? `<section class="card exam-banner">⏰ <b>明天考：${groupLabel(tomorrowExams)}</b><br><span class="small">今晚只复习弱项单词和自己作文里的常见错误，然后早点睡。</span>
     <div class="row wrap">${tomorrowExams.map(x => `<button class="btn primary small" data-act="startMode" data-mode="cram" data-sid="${x.s.id}">🔥 ${x.s.name} 冲刺</button>`).join('')}</div></section>` : ''}
   <section class="hero">
     <div class="hero-days"><b>${d == null ? '?' : Math.max(0, d)}</b><span>天后考试</span></div>
     <div class="hero-txt">
       <div class="phase">${esc(ph.name)}</div>
-      ${next ? `<div class="small next-exam">下一科：${examLabel(next)} · ${S.settings.exams[next.s.id].slice(5).replace('-', '/')}</div>` : ''}
+      ${next ? `<div class="small next-exam">${allSame ? '一次試験' : `下一科：${examLabel(next)}`} · ${S.settings.exams[next.s.id].slice(5).split('-').map(Number).join('/')}</div>` : ''}
       <div class="muted small">${esc(ph.tip)}</div>
       <div class="muted small">称号：${TITLES[Math.min(TITLES.length - 1, lv.level - 1)]} · 再 ${lv.toNext} XP 升级</div>
     </div>
@@ -306,13 +313,13 @@ async function viewHome() {
 
   ${empty ? `
   <section class="card onboarding">
-    <h3>👋 3步开始</h3>
+    <h3>👋 英検準1級 3步开始</h3>
     <ol>
-      <li><b>设置</b>：填 API Key（AI 自动做卡）和每科考试日期。没有 Key 也能用“免费：复制提示词”。</li>
-      <li><b>拍照</b>：プリント → 自动生成闪卡；做错的题 + 解答页 → 自动解析解法；缺课听不懂的 → 📖 补课。</li>
-      <li><b>复习</b>：每天点“开始今日任务”，把数字清零就赢了。</li>
+      <li><b>单词</b>：拍照 → 📦 导入卡包，先导入准1级高频词；単熟語EX里不会的词做上记号拍进来。</li>
+      <li><b>写作</b>：复习 → ✍️ 英作文，每周写 1–2 篇并批改。</li>
+      <li><b>每天</b>：点“开始今日任务”，把数字清零就赢了。</li>
     </ol>
-    <div class="row"><button class="btn" data-act="nav" data-to="settings">去设置</button><button class="btn primary" data-act="nav" data-to="add">📷 拍第一张</button></div>
+    <div class="row"><button class="btn" data-act="nav" data-to="settings">去设置</button><button class="btn primary" data-act="nav" data-to="packs">📦 导入单词</button></div>
   </section>` : ''}
 
   <section class="card today">
@@ -325,6 +332,8 @@ async function viewHome() {
       <button class="btn primary block" data-act="startToday" ${total ? '' : 'disabled'}>${total ? `▶ 开始今日任务（${total}）` : '🎉 今天的任务清零了'}</button>
     </div>
   </section>
+
+  <button class="big-btn write-entry" data-act="nav" data-to="writing"><b>✍️ 英作文</b><span>最近 7 天批改了 ${weekEssays} 篇 · 目标每周 2 篇</span></button>
 
   <h3 class="sec">科目</h3>
   <section class="subjects">
@@ -359,11 +368,12 @@ async function viewHome() {
 function reasonTip(r) {
   const top = Object.entries(r).sort((a, b) => b[1] - a[1])[0]?.[0];
   return {
-    '没思路': '“没思路”最多 → 多刷“解法闪卡”，练习看到题 30 秒内说出第一步。',
-    '公式忘了': '“公式忘了”最多 → 把公式做成闪卡（拍照导入时选“背诵资料”）。',
-    '计算错误': '“计算错误”最多 → 做类题时一定在纸上算完再对答案，并拍照让 AI 找错。',
-    '看错题': '“看错题”最多 → 读题时把条件和所求画线，答完回头再读一次问题。',
-    '太慢': '“太慢”最多 → 冲刺阶段对这些题计时重做。',
+    '不认识单词': '“不认识单词”最多 → 把这些题里的生词全部做成单词卡（拍照 → 🔤 单词）。',
+    '没读懂句子': '“没读懂句子”最多 → 用 📖 补课把看不懂的长句拆开讲，重点练从句和分词构文。',
+    '找不到根据': '“找不到根据”最多 → 先读设问再读文章，在文章里画出根据句再选答案。',
+    '被选项骗了': '“被选项骗了”最多 → 正确选项通常是本文的换说；和原文用词一模一样的选项要小心。',
+    '听不清': '“听不清”最多 → 用过去问的音频跟读（shadowing），对照スクリプト找出没听出来的地方。',
+    '时间不够': '“时间不够”最多 → 词汇题每题控制在 30 秒内；写作先列提纲再写，按考试时间练。',
   }[top] || '';
 }
 
@@ -383,7 +393,7 @@ function weekChart() {
 // ADD (photo import)
 // ====================================================================
 
-function newDraft(sid = 'math2') {
+function newDraft(sid = 'vocab') {
   return { subject: sid, mode: SUBJ[sid].modes[0], sourceKind: 'print', photos: [], solPhotos: [], note: '', ref: '', reason: [], preview: null };
 }
 
@@ -394,57 +404,58 @@ async function viewAdd() {
   const photoList = (arr, key) => arr.map((p, i) => `<div class="ph"><img src="${p.url}"><button data-act="rmPhoto" data-key="${key}" data-i="${i}">×</button></div>`).join('');
   const isP = draft.mode === 'problem';
   const isL = draft.mode === 'lesson';
+  const isW = draft.mode === 'cards' && draft.subject === 'vocab';
   setView(`
   <h2>📷 拍照导入</h2>
   <button class="big-btn pack-entry" data-act="nav" data-to="packs"><b>📦 导入卡包</b><span>Claude 在聊天里帮你做好的闪卡・错题解法・补课（不花 API 费用）</span></button>
   <div class="chips">${SUBJECTS.map(x => subjChip(x.id, x.id === draft.subject)).join('')}</div>
 
   <div class="seg seg3">
-    <button class="${draft.mode === 'cards' ? 'on' : ''}" data-act="setMode" data-mode="cards">📄 背诵<br><small>资料→闪卡</small></button>
-    <button class="${isP ? 'on' : ''}" data-act="setMode" data-mode="problem">✏️ 错题<br><small>→解法</small></button>
-    <button class="${isL ? 'on' : ''}" data-act="setMode" data-mode="lesson">📖 补课<br><small>没听懂的</small></button>
+    <button class="${draft.mode === 'cards' ? 'on' : ''}" data-act="setMode" data-mode="cards">${draft.subject === 'vocab' ? '🔤 单词<br><small>→单词卡</small>' : '📄 资料<br><small>→闪卡</small>'}</button>
+    <button class="${isP ? 'on' : ''}" data-act="setMode" data-mode="problem">✏️ 错题<br><small>→解析</small></button>
+    <button class="${isL ? 'on' : ''}" data-act="setMode" data-mode="lesson">📖 补课<br><small>看不懂的</small></button>
   </div>
 
   ${isL ? `
   <div class="card">
-    <b>缺课了、上课听不懂？</b>把那部分的<b>教科书、同学的笔记、プリント、黑板照片</b>拍进来，AI 会像一对一补课一样从零讲起，一节一节讲到你懂，最后自动做成闪卡。
-    <div class="muted small">💡 一次拍一个小节（2–4 张）效果最好，太多会讲得很粗。</div>
+    <b>看不懂？</b>把看不懂的<b>语法、长难句、过去问的长文或解说、写作范文</b>拍进来，AI 会像一对一补课一样从零讲起，一节一节讲到你懂，最后自动做成闪卡。
+    <div class="muted small">💡 一次拍一个主题（2–4 张）效果最好。</div>
+  </div>` : isW ? `
+  <div class="card">
+    <b>把不会的词做成单词卡</b>：在単熟語EX（或过去问）上把<b>不会的词打勾或划线</b>，再拍下这一页。AI 只做有记号的词，并附上大問1 形式的 4 选 1 练习。
+    <div class="muted small">💡 例句和解释由 AI 原创，不会照抄书上的内容。一次 1–2 页最好。</div>
   </div>` : !isP ? `
   <div class="card">
-    <div class="muted small">资料类型</div>
-    <div class="seg small">
-      <button class="${draft.sourceKind === 'print' ? 'on' : ''}" data-act="setKind" data-kind="print">プリント</button>
-      <button class="${draft.sourceKind === 'book' ? 'on' : ''}" data-act="setKind" data-kind="book">问题集（${esc(s.book)}）的暗记题</button>
-    </div>
-    <div class="muted small">💡 一次 1–3 页效果最好。已经写了答案的穴埋めプリント最理想。</div>
+    <b>资料 → 闪卡</b>：笔记、参考书、过去问的解说、写作范文……AI 会挑出值得背的单词、搭配和能直接套用的表达。
+    ${draft.subject === 'write' ? '<button class="btn block" data-act="nav" data-to="writing" style="margin-top:8px">✍️ 去英作文练习（写作并批改）</button>' : ''}
   </div>` : `
   <div class="card">
     <label class="lbl">题号（可选）</label>
-    <input data-bind="ref" placeholder="例：${esc(s.book)} 123 (2)" value="${esc(draft.ref)}">
+    <input data-bind="ref" placeholder="例：2025年度第1回 大問1 (5)" value="${esc(draft.ref)}">
     <label class="lbl">错因（可多选）</label>
     <div class="chips">${REASONS.map(r => `<button class="chip ${draft.reason.includes(r) ? 'on' : ''}" data-act="toggleReason" data-r="${r}">${r}</button>`).join('')}</div>
   </div>`}
 
   <div class="card">
-    <div class="lbl">${isP ? '① 题目照片' : isL ? '教科书 / 笔记 / プリント照片' : '资料照片'}</div>
+    <div class="lbl">${isP ? '① 题目照片' : isL ? '看不懂的内容的照片' : isW ? '单词书页面的照片（不会的词做好记号）' : '资料照片'}</div>
     <div class="photos">${photoList(draft.photos, 'photos')}</div>
     <div class="row">
       <label class="btn"><input type="file" accept="image/*" capture="environment" data-file="photos" hidden>📷 拍照</label>
       <label class="btn"><input type="file" accept="image/*" multiple data-file="photos" hidden>🖼 相册</label>
     </div>
     ${isP ? `
-    <div class="lbl" style="margin-top:14px">② 解答页照片（强烈推荐，AI 会按官方解法讲）</div>
+    <div class="lbl" style="margin-top:14px">② 解答・解说页照片（推荐，AI 会按官方解答讲${draft.subject === 'listen' ? '；听力请拍スクリプト' : ''}）</div>
     <div class="photos">${photoList(draft.solPhotos, 'solPhotos')}</div>
     <div class="row">
       <label class="btn"><input type="file" accept="image/*" capture="environment" data-file="solPhotos" hidden>📷 拍照</label>
       <label class="btn"><input type="file" accept="image/*" multiple data-file="solPhotos" hidden>🖼 相册</label>
     </div>` : ''}
-    <label class="lbl">${isP ? '卡在哪里？（可选）' : isL ? '哪里不懂？（可选，例：“完全不知道导数是什么”）' : '备注（可选，例如“老师说第3页必考”）'}</label>
+    <label class="lbl">${isP ? '卡在哪里？（可选）' : isL ? '哪里不懂？（可选，例：“这句话的结构看不懂”）' : isW ? '备注（可选，例：“只做打勾的词”）' : '备注（可选）'}</label>
     <textarea data-bind="note" rows="2">${esc(draft.note)}</textarea>
   </div>
 
   <div class="stack">
-    <button class="btn primary block" data-act="runAI" ${draft.photos.length ? '' : 'disabled'}>🤖 AI ${isP ? '解析解法' : isL ? '开始补课' : '生成闪卡'}</button>
+    <button class="btn primary block" data-act="runAI" ${draft.photos.length ? '' : 'disabled'}>🤖 AI ${isP ? '解析这道题' : isL ? '开始补课' : isW ? '做成单词卡' : '生成闪卡'}</button>
     <button class="btn block" data-act="manualAI" ${draft.photos.length ? '' : 'disabled'}>🆓 免费：复制提示词到 Claude/ChatGPT App</button>
     ${isP ? `<button class="btn ghost block" data-act="saveRawProblem" ${draft.photos.length ? '' : 'disabled'}>只保存照片（以后再解析）</button>`
           : isL ? '' : `<button class="btn ghost block" data-act="manualCard">✍️ 手动添加一张卡</button>`}
@@ -476,6 +487,8 @@ function aiOverlay(msg) {
   return () => { clearInterval(h); el.classList.remove('show'); };
 }
 
+const cardsSchema = () => (draft.subject === 'vocab' ? 'words' : 'cards');
+
 function draftPrompt() {
   const subject = SUBJ[draft.subject];
   if (draft.mode === 'problem') {
@@ -483,13 +496,15 @@ function draftPrompt() {
       hasSolution: draft.solPhotos.length > 0, settings: S.settings });
   }
   if (draft.mode === 'lesson') return AI.lessonPrompt({ subject, note: draft.note, settings: S.settings });
+  if (draft.subject === 'vocab') return AI.wordsPrompt({ note: draft.note, settings: S.settings });
   return AI.cardsPrompt({ subject, sourceKind: draft.sourceKind, note: draft.note, settings: S.settings });
 }
 
 async function runAI() {
   if (busy) return;
   busy = true;
-  const done = aiOverlay({ problem: 'AI 正在拆解这道题…', lesson: '老师正在备课…（补课内容比较多，可能要 1–2 分钟）' }[draft.mode] || 'AI 正在找重点、做闪卡…');
+  const done = aiOverlay({ problem: 'AI 正在分析这道题…', lesson: '老师正在备课…（补课内容比较多，可能要 1–2 分钟）' }[draft.mode]
+    || (draft.subject === 'vocab' ? 'AI 正在做单词卡和 4 选 1 练习…' : 'AI 正在找重点、做闪卡…'));
   try {
     const imgs = [];
     for (const p of draft.photos) imgs.push(await blobToBase64(p.blob));
@@ -505,7 +520,8 @@ async function runAI() {
       await saveLesson(lesson);
       return;
     } else {
-      result = await AI.generateJSON(S.settings, prompt, imgs, 'cards', 'medium');
+      const schema = cardsSchema();
+      result = await AI.generateJSON(S.settings, prompt, imgs, schema, 'medium', schema === 'words' ? 20000 : 16000);
     }
     draft.preview = result;
     go('add');
@@ -518,7 +534,7 @@ async function runAI() {
 }
 
 function manualAI() {
-  const schema = { problem: 'problem', lesson: 'lesson' }[draft.mode] || 'cards';
+  const schema = { problem: 'problem', lesson: 'lesson' }[draft.mode] || cardsSchema();
   const prompt = draftPrompt();
   if (draft.mode === 'problem' && draft.solPhotos.length) {
     prompt.user = `（前 ${draft.photos.length} 张是题目图片，后 ${draft.solPhotos.length} 张是【解答】图片）\n` + prompt.user;
@@ -550,6 +566,25 @@ function viewPreview() {
       ${problemBody(r, true)}
       <div class="stack sticky-bottom">
         <button class="btn primary block" data-act="savePreview">💾 保存（会自动生成解法闪卡）</button>
+        <button class="btn ghost block" data-act="discardPreview">放弃</button>
+      </div>`);
+    return;
+  }
+  if (r.words) {
+    const words = r.words;
+    setView(`
+      <h2>✅ 做了 ${words.length} 个单词</h2>
+      <div class="card"><b>${esc(r.title || '')}</b><div class="summary">${md(r.summary || '')}</div></div>
+      <div class="muted small">点 × 删除已经会的词。</div>
+      ${words.map((w, i) => `
+        <div class="card pv ${w._del ? 'del' : ''}">
+          <div class="pv-top"><b class="w-word sm">${esc(w.word)}</b><span class="w-pos">${esc(w.pos)}</span><span class="stars">${'★'.repeat(w.importance || 2)}</span>
+            <button class="x" data-act="pvDel" data-i="${i}">${w._del ? '↺' : '×'}</button></div>
+          <div class="pv-b">${esc(w.ja)}${w.zh ? ` ／ ${esc(w.zh)}` : ''}</div>
+          <div class="small">${md(highlightWord(w.ex, w.form || w.word))}</div>
+        </div>`).join('')}
+      <div class="stack sticky-bottom">
+        <button class="btn primary block" data-act="savePreview">💾 保存 ${words.filter(w => !w._del).length} 个单词</button>
         <button class="btn ghost block" data-act="discardPreview">放弃</button>
       </div>`);
     return;
@@ -610,7 +645,8 @@ async function savePreview() {
   }
   const imageIds = await saveImages(draft.photos.map(p => p.blob));
   const src = { id: uid(), subject: draft.subject, kind: draft.sourceKind, title: r.title || '资料', summary: r.summary || '', imageIds, created };
-  const cards = await addSourceWithCards(src, (r.cards || []).filter(c => !c._del));
+  const raw = r.words ? r.words.map(w => ({ ...w, type: 'word' })) : (r.cards || []);
+  const cards = await addSourceWithCards(src, raw.filter(c => !c._del));
   addXP(Math.min(30, cards.length));
   toast(`已保存 ${cards.length} 张卡`);
   const sid = draft.subject;
@@ -618,13 +654,24 @@ async function savePreview() {
   go('source/' + src.id);
 }
 
+// Turns a raw card from the AI or a pack into a deck card. Word cards keep
+// all their fields for the 4択 / reverse review formats.
+function makeCard(c, src, i) {
+  const base = { id: uid(), subject: src.subject, note: c.note || '', importance: c.importance || 2, sourceId: src.id, srs: newSrs(), created: src.created + i };
+  if (c.type === 'word' || c.word) {
+    const form = c.form || c.word;
+    return {
+      ...base, type: 'word', front: c.word, back: c.ja || '', word: c.word, pos: c.pos || '', ja: c.ja || '', zh: c.zh || '',
+      ex: c.ex || '', exTr: c.exTr || '', form, cloze: c.cloze || '', distractors: c.distractors || [], colloc: c.colloc || '', syn: c.syn || '',
+    };
+  }
+  return { ...base, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back };
+}
+
 // Saves a 资料/补课 source and turns its raw cards into deck cards.
 async function addSourceWithCards(src, rawCards) {
   await putSource(src);
-  const cards = rawCards.map((c, i) => ({
-    id: uid(), subject: src.subject, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back,
-    note: c.note || '', importance: c.importance || 2, sourceId: src.id, srs: newSrs(), created: src.created + i,
-  }));
+  const cards = rawCards.map((c, i) => makeCard(c, src, i));
   await db.putMany('cards', cards);
   S.cards.push(...cards);
   return cards;
@@ -660,6 +707,7 @@ async function viewReview() {
     <button class="big-btn" data-act="startMode" data-mode="problems"><b>✏️ 错题重做</b><span>先想 60 秒再看提示</span></button>
     <button class="big-btn danger" data-act="startMode" data-mode="cram"><b>🔥 考前冲刺</b><span>不管到期，专刷弱项</span></button>
   </div>
+  <button class="big-btn write-entry" data-act="nav" data-to="writing"><b>✍️ 英作文（要約・意見論述）</b><span>写作 → 按英検 4 个观点评分 → 范文和表达变成闪卡</span></button>
   <button class="big-btn fey" data-act="nav" data-to="feynman"><b>🗣 费曼模式：讲给 AI 听</b><span>用自己的话讲出来 → AI 追问 → 评分 → 漏洞自动变成闪卡${S.feynman.filter(f => f.result).length ? ` · 已讲 ${S.feynman.filter(f => f.result).length} 次` : ''}</span></button>
   <h3 class="sec">按科目</h3>
   <div class="list">
@@ -766,7 +814,7 @@ async function viewSession() {
       <span class="small">${session.idx + 1}/${session.items.length}</span>
       ${session.combo >= 3 ? `<span class="combo">🔥x${session.combo}</span>` : ''}
     </div>`;
-  if (it.kind === 'card') return renderCardItem(prog, it.obj);
+  if (it.kind === 'card') return it.obj.type === 'word' ? renderWordItem(prog, it.obj) : renderCardItem(prog, it.obj);
   return renderProblemItem(prog, it.obj);
 }
 
@@ -876,6 +924,8 @@ async function grade(g) {
   }
   session.idx++;
   session.flipped = false;
+  session.wmode = null;
+  session.quiz = null;
   session.hint = 0;
   session.phase = 'think';
   session.t0 = Date.now();
@@ -909,6 +959,116 @@ function sessionDone() {
       </div>
     </div>`);
   session = null;
+}
+
+// ====================================================================
+// WORD cards (語彙): flip / reverse / 4択 like 大問1
+// ====================================================================
+
+function speak(text) {
+  try {
+    if (!text || !('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = 0.9;
+    const v = speechSynthesis.getVoices().find(x => /^en[-_]US/i.test(x.lang));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch { /* no speech on this device */ }
+}
+
+const sayBtn = t => `<button class="say" data-act="say" data-t="${esc(t)}" aria-label="发音">🔊</button>`;
+
+function highlightWord(ex, form) {
+  if (!ex || !form) return ex || '';
+  const re = new RegExp(form.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+  return ex.replace(re, m => `**${m}**`);
+}
+
+function wordDetails(c) {
+  return `
+    <div class="w-mean">${esc(c.ja)}${c.zh ? `<span class="w-zh">${esc(c.zh)}</span>` : ''}</div>
+    ${c.ex ? `<div class="w-ex">${md(highlightWord(c.ex, c.form || c.word))} ${sayBtn(c.ex)}</div>` : ''}
+    ${c.exTr ? `<div class="w-tr">${esc(c.exTr)}</div>` : ''}
+    ${c.colloc ? `<div class="w-kv"><span>搭配</span>${esc(c.colloc)}</div>` : ''}
+    ${c.syn ? `<div class="w-kv"><span>近义</span>${esc(c.syn)}</div>` : ''}
+    ${c.note ? `<div class="note">${md(c.note)}</div>` : ''}`;
+}
+
+// New words are learned by flipping; known words rotate through 4択 (the
+// exam format), plain flip, and meaning → English recall.
+function pickWordMode(c) {
+  if (!c.srs || c.srs.isNew) return 'flip';
+  const r = Math.random();
+  if (c.cloze && r < 0.5) return 'quiz';
+  return r < 0.8 ? 'flip' : 'reverse';
+}
+
+function wordChoices(c) {
+  const correct = c.form || c.word;
+  const same = x => x.toLowerCase() === correct.toLowerCase();
+  const others = (c.distractors || []).filter(x => x && !same(x)).slice(0, 3);
+  if (others.length < 3) {
+    const pool = shuffle(S.cards.filter(x => x.type === 'word' && x.id !== c.id));
+    for (const x of [...pool.filter(x => x.pos === c.pos), ...pool]) {
+      const w = x.form || x.word;
+      if (others.length >= 3) break;
+      if (w && !same(w) && !others.includes(w)) others.push(w);
+    }
+  }
+  return shuffle([correct, ...others]);
+}
+
+function renderWordItem(prog, c) {
+  const s = SUBJ[c.subject];
+  if (!session.wmode) session.wmode = pickWordMode(c);
+  const mode = session.wmode;
+  const isNew = !c.srs || c.srs.isNew;
+  const meta = label => `<div class="flash-meta"><span>${s.icon} ${s.name}</span><span>${label}${isNew ? ' · 🆕' : ''}</span></div>`;
+  const pos = c.pos ? `<span class="w-pos">${esc(c.pos)}</span>` : '';
+  const f = session.flipped;
+
+  if (mode === 'quiz') {
+    if (!session.quiz) session.quiz = { choices: wordChoices(c), picked: null, t0: Date.now() };
+    const q = session.quiz;
+    const correct = c.form || c.word;
+    const done = q.picked != null;
+    const ok = done && q.picked === correct;
+    const g = ok ? (q.ms < 8000 ? 3 : 2) : 0;
+    setView(`${prog}
+      <div class="flash quiz" style="--c:${s.color}">
+        ${meta('4択・大問1 形式')}
+        <div class="w-cloze">${md(c.cloze)}</div>
+        <div class="choices">${q.choices.map((ch, i) => `<button class="choice ${done ? (ch === correct ? 'ok' : ch === q.picked ? 'ng' : 'dim') : ''}" data-act="quizPick" data-i="${i}" ${done ? 'disabled' : ''}><b>${i + 1}</b>${esc(ch)}</button>`).join('')}</div>
+        ${done ? `<div class="flash-sep"></div><div class="w-word">${esc(c.word)} ${pos} ${sayBtn(c.word)}</div>${wordDetails(c)}` : ''}
+      </div>
+      ${done ? `<button class="btn primary block big" data-act="grade" data-g="${g}">${ok ? (g === 3 ? '⚡ 秒答！继续' : '⭕ 正确！继续') : '❌ 记住了，继续'}</button>` : ''}`);
+    return;
+  }
+
+  if (mode === 'reverse') {
+    setView(`${prog}
+      <div class="flash" data-act="${f ? '' : 'flip'}" style="--c:${s.color}">
+        ${meta('意思 → 英语')}
+        <div class="muted small">看意思，说出（或写出）这个英文单词</div>
+        <div class="w-mean big">${esc(c.ja)}${c.zh ? `<span class="w-zh">${esc(c.zh)}</span>` : ''}</div>
+        ${f ? `<div class="flash-sep"></div><div class="w-word">${esc(c.word)} ${pos} ${sayBtn(c.word)}</div>
+          ${c.ex ? `<div class="w-ex">${md(highlightWord(c.ex, c.form || c.word))}</div>` : ''}` : '<div class="tap-hint">点卡片看答案</div>'}
+      </div>
+      ${f ? gradeBar(['忘了', '模糊', '记得', '秒答']) : '<button class="btn primary block big" data-act="flip">显示答案</button>'}`);
+    if (f && S.settings.autoSpeak) speak(c.word);
+    return;
+  }
+
+  setView(`${prog}
+    <div class="flash" data-act="${f ? '' : 'flip'}" style="--c:${s.color}">
+      ${meta('单词')}
+      <div class="w-word big">${esc(c.word)} ${pos} ${sayBtn(c.word)}</div>
+      ${f ? `<div class="flash-sep"></div>${wordDetails(c)}` : '<div class="tap-hint">先想意思，再点卡片看答案</div>'}
+    </div>
+    ${f ? gradeBar(['忘了', '模糊', '记得', '秒答']) : '<button class="btn primary block big" data-act="flip">显示答案</button>'}`);
+  if (!f && S.settings.autoSpeak) speak(c.word);
 }
 
 // ====================================================================
@@ -952,6 +1112,11 @@ async function viewLib() {
 }
 
 function cardRow(c) {
+  if (c.type === 'word') {
+    return `<button class="li card-li" data-act="editCard" data-id="${c.id}" style="--c:${SUBJ[c.subject].color}">
+    <span class="dot"></span><span class="li-t"><b>${esc(c.word)}</b> <span class="w-pos">${esc(c.pos)}</span><small class="muted">${esc(c.ja)}${c.zh ? ` ／ ${esc(c.zh)}` : ''}</small></span>
+    <span class="mini-m">${c.srs?.isNew ? '新' : Math.round(mastery(c.srs) * 100) + '%'}</span></button>`;
+  }
   return `<button class="li card-li" data-act="editCard" data-id="${c.id}" style="--c:${SUBJ[c.subject].color}">
     <span class="dot"></span><span class="li-t">${md(c.front)}<small class="muted">${md(c.back)}</small></span>
     <span class="mini-m">${c.srs?.isNew ? '新' : Math.round(mastery(c.srs) * 100) + '%'}</span></button>`;
@@ -976,7 +1141,7 @@ async function viewSource(id) {
 }
 
 function editCard(id) {
-  const c = S.cards.find(x => x.id === id) || { id: null, subject: lib.subject !== 'all' ? lib.subject : (draft?.subject || 'kokyo'), type: 'qa', front: '', back: '', note: '', importance: 2 };
+  const c = S.cards.find(x => x.id === id) || { id: null, subject: lib.subject !== 'all' ? lib.subject : (draft?.subject || 'vocab'), type: 'qa', front: '', back: '', note: '', importance: 2 };
   modal(`
     <h3>${c.id ? '编辑卡片' : '新卡片'}</h3>
     <label class="lbl">科目</label>
@@ -1037,7 +1202,7 @@ async function viewProblem(id) {
     ${p.note ? `<div class="card small">📝 ${md(p.note)}</div>` : ''}
     <div class="grid2">
       <button class="big-btn primary" data-act="nav" data-to="tutor/${p.id}" ${hasKey ? '' : 'disabled'}><b>🎓 AI 辅导</b><span>一步步引导，不直接给答案</span></button>
-      <button class="big-btn" data-act="makeVariant" data-id="${p.id}" ${hasKey && p.analysis ? '' : 'disabled'}><b>🔁 出类题</b><span>改数值、同解法</span></button>
+      <button class="big-btn" data-act="makeVariant" data-id="${p.id}" ${hasKey && p.analysis ? '' : 'disabled'}><b>🔁 出类题</b><span>同题型的新题</span></button>
     </div>
     ${p.analysis ? `<button class="big-btn fey" data-act="feyStart" data-kind="problem" data-id="${p.id}"><b>🗣 讲给 AI 听</b><span>把“为什么这样解”讲清楚，才算真的会了</span></button>` : ''}
     ${!hasKey ? '<div class="muted small">AI 辅导和类题需要 API Key（设置里填写）。</div>' : ''}
@@ -1342,7 +1507,7 @@ async function runPackImports(entries) {
 // LESSON (补课): learn what you missed, section by section
 // ====================================================================
 
-const lessonEffort = sid => (['math2', 'mathB', 'phys', 'chem'].includes(sid) ? 'high' : 'medium');
+const lessonEffort = sid => (sid === 'read' ? 'high' : 'medium');
 
 function buildLessonSource(r, subject, imageIds) {
   if (!Array.isArray(r?.sections) || !r.sections.length) throw new Error('格式不对：没有 sections');
@@ -1460,6 +1625,13 @@ function feynmanContext(ref) {
     const c = S.cards.find(x => x.id === ref.id);
     if (!c) return null;
     if (c.problemId) return feynmanContext({ kind: 'problem', id: c.problemId });
+    if (c.type === 'word') {
+      return {
+        subject: c.subject,
+        topic: `${c.word}（${c.ja}）的意思和用法`,
+        reference: `${c.word}（${c.pos}）：${c.ja}／${c.zh}\n例句：${c.ex}\n搭配：${c.colloc}\n近义词：${c.syn}`,
+      };
+    }
     const src = c.sourceId && S.sources.find(s => s.id === c.sourceId);
     const back = plain(c.back);
     return {
@@ -1749,6 +1921,180 @@ async function renderFeyResult(f) {
 }
 
 // ====================================================================
+// WRITING (英作文：要約・意見論述)
+// ====================================================================
+
+const SCORE_LABELS = { content: '内容', structure: '構成', vocabulary: '語彙', grammar: '文法' };
+
+async function allTasks() {
+  return [...WRITING_TASKS, ...(await db.getMeta('customTasks', []))];
+}
+
+async function findTask(id) {
+  return (await allTasks()).find(t => t.id === id);
+}
+
+function essayBest(taskId) {
+  const xs = S.essays.filter(e => e.taskId === taskId && e.result);
+  return xs.length ? Math.max(...xs.map(e => e.result.total)) : null;
+}
+
+function taskPromptText(task) {
+  return task.type === 'summary' ? task.passage : `TOPIC: ${task.topic}\nPOINTS: ${task.points.join(' / ')}`;
+}
+
+async function viewWriting() {
+  const tasks = await allTasks();
+  const row = t => {
+    const best = essayBest(t.id);
+    return `<button class="li" data-act="nav" data-to="essay/${t.id}" style="--c:${SUBJ.write.color}">
+      <span class="dot"></span><span class="li-t">${esc(t.title)}${t.custom ? ' <span class="tag">自己添加</span>' : ''}<br><small class="muted">${esc(t.type === 'summary' ? '要約 · 60〜70 词' : t.topic)}</small></span>
+      ${best != null ? `<b class="fey-pill" style="--sc:${scoreColor(best / 16 * 100)}">${best}/16</b>` : '<span class="muted small">未写</span>'}</button>`;
+  };
+  setView(`
+    <button class="back" data-act="nav" data-to="review">‹ 复习</button>
+    <h2>✍️ 英作文</h2>
+    <div class="card small">
+      <b>写作大约占一次考试分数的 1/3</b>，也是最容易靠练习提分的部分。<br>
+      · <b>要約</b>：把约 200 词的文章用自己的话缩写成 <b>60〜70 词</b><br>
+      · <b>意見論述</b>：就 TOPIC 写 <b>120〜150 词</b>，从 POINTS 里选 <b>2 个</b>作为理由<br>
+      · 评分：内容・構成・語彙・文法，各 4 分<br>
+      写完可以让 AI 批改（需要 API Key），也可以复制后发到 Claude 聊天里批改。题目都是原创的；过去问的题目可以自己添加。
+    </div>
+    <h3 class="sec">要約</h3><div class="list">${tasks.filter(t => t.type === 'summary').map(row).join('')}</div>
+    <h3 class="sec">意見論述</h3><div class="list">${tasks.filter(t => t.type === 'opinion').map(row).join('')}</div>
+    <button class="btn block" data-act="taskNew">＋ 添加过去问或其他题目</button>
+  `);
+}
+
+async function viewEssay(taskId) {
+  const task = await findTask(taskId);
+  if (!task) return go('writing');
+  const R = WRITING_RULES[task.type];
+  const draftE = S.essays.find(e => e.taskId === task.id && !e.result);
+  const hist = S.essays.filter(e => e.taskId === task.id && e.result).sort((a, b) => b.created - a.created);
+  const hasKey = !!S.settings.apiKey;
+  setView(`
+    <button class="back" data-act="nav" data-to="writing">‹ 英作文</button>
+    <h2>${esc(task.title)}</h2>
+    <div class="muted small">${R.label} · ${R.min}〜${R.max} 词 · 建议用时 ${R.minutes} 分钟</div>
+    <div class="card essay-task">
+      <div class="small muted">${esc(R.instruction)}</div>
+      ${task.type === 'summary'
+        ? `<div class="passage">${md(task.passage)}</div>`
+        : `<div class="kp"><span>TOPIC</span><b>${esc(task.topic)}</b></div>
+           <div class="kp"><span>POINTS</span><div class="tags">${task.points.map(p => `<span class="tag">${esc(p)}</span>`).join('')}</div></div>`}
+    </div>
+    <div class="essay-bar"><span id="wc" class="wc">0 词</span>
+      <button class="btn small" data-act="essayTimer" data-min="${R.minutes}">⏱ <span id="etimer">开始计时</span></button></div>
+    <textarea id="essay-in" rows="12" placeholder="在这里用英文写…" data-task="${task.id}" data-min="${R.min}" data-max="${R.max}"
+      autocapitalize="sentences" spellcheck="false">${esc(draftE?.text || '')}</textarea>
+    <div class="stack">
+      ${hasKey ? `<button class="btn primary block" data-act="essayGrade" data-id="${task.id}">🤖 AI 批改</button>` : ''}
+      <button class="btn block" data-act="essayManual" data-id="${task.id}">🆓 复制批改提示词（ChatGPT 等）</button>
+      <button class="btn ghost block" data-act="essayCopy" data-id="${task.id}">📋 复制题目和作文（发到 Claude 聊天里批改）</button>
+    </div>
+    ${hist.length ? `<h3 class="sec">批改记录</h3><div class="list">${hist.map(e => `
+      <button class="li" data-act="nav" data-to="essayr/${e.id}" style="--c:${SUBJ.write.color}">
+        <span class="dot"></span><span class="li-t">${todayKey(e.gradedAt || e.created).slice(5).replace('-', '/')} · ${e.wc} 词<br><small class="muted">${esc(e.result.verdict)}</small></span>
+        <b class="fey-pill" style="--sc:${scoreColor(e.result.total / 16 * 100)}">${e.result.total}/16</b></button>`).join('')}</div>` : ''}
+    ${task.custom ? `<button class="btn danger ghost small" data-act="taskDel" data-id="${task.id}">删除这道题</button>` : ''}
+  `);
+  updateWordCount();
+}
+
+function updateWordCount() {
+  const t = document.getElementById('essay-in');
+  const el = document.getElementById('wc');
+  if (!t || !el) return;
+  const n = countWords(t.value);
+  const min = +t.dataset.min;
+  const max = +t.dataset.max;
+  el.textContent = `${n} 词（${min}〜${max}）`;
+  el.className = 'wc ' + (n === 0 ? '' : n < min ? 'low' : n > max ? 'high' : 'ok');
+}
+
+async function saveEssayDraft(taskId, text) {
+  let e = S.essays.find(x => x.taskId === taskId && !x.result);
+  if (!e) e = { id: uid(), taskId, text: '', result: null, created: Date.now() };
+  e.text = text;
+  e.updated = Date.now();
+  await putEssay(e);
+  return e;
+}
+
+function essayInput(taskId) {
+  const text = (document.getElementById('essay-in')?.value || '').trim();
+  return { text, wc: countWords(text) };
+}
+
+async function essayGrade(taskId) {
+  if (busy) return;
+  const task = await findTask(taskId);
+  const { text, wc } = essayInput(taskId);
+  if (wc < 20) return toast('至少写 20 个词再批改吧');
+  busy = true;
+  const done = aiOverlay('阅卷老师正在批改…');
+  try {
+    const r = await AI.generateJSON(S.settings, AI.essayPrompt({ task, text, wordCount: wc, settings: S.settings }), [], 'essay', 'medium');
+    await applyEssayResult(task, text, wc, r);
+  } catch (e) {
+    alertBox('出错了', e.message);
+  } finally {
+    done();
+    busy = false;
+  }
+}
+
+async function applyEssayResult(task, text, wc, r) {
+  clearTimeout(document.getElementById('essay-in')?._deb); // don't let a pending autosave recreate the draft
+  const sc = r?.scores;
+  if (!sc || !['content', 'structure', 'vocabulary', 'grammar'].every(k => typeof sc[k] === 'number')) throw new Error('格式不对：没有 scores');
+  for (const k of Object.keys(SCORE_LABELS)) sc[k] = Math.max(0, Math.min(4, Math.round(sc[k])));
+  r.total = sc.content + sc.structure + sc.vocabulary + sc.grammar;
+  for (const k of ['good', 'issues', 'phrases']) r[k] = Array.isArray(r[k]) ? r[k] : [];
+  const e = await saveEssayDraft(task.id, text);
+  Object.assign(e, { result: r, wc, type: task.type, title: task.title, gradedAt: Date.now() });
+  await putEssay(e);
+  addXP(10 + r.total);
+  toast(`+${10 + r.total} XP 批改完成`);
+  go('essayr/' + e.id);
+}
+
+async function viewEssayResult(id) {
+  const e = S.essays.find(x => x.id === id);
+  if (!e?.result) return go('writing');
+  const r = e.result;
+  const R = WRITING_RULES[e.type] || WRITING_RULES.opinion;
+  setView(`
+    <button class="back" data-act="nav" data-to="essay/${e.taskId}">‹ ${esc(e.title || '英作文')}</button>
+    <h2>${esc(e.title || '英作文')}</h2>
+    <div class="muted small">${R.label} · ${e.wc} 词（${R.min}〜${R.max}）· ${todayKey(e.gradedAt).slice(5).replace('-', '/')}</div>
+    <div class="card fey-score">
+      <div class="ring" style="--p:${r.total / 16}; --rc:${scoreColor(r.total / 16 * 100)}"><div><b>${r.total}</b><small>/16</small></div></div>
+      <div>${md(r.verdict)}</div>
+    </div>
+    <div class="card">
+      ${Object.entries(SCORE_LABELS).map(([k, label]) => `<div class="hbar score"><span>${label}</span><div><i style="width:${r.scores[k] / 4 * 100}%"></i></div><b>${r.scores[k]}/4</b></div>`).join('')}
+    </div>
+    ${r.good.length ? `<div class="card"><h4>👍 做得好的地方</h4>${md(r.good.map(x => '- ' + x).join('\n'))}</div>` : ''}
+    ${r.issues.length ? `<div class="card"><h4>🛠 要改的地方</h4>${r.issues.map(x => `
+      <div class="fey-wrong"><span class="tag">${esc(x.category)}</span>
+        <div class="muted">✗ ${esc(x.original)}</div><div>✓ ${esc(x.fixed)}</div><div class="small">${md(x.why)}</div></div>`).join('')}</div>` : ''}
+    <div class="card"><h4>📝 修改后的范文 ${sayBtn(r.improved)}</h4><div class="passage">${md(r.improved)}</div>
+      <div class="muted small">${countWords(r.improved)} 词</div></div>
+    ${r.phrases.length ? `<div class="card"><h4>📌 值得背的表达</h4>
+      ${r.phrases.map(p => `<div class="w-kv"><span>${esc(p.ja)}</span><b>${esc(p.en)}</b></div>`).join('')}
+      ${e.phrasesAdded ? '<div class="small">✅ 已加入闪卡</div>' : `<button class="btn primary block" data-act="essayPhrases" data-id="${e.id}">加入闪卡（${r.phrases.length} 张）</button>`}
+    </div>` : ''}
+    <details class="card"><summary>我的原文</summary><div class="passage">${md(e.text)}</div></details>
+    <div class="stack">
+      <button class="btn primary block" data-act="nav" data-to="essay/${e.taskId}">✍️ 参考范文，再写一遍</button>
+    </div>
+  `);
+}
+
+// ====================================================================
 // SETTINGS
 // ====================================================================
 
@@ -1762,7 +2108,8 @@ async function viewSettings() {
     ${standalone ? '' : `<div class="card warn">📲 <b>还没添加到主屏幕</b>：在 Safari 点底部的“分享”按钮 → “添加到主屏幕”，就会像普通 App 一样全屏打开，数据也更不容易被清掉。</div>`}
 
     <div class="card">
-      <h4>📅 考试日期</h4>
+      <h4>📅 考试日期（英検 一次試験）</h4>
+      <div class="muted small">默认是 2026年度第3回（本会场）的 1/24，请在英検官网确认后修改。</div>
       ${SUBJECTS.map(s => `<div class="kv"><span>${s.icon} ${s.name}</span><input type="date" data-exam="${s.id}" value="${st.exams[s.id] || ''}"></div>`).join('')}
       <button class="btn small" data-act="sameDate">全部设成同一天</button>
     </div>
@@ -1785,12 +2132,13 @@ async function viewSettings() {
       <select data-set="model">${AI.MODELS.map(m => `<option value="${m.id}" ${m.id === st.model ? 'selected' : ''}>${m.name}</option>`).join('')}</select>
       <label class="lbl">讲解语言</label>
       <select data-set="lang"><option value="zh" ${st.lang === 'zh' ? 'selected' : ''}>中文讲解（术语保留日语）</option><option value="ja" ${st.lang === 'ja' ? 'selected' : ''}>日本語</option></select>
-      <div class="muted small">闪卡的正反面永远是日语（和考试一致），讲解/提示用这里选的语言。</div>
+      <div class="muted small">单词卡同时显示日语和中文意思；讲解、提示和作文批改的评语用这里选的语言。</div>
     </div>
 
     <div class="card">
       <h4>🎯 每日目标</h4>
       <div class="kv"><span>每天复习张数</span><input type="number" min="10" max="500" step="10" data-set-num="dailyGoal" value="${st.dailyGoal}"></div>
+      <label class="toggle"><input type="checkbox" data-set-bool="autoSpeak" ${st.autoSpeak ? 'checked' : ''}><span>🔊 单词卡自动发音<br><small class="muted">出现单词时自动读出来（iPhone 静音模式下没有声音）</small></span></label>
     </div>
 
     <div class="card">
@@ -1879,6 +2227,7 @@ const acts = {
         return saveLesson(data).catch(e => toast('解析失败：' + e.message, 4000));
       }
       if (d.schema === 'cards' && !Array.isArray(data.cards)) throw new Error('格式不对：没有 cards');
+      if (d.schema === 'words' && !Array.isArray(data.words)) throw new Error('格式不对：没有 words');
       if (d.schema === 'problem' && !data.pattern) throw new Error('格式不对：没有 pattern');
       draft.preview = data;
       closeModal();
@@ -1887,7 +2236,7 @@ const acts = {
       toast('解析失败：' + e.message, 4000);
     }
   },
-  pvDel: d => { const c = draft.preview.cards[+d.i]; c._del = !c._del; viewPreview(); },
+  pvDel: d => { const c = (draft.preview.words || draft.preview.cards)[+d.i]; c._del = !c._del; viewPreview(); },
   savePreview,
   discardPreview: () => { draft.preview = null; viewAdd(); },
   saveRawProblem,
@@ -1918,6 +2267,7 @@ const acts = {
     const old = S.cards.find(c => c.id === d.id);
     const c = old ? { ...old } : { id: uid(), type: 'qa', importance: 2, srs: newSrs(), created: Date.now() };
     Object.assign(c, { front, back, note: document.getElementById('ec-n').value.trim(), subject: document.getElementById('ec-sub').value });
+    if (c.type === 'word') Object.assign(c, { word: front, ja: back });
     await putCard(c);
     closeModal();
     toast('已保存');
@@ -2000,6 +2350,118 @@ const acts = {
 
   // tutor
   tutorSend: d => tutorSend(d.id),
+
+  // words
+  say: d => speak(d.t),
+  quizPick: d => {
+    const q = session?.quiz;
+    if (!q || q.picked != null) return;
+    q.picked = q.choices[+d.i];
+    q.ms = Date.now() - q.t0;
+    const it = curItem();
+    if (it && (S.settings.autoSpeak || q.picked !== (it.obj.form || it.obj.word))) speak(it.obj.word);
+    viewSession();
+  },
+
+  // writing
+  essayGrade: d => essayGrade(d.id),
+  essayTimer: d => {
+    const t0 = Date.now();
+    const limit = +d.min * 60;
+    clearInterval(timerHandle);
+    timerHandle = setInterval(() => {
+      const el = document.getElementById('etimer');
+      if (!el) return clearInterval(timerHandle);
+      const sec = Math.floor((Date.now() - t0) / 1000);
+      el.textContent = `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')} / ${d.min}:00`;
+      el.classList.toggle('late', sec > limit);
+    }, 500);
+  },
+  essayManual: async d => {
+    const task = await findTask(d.id);
+    const { text, wc } = essayInput(d.id);
+    if (wc < 20) return toast('至少写 20 个词再批改吧');
+    await saveEssayDraft(task.id, text);
+    modalData.prompt = AI.manualPrompt(AI.essayPrompt({ task, text, wordCount: wc, settings: S.settings }), 'essay');
+    modal(`<h3>🆓 免费批改</h3>
+      <ol class="small"><li>复制提示词（已经包含题目和你的作文）</li><li>打开 ChatGPT / Gemini / Claude App，新对话里粘贴发送</li><li>复制 AI 的完整回复，粘贴到下面</li></ol>
+      <button class="btn primary block" data-act="copyPrompt">📋 复制提示词</button>
+      <textarea id="manual-json" rows="6" placeholder="把 AI 的回复粘贴到这里"></textarea>
+      <button class="btn primary block" data-act="importEssay" data-id="${task.id}">导入</button>`);
+  },
+  importEssay: async d => {
+    const task = await findTask(d.id);
+    const { text, wc } = essayInput(d.id);
+    try {
+      const r = AI.parseLooseJSON(document.getElementById('manual-json').value);
+      closeModal();
+      await applyEssayResult(task, text, wc, r);
+    } catch (e) {
+      toast('解析失败：' + e.message, 4000);
+    }
+  },
+  essayCopy: async d => {
+    const task = await findTask(d.id);
+    const R = WRITING_RULES[task.type];
+    const { text, wc } = essayInput(d.id);
+    if (!wc) return toast('先写点什么吧');
+    await saveEssayDraft(task.id, text);
+    const msg = `【英検準1級 ${R.label}（${R.min}〜${R.max} 词）】
+${R.instruction}
+
+${taskPromptText(task)}
+
+【我的答案】（${wc} 词）
+${text}
+
+请按英検準1級的标准（内容・構成・語彙・文法 各 4 分）批改。`;
+    toast(await copyText(msg) ? '已复制，粘贴到 Claude 聊天里就行' : '复制失败，请手动选择');
+  },
+  essayPhrases: async d => {
+    const e = S.essays.find(x => x.id === d.id);
+    const now = Date.now();
+    const cards = e.result.phrases.map((p, i) => ({
+      id: uid(), subject: 'write', type: 'qa', front: p.ja, back: p.en, note: `来自作文「${e.title}」的范文`,
+      importance: 3, srs: newSrs(), created: now + i,
+    }));
+    await db.putMany('cards', cards);
+    S.cards.push(...cards);
+    e.phrasesAdded = true;
+    await putEssay(e);
+    addXP(cards.length);
+    toast(`已加入 ${cards.length} 张表达卡`);
+    viewEssayResult(e.id);
+  },
+  taskNew: () => modal(`
+    <h3>＋ 添加题目</h3>
+    <label class="lbl">题型</label>
+    <select id="tn-type"><option value="opinion">意見論述（120〜150 词）</option><option value="summary">要約（60〜70 词）</option></select>
+    <label class="lbl">标题（例：2025年度第1回）</label><input id="tn-title">
+    <label class="lbl">意見論述：TOPIC</label><input id="tn-topic" placeholder="Should ... ?">
+    <label class="lbl">意見論述：POINTS（用逗号分隔）</label><input id="tn-points" placeholder="Cost, Safety, Environment, Convenience">
+    <label class="lbl">要約：原文</label><textarea id="tn-passage" rows="5"></textarea>
+    <button class="btn primary block" data-act="taskSave">保存</button>`),
+  taskSave: async () => {
+    const type = document.getElementById('tn-type').value;
+    const title = document.getElementById('tn-title').value.trim() || (type === 'summary' ? '要約' : '意見論述');
+    const task = { id: 'custom-' + uid(), type, title, custom: true };
+    if (type === 'summary') {
+      task.passage = document.getElementById('tn-passage').value.trim();
+      if (countWords(task.passage) < 50) return toast('原文太短了');
+    } else {
+      task.topic = document.getElementById('tn-topic').value.trim();
+      task.points = document.getElementById('tn-points').value.split(/[,，、]/).map(x => x.trim()).filter(Boolean);
+      if (!task.topic) return toast('写一下 TOPIC');
+    }
+    await db.setMeta('customTasks', [...await db.getMeta('customTasks', []), task]);
+    closeModal();
+    go('essay/' + task.id);
+  },
+  taskDel: async d => {
+    if (!confirm('删除这道题？（批改记录会保留）')) return;
+    await db.setMeta('customTasks', (await db.getMeta('customTasks', [])).filter(t => t.id !== d.id));
+    go('writing');
+  },
 
   // feynman
   feyStart: d => startFeynman({ kind: d.kind, id: d.id }),
@@ -2164,8 +2626,8 @@ const acts = {
   wipe: async () => {
     if (!confirm('真的要清空全部闪卡、错题和记录吗？（API Key 和考试日期保留）')) return;
     if (!confirm('再确认一次：不可恢复！')) return;
-    for (const s of ['cards', 'problems', 'images', 'sources', 'feynman']) await db.clear(s);
-    S.cards = []; S.problems = []; S.sources = []; S.feynman = [];
+    for (const s of ['cards', 'problems', 'images', 'sources', 'feynman', 'essays']) await db.clear(s);
+    S.cards = []; S.problems = []; S.sources = []; S.feynman = []; S.essays = [];
     S.stats = { xp: 0, streak: 0, lastDay: null, days: {} };
     await saveStats();
     go('home');
@@ -2199,6 +2661,11 @@ document.addEventListener('input', e => {
       n.setSelectionRange(pos, pos);
     }, 300);
   }
+  if (t.id === 'essay-in') {
+    updateWordCount();
+    clearTimeout(t._deb);
+    t._deb = setTimeout(() => saveEssayDraft(t.dataset.task, t.value), 600);
+  }
   if (t.id === 'tutor-in') {
     t.style.height = 'auto';
     t.style.height = Math.min(140, t.scrollHeight) + 'px';
@@ -2210,6 +2677,7 @@ document.addEventListener('change', async e => {
   if (t.dataset.exam) { S.settings.exams[t.dataset.exam] = t.value; await saveSettings(); }
   if (t.dataset.set) { S.settings[t.dataset.set] = t.value; await saveSettings(); toast('已保存'); }
   if (t.dataset.setNum) { S.settings[t.dataset.setNum] = Math.max(10, +t.value || 60); await saveSettings(); }
+  if (t.dataset.setBool) { S.settings[t.dataset.setBool] = t.checked; await saveSettings(); toast('已保存'); }
   if (t.dataset.file) {
     const files = [...(t.files || [])];
     t.value = '';

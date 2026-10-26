@@ -341,3 +341,46 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 .lesson-done { border-color: var(--good); }
 .big-btn.pack-entry { margin: 0 0 10px; border-color: color-mix(in srgb, var(--warn) 55%, var(--line));
   background: linear-gradient(135deg, color-mix(in srgb, var(--warn) 16%, var(--card)), var(--card)); }
+
+/* ---------- 英検: word cards ---------- */
+.w-word { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; letter-spacing: .01em; }
+.w-word.big { font-size: 34px; margin: 12px 0 4px; }
+.w-word.sm { font-size: 18px; }
+.w-pos { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 99px;
+  background: color-mix(in srgb, var(--primary) 18%, transparent); color: var(--primary); vertical-align: middle; }
+.w-mean { font-size: 19px; font-weight: 700; color: var(--good); margin: 4px 0 8px; }
+.w-mean.big { font-size: 24px; color: var(--text); margin: 12px 0; }
+.w-zh { display: block; font-size: 15px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+.w-ex { font-size: 16px; font-weight: 500; line-height: 1.6; margin: 8px 0 2px; }
+.w-ex b, .w-cloze b { color: var(--primary); }
+.w-tr { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.w-kv { display: flex; gap: 8px; font-size: 14px; margin: 4px 0; align-items: baseline; }
+.w-kv > span { flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--muted); padding: 1px 6px; border: 1px solid var(--line); border-radius: 6px; }
+.say { border: 0; background: var(--line); border-radius: 99px; width: 32px; height: 32px; font-size: 15px; flex-shrink: 0; vertical-align: middle; }
+.say:active { transform: scale(.92); }
+.flash.quiz { min-height: 0; }
+.w-cloze { font-size: 18px; font-weight: 600; line-height: 1.6; margin: 6px 0 14px; }
+.choices { display: grid; gap: 8px; }
+.choice { display: flex; align-items: center; gap: 10px; text-align: left; font: inherit; font-size: 17px; font-weight: 600;
+  color: var(--text); background: var(--bg2); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.choice b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--line); font-size: 13px; flex-shrink: 0; }
+.choice:active { transform: scale(.98); }
+.choice.ok { border-color: var(--good); background: color-mix(in srgb, var(--good) 16%, var(--bg2)); }
+.choice.ng { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--bg2)); }
+.choice.dim { opacity: .45; }
+.choice[disabled] { pointer-events: none; }
+
+/* ---------- 英検: writing ---------- */
+.big-btn.write-entry { margin: 0 0 10px; border-color: color-mix(in srgb, #e24a6b 45%, var(--line));
+  background: linear-gradient(135deg, color-mix(in srgb, #e24a6b 14%, var(--card)), var(--card)); }
+.essay-task .passage { margin-top: 8px; }
+.passage { font-size: 15px; line-height: 1.7; }
+.essay-bar { display: flex; justify-content: space-between; align-items: center; margin: 8px 0 0; }
+.wc { font-weight: 700; font-size: 14px; color: var(--muted); }
+.wc.ok { color: var(--good); }
+.wc.low, .wc.high { color: var(--bad); }
+#etimer.late { color: var(--bad); font-weight: 700; }
+#essay-in { font-size: 16px; line-height: 1.6; min-height: 240px; }
+.hbar.score i { background: var(--primary); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.tags .tag { margin: 0; font-size: 13px; padding: 3px 10px; }

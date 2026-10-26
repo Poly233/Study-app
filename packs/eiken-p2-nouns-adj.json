@@ -1,0 +1,810 @@
+{
+ "id": "eiken-p2-nouns-adj",
+ "kind": "cards",
+ "subject": "vocab",
+ "title": "準1級 頻出名詞・形容詞 40",
+ "summary": "- 名词和形容词各一半；很多和动词是一家：scrutinize→**scrutiny**、hinder→**hindrance**、comply→**compliance**\n- 形近陷阱：**imminent**（迫近的）vs eminent（著名的）、**unanimity** vs anonymity\n- 反义对：surplus ↔ deficit、lenient ↔ strict、compulsory ↔ optional\n- 长文里常见：sustainable、unprecedented、prevalent、vulnerable",
+ "cards": [
+  {
+   "type": "word",
+   "word": "adversity",
+   "pos": "名",
+   "ja": "逆境",
+   "zh": "逆境；困境",
+   "ex": "She showed great courage in the face of adversity.",
+   "exTr": "她在逆境中表现出了极大的勇气。",
+   "form": "adversity",
+   "cloze": "She showed great courage in the face of ＿＿＿.",
+   "distractors": [
+    "anniversary",
+    "hospitality",
+    "prosperity"
+   ],
+   "colloc": "in the face of adversity",
+   "syn": "hardship",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "consensus",
+   "pos": "名",
+   "ja": "（意見の）一致；合意",
+   "zh": "共识",
+   "ex": "After a long discussion, the committee finally reached a consensus.",
+   "exTr": "经过长时间的讨论，委员会终于达成了共识。",
+   "form": "consensus",
+   "cloze": "After a long discussion, the committee finally reached a ＿＿＿.",
+   "distractors": [
+    "census",
+    "conscience",
+    "contempt"
+   ],
+   "colloc": "reach a consensus",
+   "syn": "agreement",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "incentive",
+   "pos": "名",
+   "ja": "動機；奨励策",
+   "zh": "激励；奖励措施",
+   "ex": "The company offers bonuses as an incentive for employees to work harder.",
+   "exTr": "公司提供奖金，作为激励员工更加努力工作的手段。",
+   "form": "incentive",
+   "cloze": "The company offers bonuses as an ＿＿＿ for employees to work harder.",
+   "distractors": [
+    "intrusion",
+    "infection",
+    "insult"
+   ],
+   "colloc": "incentive for ～ / incentive to do",
+   "syn": "motivation",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "obstacle",
+   "pos": "名",
+   "ja": "障害（物）",
+   "zh": "障碍",
+   "ex": "Lack of money was the biggest obstacle to starting her business.",
+   "exTr": "缺钱是她创业的最大障碍。",
+   "form": "obstacle",
+   "cloze": "Lack of money was the biggest ＿＿＿ to starting her business.",
+   "distractors": [
+    "ornament",
+    "orchestra",
+    "oath"
+   ],
+   "colloc": "obstacle to ～",
+   "syn": "barrier, hurdle",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "scrutiny",
+   "pos": "名",
+   "ja": "精査；（厳しい）監視",
+   "zh": "仔细审查；监督",
+   "ex": "The new law has come under close scrutiny from human rights groups.",
+   "exTr": "这部新法律受到了人权团体的严格审视。",
+   "form": "scrutiny",
+   "cloze": "The new law has come under close ＿＿＿ from human rights groups.",
+   "distractors": [
+    "sanctuary",
+    "scenery",
+    "symmetry"
+   ],
+   "colloc": "come under scrutiny",
+   "syn": "examination",
+   "note": "动词：scrutinize",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "drawback",
+   "pos": "名",
+   "ja": "欠点；不利な点",
+   "zh": "缺点；弊端",
+   "ex": "The main drawback of living in the countryside is the lack of public transportation.",
+   "exTr": "住在乡下的主要缺点是缺乏公共交通。",
+   "form": "drawback",
+   "cloze": "The main ＿＿＿ of living in the countryside is the lack of public transportation.",
+   "distractors": [
+    "landmark",
+    "aftermath",
+    "upbringing"
+   ],
+   "colloc": "",
+   "syn": "disadvantage, downside",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "compliance",
+   "pos": "名",
+   "ja": "（法律などの）遵守",
+   "zh": "遵守；合规",
+   "ex": "The factory was inspected to ensure compliance with environmental laws.",
+   "exTr": "工厂接受了检查，以确保遵守环境法规。",
+   "form": "compliance",
+   "cloze": "The factory was inspected to ensure ＿＿＿ with environmental laws.",
+   "distractors": [
+    "complexion",
+    "compassion",
+    "complacency"
+   ],
+   "colloc": "in compliance with ～",
+   "syn": "obedience",
+   "note": "动词：comply",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "hindrance",
+   "pos": "名",
+   "ja": "妨げ；邪魔",
+   "zh": "妨碍；障碍",
+   "ex": "Poor communication can be a hindrance to teamwork.",
+   "exTr": "沟通不畅会妨碍团队合作。",
+   "form": "hindrance",
+   "cloze": "Poor communication can be a ＿＿＿ to teamwork.",
+   "distractors": [
+    "heritage",
+    "hygiene",
+    "hostage"
+   ],
+   "colloc": "hindrance to ～",
+   "syn": "obstacle",
+   "note": "动词：hinder",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "prerequisite",
+   "pos": "名",
+   "ja": "必要条件；前提条件",
+   "zh": "先决条件",
+   "ex": "A good command of English is a prerequisite for this job.",
+   "exTr": "熟练掌握英语是这份工作的先决条件。",
+   "form": "prerequisite",
+   "cloze": "A good command of English is a ＿＿＿ for this job.",
+   "distractors": [
+    "prescription",
+    "premonition",
+    "preposition"
+   ],
+   "colloc": "prerequisite for ～",
+   "syn": "requirement",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "surplus",
+   "pos": "名",
+   "ja": "余剰；黒字",
+   "zh": "剩余；盈余",
+   "ex": "The country has a trade surplus because it exports more than it imports.",
+   "exTr": "这个国家出口多于进口，所以有贸易顺差。",
+   "form": "surplus",
+   "cloze": "The country has a trade ＿＿＿ because it exports more than it imports.",
+   "distractors": [
+    "deficit",
+    "surgeon",
+    "sermon"
+   ],
+   "colloc": "trade surplus",
+   "syn": "excess",
+   "note": "反义：deficit（赤字）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "verdict",
+   "pos": "名",
+   "ja": "評決；判断",
+   "zh": "裁决；判断",
+   "ex": "The jury reached a verdict of not guilty after two days.",
+   "exTr": "陪审团在两天后作出了无罪的裁决。",
+   "form": "verdict",
+   "cloze": "The jury reached a ＿＿＿ of not guilty after two days.",
+   "distractors": [
+    "vendor",
+    "venue",
+    "verge"
+   ],
+   "colloc": "reach a verdict",
+   "syn": "judgment, ruling",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "anonymity",
+   "pos": "名",
+   "ja": "匿名（性）",
+   "zh": "匿名",
+   "ex": "The witness agreed to talk to reporters on condition of anonymity.",
+   "exTr": "证人同意在匿名的条件下接受记者采访。",
+   "form": "anonymity",
+   "cloze": "The witness agreed to talk to reporters on condition of ＿＿＿.",
+   "distractors": [
+    "unanimity",
+    "animosity",
+    "antiquity"
+   ],
+   "colloc": "on condition of anonymity",
+   "syn": "",
+   "note": "形容词：anonymous",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "dilemma",
+   "pos": "名",
+   "ja": "板挟み；ジレンマ",
+   "zh": "两难；困境",
+   "ex": "He faced a dilemma: accept the job offer or stay with his family.",
+   "exTr": "他陷入两难：接受这份工作，还是留在家人身边。",
+   "form": "dilemma",
+   "cloze": "He faced a ＿＿＿: accept the job offer or stay with his family.",
+   "distractors": [
+    "diploma",
+    "dialect",
+    "dividend"
+   ],
+   "colloc": "face a dilemma",
+   "syn": "predicament",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "fatigue",
+   "pos": "名",
+   "ja": "疲労",
+   "zh": "疲劳",
+   "ex": "Many drivers suffer from fatigue during long night journeys.",
+   "exTr": "许多司机在长途夜间行车时会感到疲劳。",
+   "form": "fatigue",
+   "cloze": "Many drivers suffer from ＿＿＿ during long night journeys.",
+   "distractors": [
+    "fragrance",
+    "fiction",
+    "fidelity"
+   ],
+   "colloc": "",
+   "syn": "exhaustion, tiredness",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "outbreak",
+   "pos": "名",
+   "ja": "（戦争・病気などの）発生；勃発",
+   "zh": "（战争、疾病等）爆发",
+   "ex": "The outbreak of the disease forced many schools to close.",
+   "exTr": "疾病的爆发迫使许多学校停课。",
+   "form": "outbreak",
+   "cloze": "The ＿＿＿ of the disease forced many schools to close.",
+   "distractors": [
+    "outlet",
+    "outfit",
+    "outcry"
+   ],
+   "colloc": "outbreak of war / outbreak of a disease",
+   "syn": "eruption",
+   "note": "动词短语：break out",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "abundance",
+   "pos": "名",
+   "ja": "豊富；大量",
+   "zh": "丰富；大量",
+   "ex": "The region is known for its abundance of fresh seafood.",
+   "exTr": "这个地区以盛产新鲜海鲜而闻名。",
+   "form": "abundance",
+   "cloze": "The region is known for its ＿＿＿ of fresh seafood.",
+   "distractors": [
+    "attendance",
+    "allowance",
+    "abduction"
+   ],
+   "colloc": "an abundance of ～ / in abundance",
+   "syn": "plenty, wealth",
+   "note": "形容词：abundant",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "inevitable",
+   "pos": "形",
+   "ja": "避けられない",
+   "zh": "不可避免的",
+   "ex": "With so many people leaving the town, its decline seemed inevitable.",
+   "exTr": "这么多人离开小镇，它的衰落似乎是不可避免的。",
+   "form": "inevitable",
+   "cloze": "With so many people leaving the town, its decline seemed ＿＿＿.",
+   "distractors": [
+    "inedible",
+    "invincible",
+    "invaluable"
+   ],
+   "colloc": "",
+   "syn": "unavoidable",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "reluctant",
+   "pos": "形",
+   "ja": "気が進まない",
+   "zh": "不情愿的",
+   "ex": "He was reluctant to speak in front of so many people.",
+   "exTr": "他不太愿意在那么多人面前讲话。",
+   "form": "reluctant",
+   "cloze": "He was ＿＿＿ to speak in front of so many people.",
+   "distractors": [
+    "redundant",
+    "relevant",
+    "resilient"
+   ],
+   "colloc": "be reluctant to do",
+   "syn": "unwilling",
+   "note": "名词：reluctance",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "obsolete",
+   "pos": "形",
+   "ja": "時代遅れの；廃れた",
+   "zh": "过时的；淘汰的",
+   "ex": "Smartphones have made many older devices, such as pagers, obsolete.",
+   "exTr": "智能手机让寻呼机等许多老设备都被淘汰了。",
+   "form": "obsolete",
+   "cloze": "Smartphones have made many older devices, such as pagers, ＿＿＿.",
+   "distractors": [
+    "obedient",
+    "obese",
+    "oblique"
+   ],
+   "colloc": "",
+   "syn": "outdated",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "meticulous",
+   "pos": "形",
+   "ja": "細心の；綿密な",
+   "zh": "一丝不苟的；细致的",
+   "ex": "The detective was meticulous in examining every piece of evidence.",
+   "exTr": "那位侦探一丝不苟地检查每一件证据。",
+   "form": "meticulous",
+   "cloze": "The detective was ＿＿＿ in examining every piece of evidence.",
+   "distractors": [
+    "mischievous",
+    "monotonous",
+    "migratory"
+   ],
+   "colloc": "",
+   "syn": "careful, thorough",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "feasible",
+   "pos": "形",
+   "ja": "実行可能な",
+   "zh": "可行的",
+   "ex": "The engineers concluded that the plan was technically feasible.",
+   "exTr": "工程师们得出结论：这个计划在技术上是可行的。",
+   "form": "feasible",
+   "cloze": "The engineers concluded that the plan was technically ＿＿＿.",
+   "distractors": [
+    "festive",
+    "fertile",
+    "fictitious"
+   ],
+   "colloc": "",
+   "syn": "practicable, viable",
+   "note": "名词：feasibility",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "tentative",
+   "pos": "形",
+   "ja": "仮の；暫定的な",
+   "zh": "暂定的；试探性的",
+   "ex": "We have made a tentative plan to meet next Friday, but it may change.",
+   "exTr": "我们暂定下周五见面，但可能会有变动。",
+   "form": "tentative",
+   "cloze": "We have made a ＿＿＿ plan to meet next Friday, but it may change.",
+   "distractors": [
+    "territorial",
+    "tenacious",
+    "temperate"
+   ],
+   "colloc": "",
+   "syn": "provisional",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "lucrative",
+   "pos": "形",
+   "ja": "もうかる",
+   "zh": "有利可图的",
+   "ex": "Selling software online turned out to be a lucrative business.",
+   "exTr": "在网上卖软件结果是一门很赚钱的生意。",
+   "form": "lucrative",
+   "cloze": "Selling software online turned out to be a ＿＿＿ business.",
+   "distractors": [
+    "lukewarm",
+    "lunar",
+    "luminous"
+   ],
+   "colloc": "",
+   "syn": "profitable",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "vulnerable",
+   "pos": "形",
+   "ja": "（攻撃・病気などに）弱い",
+   "zh": "脆弱的；易受伤害的",
+   "ex": "Young children and elderly people are especially vulnerable to the flu.",
+   "exTr": "幼儿和老人特别容易感染流感。",
+   "form": "vulnerable",
+   "cloze": "Young children and elderly people are especially ＿＿＿ to the flu.",
+   "distractors": [
+    "venerable",
+    "voluntary",
+    "valiant"
+   ],
+   "colloc": "be vulnerable to ～",
+   "syn": "susceptible",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "prevalent",
+   "pos": "形",
+   "ja": "広まっている；流行している",
+   "zh": "普遍的；流行的",
+   "ex": "Smartphone addiction is becoming increasingly prevalent among teenagers.",
+   "exTr": "手机成瘾在青少年中越来越普遍。",
+   "form": "prevalent",
+   "cloze": "Smartphone addiction is becoming increasingly ＿＿＿ among teenagers.",
+   "distractors": [
+    "prudent",
+    "premature",
+    "preliminary"
+   ],
+   "colloc": "",
+   "syn": "widespread, common",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "indispensable",
+   "pos": "形",
+   "ja": "不可欠な",
+   "zh": "不可或缺的",
+   "ex": "The internet has become indispensable in our daily lives.",
+   "exTr": "互联网已经成为我们日常生活中不可或缺的东西。",
+   "form": "indispensable",
+   "cloze": "The internet has become ＿＿＿ in our daily lives.",
+   "distractors": [
+    "indecisive",
+    "indignant",
+    "insolvent"
+   ],
+   "colloc": "",
+   "syn": "essential, vital",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "ambiguous",
+   "pos": "形",
+   "ja": "あいまいな",
+   "zh": "模棱两可的",
+   "ex": "The instructions were so ambiguous that nobody knew what to do.",
+   "exTr": "说明写得太含糊，谁都不知道该怎么做。",
+   "form": "ambiguous",
+   "cloze": "The instructions were so ＿＿＿ that nobody knew what to do.",
+   "distractors": [
+    "amiable",
+    "amphibious",
+    "ample"
+   ],
+   "colloc": "",
+   "syn": "unclear, vague",
+   "note": "反义：clear, explicit",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "inherent",
+   "pos": "形",
+   "ja": "本来備わっている；固有の",
+   "zh": "固有的；内在的",
+   "ex": "There are risks inherent in any kind of investment.",
+   "exTr": "任何投资都有其固有的风险。",
+   "form": "inherent",
+   "cloze": "There are risks ＿＿＿ in any kind of investment.",
+   "distractors": [
+    "incoherent",
+    "indifferent",
+    "insistent"
+   ],
+   "colloc": "inherent in ～",
+   "syn": "intrinsic",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "plausible",
+   "pos": "形",
+   "ja": "もっともらしい；妥当な",
+   "zh": "似乎合理的；可信的",
+   "ex": "The police found her explanation plausible and let her go.",
+   "exTr": "警方认为她的解释说得通，就放她走了。",
+   "form": "plausible",
+   "cloze": "The police found her explanation ＿＿＿ and let her go.",
+   "distractors": [
+    "perishable",
+    "portable",
+    "pliable"
+   ],
+   "colloc": "",
+   "syn": "believable, credible",
+   "note": "反义：implausible",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "sustainable",
+   "pos": "形",
+   "ja": "持続可能な",
+   "zh": "可持续的",
+   "ex": "The company is trying to develop more sustainable ways to produce energy.",
+   "exTr": "这家公司正在努力开发更加可持续的能源生产方式。",
+   "form": "sustainable",
+   "cloze": "The company is trying to develop more ＿＿＿ ways to produce energy.",
+   "distractors": [
+    "susceptible",
+    "superstitious",
+    "subordinate"
+   ],
+   "colloc": "sustainable development",
+   "syn": "renewable",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "stagnant",
+   "pos": "形",
+   "ja": "停滞した；よどんだ",
+   "zh": "停滞的；不流动的",
+   "ex": "The economy has remained stagnant for nearly a decade.",
+   "exTr": "经济已经停滞了将近十年。",
+   "form": "stagnant",
+   "cloze": "The economy has remained ＿＿＿ for nearly a decade.",
+   "distractors": [
+    "spontaneous",
+    "symmetrical",
+    "strenuous"
+   ],
+   "colloc": "",
+   "syn": "sluggish",
+   "note": "名词：stagnation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "imminent",
+   "pos": "形",
+   "ja": "差し迫った",
+   "zh": "迫在眉睫的",
+   "ex": "Dark clouds warned that a storm was imminent.",
+   "exTr": "乌云预示着暴风雨即将来临。",
+   "form": "imminent",
+   "cloze": "Dark clouds warned that a storm was ＿＿＿.",
+   "distractors": [
+    "eminent",
+    "immune",
+    "impartial"
+   ],
+   "colloc": "",
+   "syn": "approaching, impending",
+   "note": "形近词：eminent＝著名的",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "resilient",
+   "pos": "形",
+   "ja": "回復力のある；立ち直りが早い",
+   "zh": "有韧性的；能迅速恢复的",
+   "ex": "Children are often more resilient than adults expect, recovering quickly from difficulties.",
+   "exTr": "孩子往往比大人想象的更坚强，能很快从困难中恢复过来。",
+   "form": "resilient",
+   "cloze": "Children are often more ＿＿＿ than adults expect, recovering quickly from difficulties.",
+   "distractors": [
+    "redundant",
+    "reverent",
+    "reluctant"
+   ],
+   "colloc": "",
+   "syn": "tough, adaptable",
+   "note": "名词：resilience",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "arbitrary",
+   "pos": "形",
+   "ja": "恣意的な；任意の",
+   "zh": "任意的；武断的",
+   "ex": "The workers complained that the manager's decisions were arbitrary and unfair.",
+   "exTr": "工人们抱怨经理的决定武断又不公平。",
+   "form": "arbitrary",
+   "cloze": "The workers complained that the manager's decisions were ＿＿＿ and unfair.",
+   "distractors": [
+    "aromatic",
+    "aquatic",
+    "amicable"
+   ],
+   "colloc": "",
+   "syn": "random, unreasonable",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "conspicuous",
+   "pos": "形",
+   "ja": "目立つ",
+   "zh": "显眼的",
+   "ex": "She wore a bright red coat so that she would be conspicuous in the crowd.",
+   "exTr": "她穿了一件鲜红色的外套，好在人群中显眼一些。",
+   "form": "conspicuous",
+   "cloze": "She wore a bright red coat so that she would be ＿＿＿ in the crowd.",
+   "distractors": [
+    "contagious",
+    "contiguous",
+    "conscientious"
+   ],
+   "colloc": "",
+   "syn": "noticeable, striking",
+   "note": "反义：inconspicuous",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "compulsory",
+   "pos": "形",
+   "ja": "義務的な；強制的な",
+   "zh": "义务的；强制的",
+   "ex": "In Japan, education is compulsory until the end of junior high school.",
+   "exTr": "在日本，初中毕业以前的教育是义务教育。",
+   "form": "compulsory",
+   "cloze": "In Japan, education is ＿＿＿ until the end of junior high school.",
+   "distractors": [
+    "compatible",
+    "competent",
+    "compassionate"
+   ],
+   "colloc": "",
+   "syn": "mandatory, obligatory",
+   "note": "反义：optional, voluntary",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "lenient",
+   "pos": "形",
+   "ja": "寛大な；甘い",
+   "zh": "宽大的；宽容的",
+   "ex": "Some parents think the school's rules are too lenient on students who are late.",
+   "exTr": "一些家长认为学校对迟到学生的规定太宽松了。",
+   "form": "lenient",
+   "cloze": "Some parents think the school's rules are too ＿＿＿ on students who are late.",
+   "distractors": [
+    "luminous",
+    "legible",
+    "lethal"
+   ],
+   "colloc": "be lenient on/with ～",
+   "syn": "tolerant",
+   "note": "反义：strict",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "scarce",
+   "pos": "形",
+   "ja": "乏しい；不足している",
+   "zh": "稀少的；缺乏的",
+   "ex": "Clean water is scarce in many parts of the world.",
+   "exTr": "在世界上许多地方，干净的水都很稀缺。",
+   "form": "scarce",
+   "cloze": "Clean water is ＿＿＿ in many parts of the world.",
+   "distractors": [
+    "scornful",
+    "sociable",
+    "solitary"
+   ],
+   "colloc": "",
+   "syn": "rare, in short supply",
+   "note": "名词：scarcity",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "tedious",
+   "pos": "形",
+   "ja": "退屈な；うんざりする",
+   "zh": "冗长乏味的",
+   "ex": "Entering the data by hand was a tedious task that took several days.",
+   "exTr": "手动录入数据是一项花了好几天的枯燥工作。",
+   "form": "tedious",
+   "cloze": "Entering the data by hand was a ＿＿＿ task that took several days.",
+   "distractors": [
+    "timid",
+    "tender",
+    "tactful"
+   ],
+   "colloc": "",
+   "syn": "boring, monotonous",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "unprecedented",
+   "pos": "形",
+   "ja": "前例のない",
+   "zh": "史无前例的",
+   "ex": "The pandemic caused an unprecedented drop in the number of tourists.",
+   "exTr": "疫情导致游客数量出现了前所未有的下降。",
+   "form": "unprecedented",
+   "cloze": "The pandemic caused an ＿＿＿ drop in the number of tourists.",
+   "distractors": [
+    "unanimous",
+    "unpretentious",
+    "unaccompanied"
+   ],
+   "colloc": "",
+   "syn": "unparalleled, record",
+   "note": "",
+   "importance": 3
+  }
+ ],
+ "images": []
+}

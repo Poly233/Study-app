@@ -1,0 +1,810 @@
+{
+ "id": "eiken-p3-phrasal",
+ "kind": "cards",
+ "subject": "vocab",
+ "title": "準1級 句動詞 40",
+ "summary": "- 准1级大問1 每回都会出**几道句动词**，选项往往全是长得很像的句动词\n- 先看**介词**锁定方向：up to（尊敬）↔ down on（看不起）、come up with（想出）↔ come down with（患病）\n- 一词多义要记全：account for（解释／占比例）、set off（出发／引发）、break down（故障／谈判破裂）\n- 同义的单个动词常出现在长文中：put off＝postpone、call off＝cancel、carry out＝conduct",
+ "cards": [
+  {
+   "type": "word",
+   "word": "come down with",
+   "pos": "熟",
+   "ja": "（病気に）かかる",
+   "zh": "患上（病）",
+   "ex": "I think I'm coming down with a cold, so I'll stay home today.",
+   "exTr": "我觉得我感冒了，所以今天待在家里。",
+   "form": "coming down with",
+   "cloze": "I think I'm ＿＿＿ a cold, so I'll stay home today.",
+   "distractors": [
+    "coming up with",
+    "getting away with",
+    "falling back on"
+   ],
+   "colloc": "",
+   "syn": "catch",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "put up with",
+   "pos": "熟",
+   "ja": "我慢する",
+   "zh": "忍受",
+   "ex": "I can't put up with the noise from the construction site any longer.",
+   "exTr": "我再也忍受不了工地的噪音了。",
+   "form": "put up with",
+   "cloze": "I can't ＿＿＿ the noise from the construction site any longer.",
+   "distractors": [
+    "catch up with",
+    "do away with",
+    "come up with"
+   ],
+   "colloc": "",
+   "syn": "tolerate, endure",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "come up with",
+   "pos": "熟",
+   "ja": "思いつく；考え出す",
+   "zh": "想出",
+   "ex": "She came up with a brilliant idea for the school festival.",
+   "exTr": "她为学校文化节想出了一个绝妙的点子。",
+   "form": "came up with",
+   "cloze": "She ＿＿＿ a brilliant idea for the school festival.",
+   "distractors": [
+    "came down with",
+    "did away with",
+    "fell short of"
+   ],
+   "colloc": "",
+   "syn": "think of",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "do away with",
+   "pos": "熟",
+   "ja": "廃止する；取り除く",
+   "zh": "废除；去掉",
+   "ex": "The school decided to do away with its strict uniform rules.",
+   "exTr": "学校决定废除严格的校服规定。",
+   "form": "do away with",
+   "cloze": "The school decided to ＿＿＿ its strict uniform rules.",
+   "distractors": [
+    "come down with",
+    "look up to",
+    "run out of"
+   ],
+   "colloc": "",
+   "syn": "abolish, get rid of",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "look up to",
+   "pos": "熟",
+   "ja": "尊敬する",
+   "zh": "尊敬",
+   "ex": "Many young players look up to him as a role model.",
+   "exTr": "许多年轻球员把他当作榜样来尊敬。",
+   "form": "look up to",
+   "cloze": "Many young players ＿＿＿ him as a role model.",
+   "distractors": [
+    "look down on",
+    "make up for",
+    "give in to"
+   ],
+   "colloc": "",
+   "syn": "respect, admire",
+   "note": "反义：look down on",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "look down on",
+   "pos": "熟",
+   "ja": "見下す",
+   "zh": "看不起",
+   "ex": "It is wrong to look down on people just because they are poor.",
+   "exTr": "仅仅因为别人穷就看不起他们是不对的。",
+   "form": "look down on",
+   "cloze": "It is wrong to ＿＿＿ people just because they are poor.",
+   "distractors": [
+    "look up to",
+    "take after",
+    "see off"
+   ],
+   "colloc": "",
+   "syn": "despise",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "make up for",
+   "pos": "熟",
+   "ja": "埋め合わせる",
+   "zh": "弥补",
+   "ex": "He worked overtime to make up for the time he had lost.",
+   "exTr": "他加班来弥补失去的时间。",
+   "form": "make up for",
+   "cloze": "He worked overtime to ＿＿＿ the time he had lost.",
+   "distractors": [
+    "come down with",
+    "look up to",
+    "stand up for"
+   ],
+   "colloc": "",
+   "syn": "compensate for",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "carry out",
+   "pos": "熟",
+   "ja": "実行する",
+   "zh": "执行；实施",
+   "ex": "The researchers carried out a survey of 2,000 high school students.",
+   "exTr": "研究人员对2000名高中生进行了调查。",
+   "form": "carried out",
+   "cloze": "The researchers ＿＿＿ a survey of 2,000 high school students.",
+   "distractors": [
+    "broke down",
+    "passed away",
+    "showed off"
+   ],
+   "colloc": "",
+   "syn": "conduct, perform",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "call off",
+   "pos": "熟",
+   "ja": "中止する",
+   "zh": "取消",
+   "ex": "The baseball game was called off because of heavy rain.",
+   "exTr": "棒球比赛因大雨而取消了。",
+   "form": "called off",
+   "cloze": "The baseball game was ＿＿＿ because of heavy rain.",
+   "distractors": [
+    "looked up to",
+    "made up for",
+    "carried out"
+   ],
+   "colloc": "",
+   "syn": "cancel",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "turn down",
+   "pos": "熟",
+   "ja": "断る",
+   "zh": "拒绝",
+   "ex": "She turned down the job offer because the salary was too low.",
+   "exTr": "因为工资太低，她拒绝了那份工作。",
+   "form": "turned down",
+   "cloze": "She ＿＿＿ the job offer because the salary was too low.",
+   "distractors": [
+    "turned up",
+    "took after",
+    "handed out"
+   ],
+   "colloc": "",
+   "syn": "reject, decline",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "take over",
+   "pos": "熟",
+   "ja": "引き継ぐ；乗っ取る",
+   "zh": "接管；接手",
+   "ex": "After her father retired, she took over the family business.",
+   "exTr": "父亲退休后，她接手了家族生意。",
+   "form": "took over",
+   "cloze": "After her father retired, she ＿＿＿ the family business.",
+   "distractors": [
+    "took after",
+    "gave off",
+    "ran into"
+   ],
+   "colloc": "",
+   "syn": "assume control of",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "take after",
+   "pos": "熟",
+   "ja": "（親に）似ている",
+   "zh": "（长相、性格）像（父母）",
+   "ex": "He really takes after his father; they are both kind and patient.",
+   "exTr": "他真像他爸爸，两个人都既善良又有耐心。",
+   "form": "takes after",
+   "cloze": "He really ＿＿＿ his father; they are both kind and patient.",
+   "distractors": [
+    "takes over",
+    "gets over",
+    "sets off"
+   ],
+   "colloc": "",
+   "syn": "resemble",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "get over",
+   "pos": "熟",
+   "ja": "克服する；（病気などから）回復する",
+   "zh": "克服；从…中恢复",
+   "ex": "It took her a long time to get over the shock of losing her job.",
+   "exTr": "她花了很长时间才从失业的打击中恢复过来。",
+   "form": "get over",
+   "cloze": "It took her a long time to ＿＿＿ the shock of losing her job.",
+   "distractors": [
+    "bring about",
+    "run over",
+    "set up"
+   ],
+   "colloc": "",
+   "syn": "recover from, overcome",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "bring about",
+   "pos": "熟",
+   "ja": "引き起こす；もたらす",
+   "zh": "带来；导致",
+   "ex": "The new technology brought about major changes in the way people work.",
+   "exTr": "新技术给人们的工作方式带来了巨大的变化。",
+   "form": "brought about",
+   "cloze": "The new technology ＿＿＿ major changes in the way people work.",
+   "distractors": [
+    "fell for",
+    "broke into",
+    "got over"
+   ],
+   "colloc": "",
+   "syn": "cause, lead to",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "run out of",
+   "pos": "熟",
+   "ja": "使い果たす",
+   "zh": "用完；耗尽",
+   "ex": "We ran out of gas on the way to the airport.",
+   "exTr": "我们在去机场的路上汽油用完了。",
+   "form": "ran out of",
+   "cloze": "We ＿＿＿ gas on the way to the airport.",
+   "distractors": [
+    "kept up with",
+    "came down with",
+    "looked up to"
+   ],
+   "colloc": "",
+   "syn": "use up",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "keep up with",
+   "pos": "熟",
+   "ja": "（遅れずに）ついていく",
+   "zh": "跟上",
+   "ex": "It is hard to keep up with all the changes in technology.",
+   "exTr": "要跟上技术的所有变化是很难的。",
+   "form": "keep up with",
+   "cloze": "It is hard to ＿＿＿ all the changes in technology.",
+   "distractors": [
+    "do away with",
+    "fall back on",
+    "take after"
+   ],
+   "colloc": "",
+   "syn": "stay up to date with",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "fall back on",
+   "pos": "熟",
+   "ja": "（いざという時に）頼る",
+   "zh": "（必要时）依靠",
+   "ex": "If you lose your job, it is good to have some savings to fall back on.",
+   "exTr": "万一失业，有些存款可以依靠总是好的。",
+   "form": "fall back on",
+   "cloze": "If you lose your job, it is good to have some savings to ＿＿＿.",
+   "distractors": [
+    "fall out with",
+    "fall for",
+    "look down on"
+   ],
+   "colloc": "",
+   "syn": "rely on, turn to",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "stand out",
+   "pos": "熟",
+   "ja": "目立つ",
+   "zh": "显眼；突出",
+   "ex": "Her bright yellow dress made her stand out in the crowd.",
+   "exTr": "她那件鲜黄色的连衣裙让她在人群中格外显眼。",
+   "form": "stand out",
+   "cloze": "Her bright yellow dress made her ＿＿＿ in the crowd.",
+   "distractors": [
+    "give in",
+    "stand for",
+    "break even"
+   ],
+   "colloc": "",
+   "syn": "be conspicuous",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "stand for",
+   "pos": "熟",
+   "ja": "表す；（主義などを）支持する",
+   "zh": "代表；象征；支持",
+   "ex": "The letters \"UN\" stand for the United Nations.",
+   "exTr": "字母“UN”代表联合国。",
+   "form": "stand for",
+   "cloze": "The letters \"UN\" ＿＿＿ the United Nations.",
+   "distractors": [
+    "stand out from",
+    "take after",
+    "get over"
+   ],
+   "colloc": "",
+   "syn": "represent",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "give in to",
+   "pos": "熟",
+   "ja": "（要求などに）屈する",
+   "zh": "屈服于",
+   "ex": "The government refused to give in to the terrorists' demands.",
+   "exTr": "政府拒绝屈服于恐怖分子的要求。",
+   "form": "give in to",
+   "cloze": "The government refused to ＿＿＿ the terrorists' demands.",
+   "distractors": [
+    "give off",
+    "look up to",
+    "catch up with"
+   ],
+   "colloc": "",
+   "syn": "yield to, surrender to",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "stand up to",
+   "pos": "熟",
+   "ja": "立ち向かう",
+   "zh": "勇敢面对；抵抗",
+   "ex": "She bravely stood up to the bullies at her school.",
+   "exTr": "她勇敢地对抗学校里欺负人的学生。",
+   "form": "stood up to",
+   "cloze": "She bravely ＿＿＿ the bullies at her school.",
+   "distractors": [
+    "made up for",
+    "looked up to",
+    "fell back on"
+   ],
+   "colloc": "",
+   "syn": "confront, resist",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "figure out",
+   "pos": "熟",
+   "ja": "理解する；（答えを）見つけ出す",
+   "zh": "弄清楚；想出",
+   "ex": "I couldn't figure out how to use the new software.",
+   "exTr": "我搞不清楚这个新软件怎么用。",
+   "form": "figure out",
+   "cloze": "I couldn't ＿＿＿ how to use the new software.",
+   "distractors": [
+    "hand out",
+    "wear out",
+    "drop out"
+   ],
+   "colloc": "",
+   "syn": "work out, understand",
+   "note": "后面常接 how / why / what",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "rule out",
+   "pos": "熟",
+   "ja": "除外する；（可能性を）否定する",
+   "zh": "排除（可能性）",
+   "ex": "The police have not ruled out the possibility that the fire was started on purpose.",
+   "exTr": "警方没有排除火是有人故意放的可能性。",
+   "form": "ruled out",
+   "cloze": "The police have not ＿＿＿ the possibility that the fire was started on purpose.",
+   "distractors": [
+    "handed out",
+    "worn out",
+    "set off"
+   ],
+   "colloc": "rule out the possibility",
+   "syn": "exclude, eliminate",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "set off",
+   "pos": "熟",
+   "ja": "出発する；引き起こす",
+   "zh": "出发；引发",
+   "ex": "We set off early in the morning to avoid the traffic.",
+   "exTr": "为了避开交通拥堵，我们一大早就出发了。",
+   "form": "set off",
+   "cloze": "We ＿＿＿ early in the morning to avoid the traffic.",
+   "distractors": [
+    "passed away",
+    "broke even",
+    "gave in"
+   ],
+   "colloc": "",
+   "syn": "leave, depart",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "break out",
+   "pos": "熟",
+   "ja": "（戦争・火事などが）発生する",
+   "zh": "（战争、火灾等）爆发",
+   "ex": "A fire broke out in the kitchen late last night.",
+   "exTr": "昨天深夜厨房里发生了火灾。",
+   "form": "broke out",
+   "cloze": "A fire ＿＿＿ in the kitchen late last night.",
+   "distractors": [
+    "broke up",
+    "broke even",
+    "gave in"
+   ],
+   "colloc": "",
+   "syn": "occur, erupt",
+   "note": "名词：outbreak",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "break down",
+   "pos": "熟",
+   "ja": "故障する；（交渉が）決裂する",
+   "zh": "出故障；（谈判）破裂",
+   "ex": "Our car broke down on the highway, so we had to call for help.",
+   "exTr": "我们的车在高速公路上抛锚了，只好打电话求助。",
+   "form": "broke down",
+   "cloze": "Our car ＿＿＿ on the highway, so we had to call for help.",
+   "distractors": [
+    "broke out",
+    "showed off",
+    "gave in"
+   ],
+   "colloc": "",
+   "syn": "stop working, fail",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "pass away",
+   "pos": "熟",
+   "ja": "亡くなる",
+   "zh": "去世",
+   "ex": "His grandfather passed away peacefully at the age of 95.",
+   "exTr": "他的祖父在95岁时安详地去世了。",
+   "form": "passed away",
+   "cloze": "His grandfather ＿＿＿ peacefully at the age of 95.",
+   "distractors": [
+    "showed off",
+    "broke even",
+    "dropped out"
+   ],
+   "colloc": "",
+   "syn": "die",
+   "note": "die 的委婉说法；pass out＝昏倒",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "drop out",
+   "pos": "熟",
+   "ja": "中退する；脱落する",
+   "zh": "退学；退出",
+   "ex": "He dropped out of college to start his own company.",
+   "exTr": "他从大学退学，创办了自己的公司。",
+   "form": "dropped out of",
+   "cloze": "He ＿＿＿ college to start his own company.",
+   "distractors": [
+    "ran out of",
+    "came down with",
+    "made up for"
+   ],
+   "colloc": "drop out of ～",
+   "syn": "quit, leave",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "see off",
+   "pos": "熟",
+   "ja": "見送る",
+   "zh": "送行",
+   "ex": "We went to the airport to see off our friend who was moving abroad.",
+   "exTr": "我们去机场为要移居国外的朋友送行。",
+   "form": "see off",
+   "cloze": "We went to the airport to ＿＿＿ our friend who was moving abroad.",
+   "distractors": [
+    "take after",
+    "turn down",
+    "put off"
+   ],
+   "colloc": "",
+   "syn": "say goodbye to",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "put off",
+   "pos": "熟",
+   "ja": "延期する",
+   "zh": "推迟",
+   "ex": "The meeting has been put off until next week.",
+   "exTr": "会议推迟到了下周。",
+   "form": "put off",
+   "cloze": "The meeting has been ＿＿＿ until next week.",
+   "distractors": [
+    "put out",
+    "brought about",
+    "looked up to"
+   ],
+   "colloc": "",
+   "syn": "postpone, delay",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "get away with",
+   "pos": "熟",
+   "ja": "（悪事を）罰せられずに済む",
+   "zh": "（做坏事）逃脱惩罚",
+   "ex": "He cheated on the test but did not get away with it; the teacher noticed.",
+   "exTr": "他考试作弊，但没能逃过惩罚——老师发现了。",
+   "form": "get away with",
+   "cloze": "He cheated on the test but did not ＿＿＿ it; the teacher noticed.",
+   "distractors": [
+    "look up to",
+    "take after",
+    "fall back on"
+   ],
+   "colloc": "",
+   "syn": "escape punishment for",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "look into",
+   "pos": "熟",
+   "ja": "調べる",
+   "zh": "调查",
+   "ex": "The police are looking into the cause of the accident.",
+   "exTr": "警方正在调查事故的原因。",
+   "form": "looking into",
+   "cloze": "The police are ＿＿＿ the cause of the accident.",
+   "distractors": [
+    "looking up to",
+    "looking forward to",
+    "looking down on"
+   ],
+   "colloc": "",
+   "syn": "investigate, examine",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "account for",
+   "pos": "熟",
+   "ja": "説明する；（割合を）占める",
+   "zh": "解释；占（比例）",
+   "ex": "Young people account for about 30 percent of the town's population.",
+   "exTr": "年轻人约占这个镇人口的30%。",
+   "form": "account for",
+   "cloze": "Young people ＿＿＿ about 30 percent of the town's population.",
+   "distractors": [
+    "take after",
+    "call for",
+    "look up to"
+   ],
+   "colloc": "",
+   "syn": "make up, explain",
+   "note": "两个意思都常考",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "call for",
+   "pos": "熟",
+   "ja": "必要とする；要求する",
+   "zh": "需要；要求",
+   "ex": "The situation calls for immediate action.",
+   "exTr": "这种情况需要立即采取行动。",
+   "form": "calls for",
+   "cloze": "The situation ＿＿＿ immediate action.",
+   "distractors": [
+    "takes after",
+    "gets over",
+    "stands out"
+   ],
+   "colloc": "",
+   "syn": "require, demand",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "cut down on",
+   "pos": "熟",
+   "ja": "減らす",
+   "zh": "削减；减少",
+   "ex": "The doctor told him to cut down on sugar and salt.",
+   "exTr": "医生让他少吃糖和盐。",
+   "form": "cut down on",
+   "cloze": "The doctor told him to ＿＿＿ sugar and salt.",
+   "distractors": [
+    "come down with",
+    "stand up to",
+    "look up to"
+   ],
+   "colloc": "",
+   "syn": "reduce",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "phase out",
+   "pos": "熟",
+   "ja": "段階的に廃止する",
+   "zh": "逐步淘汰",
+   "ex": "The government plans to phase out gasoline cars by 2035.",
+   "exTr": "政府计划在2035年前逐步淘汰汽油车。",
+   "form": "phase out",
+   "cloze": "The government plans to ＿＿＿ gasoline cars by 2035.",
+   "distractors": [
+    "figure out",
+    "wear out",
+    "show off"
+   ],
+   "colloc": "",
+   "syn": "gradually abolish",
+   "note": "反义：phase in（逐步引入）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "live up to",
+   "pos": "熟",
+   "ja": "（期待に）応える",
+   "zh": "不辜负；达到（期待）",
+   "ex": "The movie did not live up to my expectations.",
+   "exTr": "这部电影没有达到我的期望。",
+   "form": "live up to",
+   "cloze": "The movie did not ＿＿＿ my expectations.",
+   "distractors": [
+    "look up to",
+    "put up with",
+    "make up for"
+   ],
+   "colloc": "live up to expectations",
+   "syn": "meet, fulfill",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "lay off",
+   "pos": "熟",
+   "ja": "（一時）解雇する",
+   "zh": "裁员；解雇",
+   "ex": "The factory had to lay off 200 workers due to falling sales.",
+   "exTr": "由于销量下滑，工厂不得不裁掉200名工人。",
+   "form": "lay off",
+   "cloze": "The factory had to ＿＿＿ 200 workers due to falling sales.",
+   "distractors": [
+    "turn up",
+    "show off",
+    "figure out"
+   ],
+   "colloc": "",
+   "syn": "dismiss",
+   "note": "名词：layoff",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "come across",
+   "pos": "熟",
+   "ja": "偶然出会う；偶然見つける",
+   "zh": "偶然遇到；偶然发现",
+   "ex": "While cleaning my room, I came across some old photos of my grandparents.",
+   "exTr": "打扫房间时，我偶然翻到了几张祖父母的老照片。",
+   "form": "came across",
+   "cloze": "While cleaning my room, I ＿＿＿ some old photos of my grandparents.",
+   "distractors": [
+    "came down with",
+    "ran out of",
+    "gave in to"
+   ],
+   "colloc": "",
+   "syn": "find by chance, run into",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "get rid of",
+   "pos": "熟",
+   "ja": "取り除く；処分する",
+   "zh": "摆脱；扔掉",
+   "ex": "It's time to get rid of all the clothes you no longer wear.",
+   "exTr": "是时候把你不再穿的衣服都处理掉了。",
+   "form": "get rid of",
+   "cloze": "It's time to ＿＿＿ all the clothes you no longer wear.",
+   "distractors": [
+    "get along with",
+    "look up to",
+    "fall back on"
+   ],
+   "colloc": "",
+   "syn": "dispose of, throw away",
+   "note": "",
+   "importance": 3
+  }
+ ],
+ "images": []
+}

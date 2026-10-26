@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = ROOT / 'packs'
-SUBJECTS = {'math2', 'mathB', 'phys', 'chem', 'kokyo', 'joho'}
+SUBJECTS = {'vocab', 'read', 'write', 'listen'}
 JST = timezone(timedelta(hours=9))
 
 PROBLEM_KEYS = ['title', 'ref', 'problemText', 'topic', 'pattern', 'trigger', 'keyIdea', 'firstStep',
@@ -27,6 +27,9 @@ def check_cards(cards, where):
     if not isinstance(cards, list):
         fail(f'{where}: cards must be a list')
     for i, c in enumerate(cards):
+        if c.get('type') == 'word':
+            check_word(c, f'{where}: word {i} ({c.get("word")})')
+            continue
         for k in ('type', 'front', 'back'):
             if not c.get(k):
                 fail(f'{where}: card {i} missing {k}')
@@ -34,6 +37,23 @@ def check_cards(cards, where):
             fail(f'{where}: card {i} bad type {c["type"]}')
         if c.get('importance', 2) not in (1, 2, 3):
             fail(f'{where}: card {i} bad importance')
+
+
+def check_word(c, where):
+    for k in ('word', 'pos', 'ja', 'zh', 'ex', 'form', 'cloze'):
+        if not c.get(k):
+            fail(f'{where}: missing {k}')
+    if c['pos'] not in ('動', '名', '形', '副', '熟'):
+        fail(f'{where}: bad pos {c["pos"]}')
+    if c['form'].lower() not in c['ex'].lower():
+        fail(f'{where}: form "{c["form"]}" not in example')
+    if '＿＿＿' not in c['cloze']:
+        fail(f'{where}: cloze has no blank')
+    d = c.get('distractors', [])
+    if len(d) != 3 or len(set(x.lower() for x in d)) != 3 or c['form'].lower() in (x.lower() for x in d):
+        fail(f'{where}: need 3 distinct distractors different from the answer')
+    if c.get('importance', 2) not in (1, 2, 3):
+        fail(f'{where}: bad importance')
 
 
 def check(pack, path):
