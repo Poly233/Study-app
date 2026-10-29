@@ -1,0 +1,810 @@
+{
+ "id": "eiken-p6-nouns2",
+ "kind": "cards",
+ "subject": "vocab",
+ "title": "準1級 頻出名詞② 40",
+ "summary": "- 名词第2批：很多可以从动词或形容词推出来——fluctuate→**fluctuation**、speculate→**speculation**、ambiguous→**ambiguity**、affluent→**affluence**\n- 形近陷阱：**intuition**（直觉）vs tuition（学费）、**mediation**（调停）vs meditation（冥想）、**deficiency**（不足）vs efficiency（效率）\n- 复数要注意：criterion → **criteria**；means 单复同形\n- 写作也能用：perspective、remedy、setback、shortage、transition",
+ "cards": [
+  {
+   "type": "word",
+   "word": "accountability",
+   "pos": "名",
+   "ja": "説明責任",
+   "zh": "问责；责任",
+   "ex": "Citizens are demanding greater accountability from their politicians.",
+   "exTr": "市民要求政治家承担更多的责任。",
+   "form": "accountability",
+   "cloze": "Citizens are demanding greater ＿＿＿ from their politicians.",
+   "distractors": [
+    "affordability",
+    "acoustics",
+    "ancestry"
+   ],
+   "colloc": "",
+   "syn": "responsibility",
+   "note": "形容词：accountable",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "affluence",
+   "pos": "名",
+   "ja": "豊かさ；裕福",
+   "zh": "富裕",
+   "ex": "The country's growing affluence has led to an increase in overseas travel.",
+   "exTr": "国家日益富裕，出国旅游的人随之增加。",
+   "form": "affluence",
+   "cloze": "The country's growing ＿＿＿ has led to an increase in overseas travel.",
+   "distractors": [
+    "ambulance",
+    "allegiance",
+    "anguish"
+   ],
+   "colloc": "",
+   "syn": "wealth, prosperity",
+   "note": "形容词：affluent；形近词：influence",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "ambiguity",
+   "pos": "名",
+   "ja": "あいまいさ",
+   "zh": "模棱两可；含糊",
+   "ex": "To avoid ambiguity, the contract should be written in clear language.",
+   "exTr": "为了避免歧义，合同应该用清楚的语言来写。",
+   "form": "ambiguity",
+   "cloze": "To avoid ＿＿＿, the contract should be written in clear language.",
+   "distractors": [
+    "ambition",
+    "antiquity",
+    "amenity"
+   ],
+   "colloc": "",
+   "syn": "vagueness",
+   "note": "形容词：ambiguous",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "anticipation",
+   "pos": "名",
+   "ja": "期待；予想",
+   "zh": "期待；预期",
+   "ex": "There was a sense of anticipation in the stadium before the final match.",
+   "exTr": "决赛开始前，体育场里充满了期待。",
+   "form": "anticipation",
+   "cloze": "There was a sense of ＿＿＿ in the stadium before the final match.",
+   "distractors": [
+    "annihilation",
+    "articulation",
+    "assimilation"
+   ],
+   "colloc": "in anticipation of ～",
+   "syn": "expectation",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "aspiration",
+   "pos": "名",
+   "ja": "願望；大志",
+   "zh": "抱负；志向",
+   "ex": "She has aspirations to become a doctor and work in developing countries.",
+   "exTr": "她立志成为医生，到发展中国家工作。",
+   "form": "aspirations",
+   "cloze": "She has ＿＿＿ to become a doctor and work in developing countries.",
+   "distractors": [
+    "aberrations",
+    "accusations",
+    "abbreviations"
+   ],
+   "colloc": "",
+   "syn": "ambition, goal",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "compassion",
+   "pos": "名",
+   "ja": "思いやり；同情",
+   "zh": "同情；怜悯",
+   "ex": "The nurse treated every patient with kindness and compassion.",
+   "exTr": "那位护士以善意和同情心对待每一位病人。",
+   "form": "compassion",
+   "cloze": "The nurse treated every patient with kindness and ＿＿＿.",
+   "distractors": [
+    "compulsion",
+    "compression",
+    "comparison"
+   ],
+   "colloc": "",
+   "syn": "sympathy",
+   "note": "形容词：compassionate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "contamination",
+   "pos": "名",
+   "ja": "汚染",
+   "zh": "污染",
+   "ex": "Tests showed high levels of contamination in the river near the factory.",
+   "exTr": "检测显示工厂附近的河流污染程度很高。",
+   "form": "contamination",
+   "cloze": "Tests showed high levels of ＿＿＿ in the river near the factory.",
+   "distractors": [
+    "coronation",
+    "consolation",
+    "contemplation"
+   ],
+   "colloc": "",
+   "syn": "pollution",
+   "note": "动词：contaminate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "controversy",
+   "pos": "名",
+   "ja": "論争；議論",
+   "zh": "争议；争论",
+   "ex": "The decision to build a new airport caused a great deal of controversy.",
+   "exTr": "建设新机场的决定引起了很大争议。",
+   "form": "controversy",
+   "cloze": "The decision to build a new airport caused a great deal of ＿＿＿.",
+   "distractors": [
+    "contingency",
+    "conservancy",
+    "constituency"
+   ],
+   "colloc": "",
+   "syn": "debate, dispute",
+   "note": "形容词：controversial",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "criterion",
+   "pos": "名",
+   "ja": "（判断の）基準",
+   "zh": "标准",
+   "ex": "Price is not the only criterion for choosing a university.",
+   "exTr": "价格并不是选择大学的唯一标准。",
+   "form": "criterion",
+   "cloze": "Price is not the only ＿＿＿ for choosing a university.",
+   "distractors": [
+    "crusade",
+    "crater",
+    "cruise"
+   ],
+   "colloc": "",
+   "syn": "standard",
+   "note": "复数：criteria",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "deficiency",
+   "pos": "名",
+   "ja": "不足；欠乏",
+   "zh": "缺乏；不足",
+   "ex": "A deficiency of vitamin D can cause weak bones.",
+   "exTr": "缺乏维生素D会导致骨骼脆弱。",
+   "form": "deficiency",
+   "cloze": "A ＿＿＿ of vitamin D can cause weak bones.",
+   "distractors": [
+    "efficiency",
+    "delinquency",
+    "decency"
+   ],
+   "colloc": "",
+   "syn": "shortage, lack",
+   "note": "形容词：deficient",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "discrepancy",
+   "pos": "名",
+   "ja": "食い違い；不一致",
+   "zh": "差异；不一致",
+   "ex": "The auditor found a discrepancy between the two sets of figures.",
+   "exTr": "审计员发现两组数字之间有出入。",
+   "form": "discrepancy",
+   "cloze": "The auditor found a ＿＿＿ between the two sets of figures.",
+   "distractors": [
+    "discretion",
+    "disposition",
+    "dispensary"
+   ],
+   "colloc": "discrepancy between A and B",
+   "syn": "difference, inconsistency",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "dispute",
+   "pos": "名",
+   "ja": "論争；紛争",
+   "zh": "争端；争论",
+   "ex": "The two countries have been in a dispute over the island for decades.",
+   "exTr": "两国几十年来一直在为这座岛屿争执。",
+   "form": "dispute",
+   "cloze": "The two countries have been in a ＿＿＿ over the island for decades.",
+   "distractors": [
+    "dispatch",
+    "disguise",
+    "disgrace"
+   ],
+   "colloc": "a dispute over ～",
+   "syn": "conflict, argument",
+   "note": "也可作动词",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "diversity",
+   "pos": "名",
+   "ja": "多様性",
+   "zh": "多样性",
+   "ex": "The city is famous for its cultural diversity.",
+   "exTr": "这座城市以文化多样性而闻名。",
+   "form": "diversity",
+   "cloze": "The city is famous for its cultural ＿＿＿.",
+   "distractors": [
+    "adversity",
+    "perversity",
+    "divinity"
+   ],
+   "colloc": "",
+   "syn": "variety",
+   "note": "形容词：diverse",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "endeavor",
+   "pos": "名",
+   "ja": "努力；試み",
+   "zh": "努力；尝试",
+   "ex": "Climbing the mountain without oxygen was a dangerous endeavor.",
+   "exTr": "不带氧气攀登这座山是一次危险的尝试。",
+   "form": "endeavor",
+   "cloze": "Climbing the mountain without oxygen was a dangerous ＿＿＿.",
+   "distractors": [
+    "enclosure",
+    "endowment",
+    "envoy"
+   ],
+   "colloc": "",
+   "syn": "effort, attempt",
+   "note": "也可作动词：endeavor to do",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "fluctuation",
+   "pos": "名",
+   "ja": "変動",
+   "zh": "波动",
+   "ex": "Fluctuations in the exchange rate can affect the price of imported goods.",
+   "exTr": "汇率的波动会影响进口商品的价格。",
+   "form": "Fluctuations",
+   "cloze": "＿＿＿ in the exchange rate can affect the price of imported goods.",
+   "distractors": [
+    "Fortifications",
+    "Fermentations",
+    "Fumigations"
+   ],
+   "colloc": "",
+   "syn": "change, variation",
+   "note": "动词：fluctuate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "hazard",
+   "pos": "名",
+   "ja": "危険（要因）",
+   "zh": "危险；危害",
+   "ex": "Old electrical wiring can be a fire hazard.",
+   "exTr": "老旧的电线可能引发火灾。",
+   "form": "hazard",
+   "cloze": "Old electrical wiring can be a fire ＿＿＿.",
+   "distractors": [
+    "harbor",
+    "haven",
+    "hamper"
+   ],
+   "colloc": "a health hazard / a fire hazard",
+   "syn": "danger, risk",
+   "note": "形容词：hazardous",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "impetus",
+   "pos": "名",
+   "ja": "推進力；はずみ",
+   "zh": "推动力；动力",
+   "ex": "The success of the project gave new impetus to the company's growth.",
+   "exTr": "项目的成功给公司的发展注入了新的动力。",
+   "form": "impetus",
+   "cloze": "The success of the project gave new ＿＿＿ to the company's growth.",
+   "distractors": [
+    "impasse",
+    "implant",
+    "imprint"
+   ],
+   "colloc": "give impetus to ～",
+   "syn": "stimulus, momentum",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "integrity",
+   "pos": "名",
+   "ja": "誠実さ；完全性",
+   "zh": "正直；诚实；完整",
+   "ex": "Voters want leaders with honesty and integrity.",
+   "exTr": "选民希望领导人诚实正直。",
+   "form": "integrity",
+   "cloze": "Voters want leaders with honesty and ＿＿＿.",
+   "distractors": [
+    "intensity",
+    "insanity",
+    "infirmity"
+   ],
+   "colloc": "",
+   "syn": "honesty",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "intuition",
+   "pos": "名",
+   "ja": "直感",
+   "zh": "直觉",
+   "ex": "She had no evidence, but her intuition told her that something was wrong.",
+   "exTr": "她没有证据，但直觉告诉她有什么不对劲。",
+   "form": "intuition",
+   "cloze": "She had no evidence, but her ＿＿＿ told her that something was wrong.",
+   "distractors": [
+    "tuition",
+    "intrusion",
+    "inflation"
+   ],
+   "colloc": "",
+   "syn": "instinct",
+   "note": "形近词：tuition＝学费",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "jurisdiction",
+   "pos": "名",
+   "ja": "管轄（権）",
+   "zh": "管辖权；司法权",
+   "ex": "The case is outside the jurisdiction of the local court.",
+   "exTr": "这个案件不在地方法院的管辖范围内。",
+   "form": "jurisdiction",
+   "cloze": "The case is outside the ＿＿＿ of the local court.",
+   "distractors": [
+    "jubilation",
+    "juxtaposition",
+    "journalism"
+   ],
+   "colloc": "",
+   "syn": "authority",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "legacy",
+   "pos": "名",
+   "ja": "遺産；後世に残すもの",
+   "zh": "遗产；遗留下来的东西",
+   "ex": "The president's greatest legacy was a national health care system.",
+   "exTr": "这位总统留下的最大遗产是全国医疗保障制度。",
+   "form": "legacy",
+   "cloze": "The president's greatest ＿＿＿ was a national health care system.",
+   "distractors": [
+    "legion",
+    "ledger",
+    "league"
+   ],
+   "colloc": "",
+   "syn": "heritage",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "means",
+   "pos": "名",
+   "ja": "手段；資力",
+   "zh": "手段；方法",
+   "ex": "For many people, the bicycle is the cheapest means of transportation.",
+   "exTr": "对很多人来说，自行车是最便宜的交通工具。",
+   "form": "means",
+   "cloze": "For many people, the bicycle is the cheapest ＿＿＿ of transportation.",
+   "distractors": [
+    "manners",
+    "meadows",
+    "mergers"
+   ],
+   "colloc": "a means of ～ / by means of ～",
+   "syn": "method, way",
+   "note": "单复数同形",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "mediation",
+   "pos": "名",
+   "ja": "調停；仲裁",
+   "zh": "调停；调解",
+   "ex": "The dispute was finally settled through mediation by a neutral party.",
+   "exTr": "这场纠纷最终通过中立方的调解得到了解决。",
+   "form": "mediation",
+   "cloze": "The dispute was finally settled through ＿＿＿ by a neutral party.",
+   "distractors": [
+    "meditation",
+    "medication",
+    "migration"
+   ],
+   "colloc": "",
+   "syn": "arbitration",
+   "note": "形近词：meditation＝冥想",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "milestone",
+   "pos": "名",
+   "ja": "画期的な出来事",
+   "zh": "里程碑",
+   "ex": "The first moon landing was a milestone in the history of space exploration.",
+   "exTr": "首次登月是太空探索史上的一座里程碑。",
+   "form": "milestone",
+   "cloze": "The first moon landing was a ＿＿＿ in the history of space exploration.",
+   "distractors": [
+    "mileage",
+    "militia",
+    "mildew"
+   ],
+   "colloc": "",
+   "syn": "landmark, turning point",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "monopoly",
+   "pos": "名",
+   "ja": "独占；専売",
+   "zh": "垄断",
+   "ex": "For many years, the company had a monopoly on the sale of salt.",
+   "exTr": "多年来，这家公司垄断了盐的销售。",
+   "form": "monopoly",
+   "cloze": "For many years, the company had a ＿＿＿ on the sale of salt.",
+   "distractors": [
+    "monologue",
+    "monotony",
+    "monument"
+   ],
+   "colloc": "a monopoly on ～",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "paradox",
+   "pos": "名",
+   "ja": "逆説；矛盾",
+   "zh": "悖论；自相矛盾的事",
+   "ex": "It is a paradox that the more choices we have, the less satisfied we often feel.",
+   "exTr": "选择越多，我们反而越不满足，这真是个悖论。",
+   "form": "paradox",
+   "cloze": "It is a ＿＿＿ that the more choices we have, the less satisfied we often feel.",
+   "distractors": [
+    "paradise",
+    "paragraph",
+    "parasite"
+   ],
+   "colloc": "",
+   "syn": "contradiction",
+   "note": "形容词：paradoxical",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "perspective",
+   "pos": "名",
+   "ja": "見方；観点",
+   "zh": "视角；观点",
+   "ex": "Living abroad gave him a new perspective on his own culture.",
+   "exTr": "在国外生活让他对本国文化有了新的看法。",
+   "form": "perspective",
+   "cloze": "Living abroad gave him a new ＿＿＿ on his own culture.",
+   "distractors": [
+    "perspiration",
+    "persistence",
+    "perseverance"
+   ],
+   "colloc": "a perspective on ～",
+   "syn": "viewpoint, point of view",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "predicament",
+   "pos": "名",
+   "ja": "苦境",
+   "zh": "困境",
+   "ex": "The sudden loss of his job left him in a difficult financial predicament.",
+   "exTr": "突然失业让他陷入了经济困境。",
+   "form": "predicament",
+   "cloze": "The sudden loss of his job left him in a difficult financial ＿＿＿.",
+   "distractors": [
+    "predicate",
+    "preference",
+    "precinct"
+   ],
+   "colloc": "",
+   "syn": "dilemma, plight",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "proficiency",
+   "pos": "名",
+   "ja": "熟達；技能",
+   "zh": "熟练；精通",
+   "ex": "Applicants must show a high level of proficiency in English.",
+   "exTr": "申请者必须证明自己的英语水平很高。",
+   "form": "proficiency",
+   "cloze": "Applicants must show a high level of ＿＿＿ in English.",
+   "distractors": [
+    "profanity",
+    "prophecy",
+    "profusion"
+   ],
+   "colloc": "proficiency in ～",
+   "syn": "skill, competence",
+   "note": "形容词：proficient；英検的英文名里就有 Proficiency",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "prosperity",
+   "pos": "名",
+   "ja": "繁栄",
+   "zh": "繁荣",
+   "ex": "The new trade agreement is expected to bring prosperity to the region.",
+   "exTr": "新的贸易协定有望给该地区带来繁荣。",
+   "form": "prosperity",
+   "cloze": "The new trade agreement is expected to bring ＿＿＿ to the region.",
+   "distractors": [
+    "posterity",
+    "prosecution",
+    "proximity"
+   ],
+   "colloc": "",
+   "syn": "wealth, success",
+   "note": "动词：prosper",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "remedy",
+   "pos": "名",
+   "ja": "治療法；解決策",
+   "zh": "疗法；补救办法",
+   "ex": "Drinking hot ginger tea is a traditional remedy for colds.",
+   "exTr": "喝热姜茶是治感冒的传统方法。",
+   "form": "remedy",
+   "cloze": "Drinking hot ginger tea is a traditional ＿＿＿ for colds.",
+   "distractors": [
+    "remark",
+    "remnant",
+    "rebate"
+   ],
+   "colloc": "a remedy for ～",
+   "syn": "cure, solution",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "resentment",
+   "pos": "名",
+   "ja": "憤り；恨み",
+   "zh": "愤恨；不满",
+   "ex": "The sudden tax increase caused widespread resentment among workers.",
+   "exTr": "突然的增税在工人中引起了普遍不满。",
+   "form": "resentment",
+   "cloze": "The sudden tax increase caused widespread ＿＿＿ among workers.",
+   "distractors": [
+    "refinement",
+    "resemblance",
+    "retirement"
+   ],
+   "colloc": "",
+   "syn": "anger, bitterness",
+   "note": "动词：resent",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "sanction",
+   "pos": "名",
+   "ja": "制裁；認可",
+   "zh": "制裁；认可",
+   "ex": "The United Nations imposed economic sanctions on the country.",
+   "exTr": "联合国对该国实施了经济制裁。",
+   "form": "sanctions",
+   "cloze": "The United Nations imposed economic ＿＿＿ on the country.",
+   "distractors": [
+    "sanctuaries",
+    "sensations",
+    "sanatoriums"
+   ],
+   "colloc": "impose sanctions on ～",
+   "syn": "penalty",
+   "note": "单数也有“认可”的意思",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "setback",
+   "pos": "名",
+   "ja": "挫折；後退",
+   "zh": "挫折；倒退",
+   "ex": "The team suffered a major setback when its best player was injured.",
+   "exTr": "队里最好的球员受伤，球队遭受重挫。",
+   "form": "setback",
+   "cloze": "The team suffered a major ＿＿＿ when its best player was injured.",
+   "distractors": [
+    "setup",
+    "outset",
+    "sunset"
+   ],
+   "colloc": "suffer a setback",
+   "syn": "obstacle, reversal",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "shortage",
+   "pos": "名",
+   "ja": "不足",
+   "zh": "短缺；不足",
+   "ex": "Many hospitals are facing a serious shortage of nurses.",
+   "exTr": "许多医院面临严重的护士短缺。",
+   "form": "shortage",
+   "cloze": "Many hospitals are facing a serious ＿＿＿ of nurses.",
+   "distractors": [
+    "shortcut",
+    "storage",
+    "shoreline"
+   ],
+   "colloc": "a shortage of ～",
+   "syn": "lack, scarcity",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "speculation",
+   "pos": "名",
+   "ja": "推測；投機",
+   "zh": "推测；投机",
+   "ex": "There has been a lot of speculation about who will be the next prime minister.",
+   "exTr": "关于谁会成为下一任首相，有很多猜测。",
+   "form": "speculation",
+   "cloze": "There has been a lot of ＿＿＿ about who will be the next prime minister.",
+   "distractors": [
+    "spectacle",
+    "specification",
+    "stipulation"
+   ],
+   "colloc": "",
+   "syn": "guesswork",
+   "note": "动词：speculate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "surveillance",
+   "pos": "名",
+   "ja": "監視",
+   "zh": "监视",
+   "ex": "Security cameras keep the station under 24-hour surveillance.",
+   "exTr": "监控摄像头对车站进行24小时监视。",
+   "form": "surveillance",
+   "cloze": "Security cameras keep the station under 24-hour ＿＿＿.",
+   "distractors": [
+    "survival",
+    "surplus",
+    "semblance"
+   ],
+   "colloc": "under surveillance",
+   "syn": "monitoring",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "threshold",
+   "pos": "名",
+   "ja": "敷居；境界；限界",
+   "zh": "门槛；界限",
+   "ex": "The number of tourists has passed the threshold of one million for the first time.",
+   "exTr": "游客人数首次突破了一百万大关。",
+   "form": "threshold",
+   "cloze": "The number of tourists has passed the ＿＿＿ of one million for the first time.",
+   "distractors": [
+    "household",
+    "stronghold",
+    "foothold"
+   ],
+   "colloc": "",
+   "syn": "limit, level",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "transition",
+   "pos": "名",
+   "ja": "移行；転換",
+   "zh": "过渡；转变",
+   "ex": "The country is in transition from a manufacturing economy to a service economy.",
+   "exTr": "这个国家正在从制造业经济向服务业经济过渡。",
+   "form": "transition",
+   "cloze": "The country is in ＿＿＿ from a manufacturing economy to a service economy.",
+   "distractors": [
+    "transaction",
+    "transfusion",
+    "translation"
+   ],
+   "colloc": "transition from A to B",
+   "syn": "shift, change",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "undertaking",
+   "pos": "名",
+   "ja": "事業；仕事",
+   "zh": "事业；任务",
+   "ex": "Building the new railway line was a huge undertaking that took ten years.",
+   "exTr": "修建这条新铁路是一项耗时十年的巨大工程。",
+   "form": "undertaking",
+   "cloze": "Building the new railway line was a huge ＿＿＿ that took ten years.",
+   "distractors": [
+    "undercurrent",
+    "underdog",
+    "underpass"
+   ],
+   "colloc": "",
+   "syn": "project, task",
+   "note": "动词：undertake",
+   "importance": 3
+  }
+ ],
+ "images": []
+}

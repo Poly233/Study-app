@@ -1,0 +1,810 @@
+{
+ "id": "eiken-p4-verbs2",
+ "kind": "cards",
+ "subject": "vocab",
+ "title": "準1級 頻出動詞② 40",
+ "summary": "- 动词第2批：**变化**（aggravate 恶化、dwindle 减少、fluctuate 波动）和**态度**（advocate 提倡、tolerate 容忍、refute 驳斥）很常考\n- 形近陷阱：**adapt**（适应）vs adopt（采用）、**deduce**（推断）vs deduct（扣除）、**stimulate**（刺激）vs simulate（模拟）、**prescribe**（开药）vs proscribe（禁止）\n- 搭配一起记：**exert** influence on、**inflict** A on B（③）、prohibit A **from** doing、**intervene in**",
+ "cards": [
+  {
+   "type": "word",
+   "word": "abandon",
+   "pos": "動",
+   "ja": "捨てる；断念する",
+   "zh": "放弃；抛弃",
+   "ex": "The climbers had to abandon their attempt to reach the summit because of the storm.",
+   "exTr": "因为暴风雨，登山者们不得不放弃登顶的尝试。",
+   "form": "abandon",
+   "cloze": "The climbers had to ＿＿＿ their attempt to reach the summit because of the storm.",
+   "distractors": [
+    "abduct",
+    "abbreviate",
+    "adorn"
+   ],
+   "colloc": "abandon a plan",
+   "syn": "give up",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "acknowledge",
+   "pos": "動",
+   "ja": "認める",
+   "zh": "承认",
+   "ex": "The company finally acknowledged that its product had a serious defect.",
+   "exTr": "公司终于承认其产品有严重缺陷。",
+   "form": "acknowledged",
+   "cloze": "The company finally ＿＿＿ that its product had a serious defect.",
+   "distractors": [
+    "accumulated",
+    "accelerated",
+    "abducted"
+   ],
+   "colloc": "acknowledge that ～",
+   "syn": "admit, recognize",
+   "note": "名词：acknowledgment",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "adapt",
+   "pos": "動",
+   "ja": "適応する；改作する",
+   "zh": "适应；改编",
+   "ex": "It took her a few months to adapt to life in a foreign country.",
+   "exTr": "她花了几个月才适应在国外的生活。",
+   "form": "adapt",
+   "cloze": "It took her a few months to ＿＿＿ to life in a foreign country.",
+   "distractors": [
+    "adopt",
+    "adore",
+    "adjoin"
+   ],
+   "colloc": "adapt to ～",
+   "syn": "adjust",
+   "note": "形近词：adopt＝采用；收养",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "advocate",
+   "pos": "動",
+   "ja": "提唱する；主張する",
+   "zh": "提倡；主张",
+   "ex": "Many doctors advocate regular exercise as a way to prevent illness.",
+   "exTr": "许多医生提倡把规律运动作为预防疾病的方法。",
+   "form": "advocate",
+   "cloze": "Many doctors ＿＿＿ regular exercise as a way to prevent illness.",
+   "distractors": [
+    "abdicate",
+    "alienate",
+    "aggravate"
+   ],
+   "colloc": "",
+   "syn": "support, promote",
+   "note": "名词 advocate＝提倡者",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "aggravate",
+   "pos": "動",
+   "ja": "悪化させる",
+   "zh": "使恶化；加重",
+   "ex": "Scratching the rash will only aggravate the problem.",
+   "exTr": "挠皮疹只会让问题更严重。",
+   "form": "aggravate",
+   "cloze": "Scratching the rash will only ＿＿＿ the problem.",
+   "distractors": [
+    "allocate",
+    "articulate",
+    "abbreviate"
+   ],
+   "colloc": "",
+   "syn": "worsen",
+   "note": "反义：alleviate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "anticipate",
+   "pos": "動",
+   "ja": "予想する；見越す",
+   "zh": "预料；预期",
+   "ex": "Organizers anticipate that more than 10,000 people will attend the event.",
+   "exTr": "组织者预计会有一万多人参加这次活动。",
+   "form": "anticipate",
+   "cloze": "Organizers ＿＿＿ that more than 10,000 people will attend the event.",
+   "distractors": [
+    "assimilate",
+    "antagonize",
+    "abdicate"
+   ],
+   "colloc": "",
+   "syn": "expect, predict",
+   "note": "名词：anticipation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "collaborate",
+   "pos": "動",
+   "ja": "協力する；共同で行う",
+   "zh": "合作",
+   "ex": "The two universities collaborated on a study of ocean pollution.",
+   "exTr": "两所大学合作进行了一项关于海洋污染的研究。",
+   "form": "collaborated",
+   "cloze": "The two universities ＿＿＿ on a study of ocean pollution.",
+   "distractors": [
+    "collapsed",
+    "calibrated",
+    "contradicted"
+   ],
+   "colloc": "collaborate with A on B",
+   "syn": "cooperate, work together",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "confront",
+   "pos": "動",
+   "ja": "立ち向かう；直面する",
+   "zh": "面对；对抗",
+   "ex": "The new mayor must confront the problem of rising crime.",
+   "exTr": "新市长必须正视犯罪率上升的问题。",
+   "form": "confront",
+   "cloze": "The new mayor must ＿＿＿ the problem of rising crime.",
+   "distractors": [
+    "confide",
+    "conform",
+    "conjure"
+   ],
+   "colloc": "be confronted with ～",
+   "syn": "face, tackle",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "contradict",
+   "pos": "動",
+   "ja": "矛盾する；反論する",
+   "zh": "与…矛盾；反驳",
+   "ex": "The witness's statement contradicted what the police had found.",
+   "exTr": "证人的陈述和警方的发现相矛盾。",
+   "form": "contradicted",
+   "cloze": "The witness's statement ＿＿＿ what the police had found.",
+   "distractors": [
+    "contracted",
+    "consoled",
+    "cultivated"
+   ],
+   "colloc": "",
+   "syn": "conflict with",
+   "note": "名词：contradiction",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "deduce",
+   "pos": "動",
+   "ja": "推論する",
+   "zh": "推断",
+   "ex": "From the footprints, the detective deduced that the thief was a tall man.",
+   "exTr": "侦探从脚印推断出小偷是个高个子男人。",
+   "form": "deduced",
+   "cloze": "From the footprints, the detective ＿＿＿ that the thief was a tall man.",
+   "distractors": [
+    "deducted",
+    "diffused",
+    "devoured"
+   ],
+   "colloc": "",
+   "syn": "infer, conclude",
+   "note": "形近词：deduct＝扣除",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "dispatch",
+   "pos": "動",
+   "ja": "派遣する；発送する",
+   "zh": "派遣；发送",
+   "ex": "The government dispatched rescue workers to the flooded area.",
+   "exTr": "政府向洪水灾区派遣了救援人员。",
+   "form": "dispatched",
+   "cloze": "The government ＿＿＿ rescue workers to the flooded area.",
+   "distractors": [
+    "dissected",
+    "dismantled",
+    "discarded"
+   ],
+   "colloc": "",
+   "syn": "send",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "dwindle",
+   "pos": "動",
+   "ja": "次第に減少する",
+   "zh": "逐渐减少",
+   "ex": "The number of farmers in the village has dwindled over the past 30 years.",
+   "exTr": "过去30年里，村里的农民越来越少。",
+   "form": "dwindled",
+   "cloze": "The number of farmers in the village has ＿＿＿ over the past 30 years.",
+   "distractors": [
+    "twinkled",
+    "dazzled",
+    "wrinkled"
+   ],
+   "colloc": "",
+   "syn": "decrease, shrink",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "embrace",
+   "pos": "動",
+   "ja": "受け入れる；抱きしめる",
+   "zh": "欣然接受；拥抱",
+   "ex": "Many older people have been slow to embrace new technology.",
+   "exTr": "许多老年人接受新技术比较慢。",
+   "form": "embrace",
+   "cloze": "Many older people have been slow to ＿＿＿ new technology.",
+   "distractors": [
+    "embezzle",
+    "emigrate",
+    "embroider"
+   ],
+   "colloc": "embrace change",
+   "syn": "accept, adopt",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "emerge",
+   "pos": "動",
+   "ja": "現れる；明らかになる",
+   "zh": "出现；浮现",
+   "ex": "New evidence emerged that the company had hidden the problem for years.",
+   "exTr": "新的证据显示，这家公司多年来一直隐瞒这个问题。",
+   "form": "emerged",
+   "cloze": "New evidence ＿＿＿ that the company had hidden the problem for years.",
+   "distractors": [
+    "merged",
+    "submerged",
+    "emigrated"
+   ],
+   "colloc": "",
+   "syn": "appear, come out",
+   "note": "名词：emergence",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "enforce",
+   "pos": "動",
+   "ja": "施行する；強制する",
+   "zh": "执行；实施",
+   "ex": "The police have started to strictly enforce the new speed limit.",
+   "exTr": "警方已经开始严格执行新的限速规定。",
+   "form": "enforce",
+   "cloze": "The police have started to strictly ＿＿＿ the new speed limit.",
+   "distractors": [
+    "enrich",
+    "engrave",
+    "enlist"
+   ],
+   "colloc": "enforce a law",
+   "syn": "impose, apply",
+   "note": "名词：enforcement",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "evacuate",
+   "pos": "動",
+   "ja": "避難させる；避難する",
+   "zh": "疏散；撤离",
+   "ex": "Thousands of residents were evacuated before the hurricane hit the coast.",
+   "exTr": "飓风袭击海岸之前，数千名居民被疏散。",
+   "form": "evacuated",
+   "cloze": "Thousands of residents were ＿＿＿ before the hurricane hit the coast.",
+   "distractors": [
+    "evaporated",
+    "emancipated",
+    "exaggerated"
+   ],
+   "colloc": "",
+   "syn": "move out",
+   "note": "名词：evacuation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "exert",
+   "pos": "動",
+   "ja": "（力・影響を）及ぼす；発揮する",
+   "zh": "施加；运用",
+   "ex": "Advertising exerts a strong influence on what children want to buy.",
+   "exTr": "广告对孩子想买什么有很大影响。",
+   "form": "exerts",
+   "cloze": "Advertising ＿＿＿ a strong influence on what children want to buy.",
+   "distractors": [
+    "exempts",
+    "exhales",
+    "exiles"
+   ],
+   "colloc": "exert influence / exert pressure on ～",
+   "syn": "apply",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "fluctuate",
+   "pos": "動",
+   "ja": "変動する",
+   "zh": "波动；起伏",
+   "ex": "Vegetable prices fluctuate depending on the weather.",
+   "exTr": "蔬菜价格随天气而波动。",
+   "form": "fluctuate",
+   "cloze": "Vegetable prices ＿＿＿ depending on the weather.",
+   "distractors": [
+    "frustrate",
+    "fabricate",
+    "fertilize"
+   ],
+   "colloc": "",
+   "syn": "vary, change",
+   "note": "名词：fluctuation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "hamper",
+   "pos": "動",
+   "ja": "妨げる",
+   "zh": "阻碍；妨碍",
+   "ex": "Strong winds hampered efforts to put out the forest fire.",
+   "exTr": "强风妨碍了扑灭山火的工作。",
+   "form": "hampered",
+   "cloze": "Strong winds ＿＿＿ efforts to put out the forest fire.",
+   "distractors": [
+    "pampered",
+    "tampered",
+    "scampered"
+   ],
+   "colloc": "",
+   "syn": "hinder, impede",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "implement",
+   "pos": "動",
+   "ja": "実行する；実施する",
+   "zh": "实施；执行",
+   "ex": "The school will implement a new attendance system next month.",
+   "exTr": "学校下个月将实行新的考勤制度。",
+   "form": "implement",
+   "cloze": "The school will ＿＿＿ a new attendance system next month.",
+   "distractors": [
+    "implicate",
+    "implore",
+    "imprison"
+   ],
+   "colloc": "",
+   "syn": "carry out, put into practice",
+   "note": "名词：implementation；名词 implement＝工具",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "induce",
+   "pos": "動",
+   "ja": "引き起こす；説得して～させる",
+   "zh": "引起；诱使",
+   "ex": "Some medicines can induce sleepiness, so you should not drive after taking them.",
+   "exTr": "有些药会让人犯困，所以吃完之后不要开车。",
+   "form": "induce",
+   "cloze": "Some medicines can ＿＿＿ sleepiness, so you should not drive after taking them.",
+   "distractors": [
+    "indict",
+    "inhale",
+    "invade"
+   ],
+   "colloc": "induce A to do",
+   "syn": "cause, bring about",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "intervene",
+   "pos": "動",
+   "ja": "介入する；仲裁する",
+   "zh": "干预；调停",
+   "ex": "The teacher had to intervene when the argument between the two students became violent.",
+   "exTr": "两个学生的争吵演变成打架时，老师不得不出面干预。",
+   "form": "intervene",
+   "cloze": "The teacher had to ＿＿＿ when the argument between the two students became violent.",
+   "distractors": [
+    "intercept",
+    "intimidate",
+    "interrogate"
+   ],
+   "colloc": "intervene in ～",
+   "syn": "step in",
+   "note": "名词：intervention",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "lament",
+   "pos": "動",
+   "ja": "嘆く；悲しむ",
+   "zh": "哀叹；悲叹",
+   "ex": "Many older residents lament the loss of traditional shops in the area.",
+   "exTr": "许多老居民为这一带的传统商店消失而惋惜。",
+   "form": "lament",
+   "cloze": "Many older residents ＿＿＿ the loss of traditional shops in the area.",
+   "distractors": [
+    "laminate",
+    "lubricate",
+    "levitate"
+   ],
+   "colloc": "",
+   "syn": "mourn, regret",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "linger",
+   "pos": "動",
+   "ja": "なかなか消えない；居残る",
+   "zh": "逗留；（气味等）久久不散",
+   "ex": "The smell of smoke lingered in the house for days after the fire.",
+   "exTr": "火灾之后，烟味在屋里好几天都没散。",
+   "form": "lingered",
+   "cloze": "The smell of smoke ＿＿＿ in the house for days after the fire.",
+   "distractors": [
+    "lunged",
+    "lured",
+    "levied"
+   ],
+   "colloc": "",
+   "syn": "remain, persist",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "manipulate",
+   "pos": "動",
+   "ja": "操る；操作する",
+   "zh": "操纵；摆布",
+   "ex": "The politician was accused of manipulating the media to improve his image.",
+   "exTr": "那位政治家被指控操纵媒体来改善自己的形象。",
+   "form": "manipulating",
+   "cloze": "The politician was accused of ＿＿＿ the media to improve his image.",
+   "distractors": [
+    "mutilating",
+    "migrating",
+    "mediating"
+   ],
+   "colloc": "",
+   "syn": "control",
+   "note": "名词：manipulation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "neglect",
+   "pos": "動",
+   "ja": "怠る；放置する",
+   "zh": "忽视；疏忽",
+   "ex": "Parents who work long hours may neglect their children without meaning to.",
+   "exTr": "长时间工作的父母可能会无意中忽视孩子。",
+   "form": "neglect",
+   "cloze": "Parents who work long hours may ＿＿＿ their children without meaning to.",
+   "distractors": [
+    "negotiate",
+    "nullify",
+    "narrate"
+   ],
+   "colloc": "",
+   "syn": "ignore, overlook",
+   "note": "形容词：negligent（疏忽的）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "offset",
+   "pos": "動",
+   "ja": "相殺する；埋め合わせる",
+   "zh": "抵消；弥补",
+   "ex": "The company raised its prices to offset the higher cost of materials.",
+   "exTr": "公司提高售价，以抵消材料成本的上涨。",
+   "form": "offset",
+   "cloze": "The company raised its prices to ＿＿＿ the higher cost of materials.",
+   "distractors": [
+    "outfit",
+    "upset",
+    "outlast"
+   ],
+   "colloc": "",
+   "syn": "compensate for",
+   "note": "过去式和过去分词都是 offset",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "overwhelm",
+   "pos": "動",
+   "ja": "圧倒する；困惑させる",
+   "zh": "压倒；使不知所措",
+   "ex": "She was overwhelmed by the number of messages she received on her birthday.",
+   "exTr": "生日那天收到的消息多得让她应接不暇。",
+   "form": "overwhelmed",
+   "cloze": "She was ＿＿＿ by the number of messages she received on her birthday.",
+   "distractors": [
+    "overheard",
+    "overdone",
+    "overpaid"
+   ],
+   "colloc": "be overwhelmed by ～",
+   "syn": "overpower",
+   "note": "形容词：overwhelming（压倒性的）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "prescribe",
+   "pos": "動",
+   "ja": "処方する；規定する",
+   "zh": "开（药方）；规定",
+   "ex": "The doctor prescribed some medicine for her cough.",
+   "exTr": "医生给她开了治咳嗽的药。",
+   "form": "prescribed",
+   "cloze": "The doctor ＿＿＿ some medicine for her cough.",
+   "distractors": [
+    "proscribed",
+    "presided",
+    "perforated"
+   ],
+   "colloc": "prescribe A for B",
+   "syn": "",
+   "note": "名词：prescription；形近词：proscribe＝禁止",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "prohibit",
+   "pos": "動",
+   "ja": "禁止する",
+   "zh": "禁止",
+   "ex": "Smoking is prohibited in all public buildings in this city.",
+   "exTr": "这个城市的所有公共建筑内都禁止吸烟。",
+   "form": "prohibited",
+   "cloze": "Smoking is ＿＿＿ in all public buildings in this city.",
+   "distractors": [
+    "prolonged",
+    "procured",
+    "propelled"
+   ],
+   "colloc": "prohibit A from doing",
+   "syn": "ban, forbid",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "refute",
+   "pos": "動",
+   "ja": "論破する；反論する",
+   "zh": "驳斥；反驳",
+   "ex": "The scientist refuted the claim that the vaccine was dangerous.",
+   "exTr": "那位科学家驳斥了疫苗危险的说法。",
+   "form": "refuted",
+   "cloze": "The scientist ＿＿＿ the claim that the vaccine was dangerous.",
+   "distractors": [
+    "refunded",
+    "refueled",
+    "recycled"
+   ],
+   "colloc": "",
+   "syn": "disprove",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "reinforce",
+   "pos": "動",
+   "ja": "強化する；補強する",
+   "zh": "加强；巩固",
+   "ex": "Engineers reinforced the old bridge so that it could carry heavier trucks.",
+   "exTr": "工程师加固了旧桥，让它能承受更重的卡车。",
+   "form": "reinforced",
+   "cloze": "Engineers ＿＿＿ the old bridge so that it could carry heavier trucks.",
+   "distractors": [
+    "reimbursed",
+    "reiterated",
+    "rehearsed"
+   ],
+   "colloc": "",
+   "syn": "strengthen",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "reproach",
+   "pos": "動",
+   "ja": "非難する；とがめる",
+   "zh": "责备",
+   "ex": "He reproached himself for not visiting his grandmother more often.",
+   "exTr": "他责怪自己没有多去看望祖母。",
+   "form": "reproached",
+   "cloze": "He ＿＿＿ himself for not visiting his grandmother more often.",
+   "distractors": [
+    "reprinted",
+    "reclaimed",
+    "recharged"
+   ],
+   "colloc": "reproach oneself for ～（自责）",
+   "syn": "blame",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "restrain",
+   "pos": "動",
+   "ja": "抑える；制止する",
+   "zh": "抑制；克制",
+   "ex": "She could hardly restrain her anger when she heard the news.",
+   "exTr": "听到这个消息时，她几乎压不住怒火。",
+   "form": "restrain",
+   "cloze": "She could hardly ＿＿＿ her anger when she heard the news.",
+   "distractors": [
+    "retrain",
+    "refrain",
+    "rebound"
+   ],
+   "colloc": "",
+   "syn": "hold back, control",
+   "note": "名词：restraint；refrain 后面要接 from",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "stimulate",
+   "pos": "動",
+   "ja": "刺激する；促す",
+   "zh": "刺激；促进",
+   "ex": "Lower taxes are expected to stimulate economic growth.",
+   "exTr": "减税预计会刺激经济增长。",
+   "form": "stimulate",
+   "cloze": "Lower taxes are expected to ＿＿＿ economic growth.",
+   "distractors": [
+    "simulate",
+    "stipulate",
+    "sterilize"
+   ],
+   "colloc": "",
+   "syn": "encourage, boost",
+   "note": "形近词：simulate＝模拟",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "subsidize",
+   "pos": "動",
+   "ja": "補助金を出す",
+   "zh": "补贴；资助",
+   "ex": "The government subsidizes public transportation to keep fares low.",
+   "exTr": "政府补贴公共交通，以保持低票价。",
+   "form": "subsidizes",
+   "cloze": "The government ＿＿＿ public transportation to keep fares low.",
+   "distractors": [
+    "summarizes",
+    "sympathizes",
+    "stigmatizes"
+   ],
+   "colloc": "",
+   "syn": "fund, support",
+   "note": "名词：subsidy（补贴）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "suppress",
+   "pos": "動",
+   "ja": "抑える；鎮圧する",
+   "zh": "压制；镇压",
+   "ex": "The army was sent to suppress the protests in the capital.",
+   "exTr": "军队被派去镇压首都的抗议活动。",
+   "form": "suppress",
+   "cloze": "The army was sent to ＿＿＿ the protests in the capital.",
+   "distractors": [
+    "suppose",
+    "surpass",
+    "supplement"
+   ],
+   "colloc": "",
+   "syn": "put down, crush",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "tolerate",
+   "pos": "動",
+   "ja": "我慢する；容認する",
+   "zh": "容忍；忍受",
+   "ex": "The new manager will not tolerate lateness from his staff.",
+   "exTr": "新经理不会容忍员工迟到。",
+   "form": "tolerate",
+   "cloze": "The new manager will not ＿＿＿ lateness from his staff.",
+   "distractors": [
+    "tabulate",
+    "translate",
+    "tantalize"
+   ],
+   "colloc": "",
+   "syn": "put up with, endure",
+   "note": "名词：tolerance；形容词：tolerant",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "transform",
+   "pos": "動",
+   "ja": "変える；一変させる",
+   "zh": "改变；转变",
+   "ex": "The internet has transformed the way people shop.",
+   "exTr": "互联网彻底改变了人们的购物方式。",
+   "form": "transformed",
+   "cloze": "The internet has ＿＿＿ the way people shop.",
+   "distractors": [
+    "transplanted",
+    "transfused",
+    "trespassed"
+   ],
+   "colloc": "transform A into B",
+   "syn": "change, convert",
+   "note": "名词：transformation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "violate",
+   "pos": "動",
+   "ja": "違反する；侵害する",
+   "zh": "违反；侵犯",
+   "ex": "The company was fined for violating environmental laws.",
+   "exTr": "这家公司因违反环境法规而被罚款。",
+   "form": "violating",
+   "cloze": "The company was fined for ＿＿＿ environmental laws.",
+   "distractors": [
+    "ventilating",
+    "vaccinating",
+    "validating"
+   ],
+   "colloc": "violate a law / violate rights",
+   "syn": "break, breach",
+   "note": "名词：violation",
+   "importance": 3
+  }
+ ],
+ "images": []
+}

@@ -1,0 +1,810 @@
+{
+ "id": "eiken-p8-phrasal2",
+ "kind": "cards",
+ "subject": "vocab",
+ "title": "準1級 句動詞② 40",
+ "summary": "- 句动词第2批，和第1批没有重复\n- 一词多义：**pick up**（捡起／接人／学会）、**work out**（解决／顺利／健身）、**take up**（开始从事／占用）、**turn out**（结果是）\n- 容易混：**pass out**（昏倒）vs pass away（去世）、**show off**（炫耀）vs show up（出现）、**back up**（支持）vs back down（让步）\n- 写作和要约能用：**sum up**、point out、deal with、bring up",
+ "cards": [
+  {
+   "type": "word",
+   "word": "abide by",
+   "pos": "熟",
+   "ja": "（規則に）従う",
+   "zh": "遵守",
+   "ex": "All players must abide by the rules of the game.",
+   "exTr": "所有选手都必须遵守比赛规则。",
+   "form": "abide by",
+   "cloze": "All players must ＿＿＿ the rules of the game.",
+   "distractors": [
+    "abound in",
+    "add up to",
+    "back up"
+   ],
+   "colloc": "",
+   "syn": "obey, comply with",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "back up",
+   "pos": "熟",
+   "ja": "支持する；裏付ける",
+   "zh": "支持；证实",
+   "ex": "The scientist used experiments to back up her theory.",
+   "exTr": "那位科学家用实验来证实她的理论。",
+   "form": "back up",
+   "cloze": "The scientist used experiments to ＿＿＿ her theory.",
+   "distractors": [
+    "back down",
+    "get by",
+    "show up"
+   ],
+   "colloc": "",
+   "syn": "support",
+   "note": "back down＝让步、退让",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "bring up",
+   "pos": "熟",
+   "ja": "育てる；（話題を）持ち出す",
+   "zh": "抚养；提出（话题）",
+   "ex": "She was brought up by her grandparents in a small village.",
+   "exTr": "她在一个小村庄里由祖父母抚养长大。",
+   "form": "brought up",
+   "cloze": "She was ＿＿＿ by her grandparents in a small village.",
+   "distractors": [
+    "brought about",
+    "put out",
+    "called off"
+   ],
+   "colloc": "",
+   "syn": "raise",
+   "note": "也有“提出（话题）”的意思",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "catch up on",
+   "pos": "熟",
+   "ja": "（遅れを）取り戻す",
+   "zh": "补上；弥补（落下的）",
+   "ex": "I need to catch up on my sleep this weekend after a busy week.",
+   "exTr": "忙了一周之后，这个周末我得补补觉。",
+   "form": "catch up on",
+   "cloze": "I need to ＿＿＿ my sleep this weekend after a busy week.",
+   "distractors": [
+    "cut down on",
+    "look up to",
+    "get away with"
+   ],
+   "colloc": "",
+   "syn": "make up for",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "count on",
+   "pos": "熟",
+   "ja": "頼る；当てにする",
+   "zh": "依靠；指望",
+   "ex": "You can always count on him to help you when you are in trouble.",
+   "exTr": "你遇到困难时总可以指望他帮忙。",
+   "form": "count on",
+   "cloze": "You can always ＿＿＿ him to help you when you are in trouble.",
+   "distractors": [
+    "carry on",
+    "call off",
+    "show off"
+   ],
+   "colloc": "",
+   "syn": "rely on, depend on",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "deal with",
+   "pos": "熟",
+   "ja": "対処する；扱う",
+   "zh": "处理；应对",
+   "ex": "The government must deal with the problem of rising prices.",
+   "exTr": "政府必须应对物价上涨的问题。",
+   "form": "deal with",
+   "cloze": "The government must ＿＿＿ the problem of rising prices.",
+   "distractors": [
+    "do without",
+    "die out",
+    "dress up"
+   ],
+   "colloc": "",
+   "syn": "handle, cope with",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "die out",
+   "pos": "熟",
+   "ja": "絶滅する；廃れる",
+   "zh": "灭绝；消失",
+   "ex": "Many local languages are in danger of dying out.",
+   "exTr": "许多地方语言正面临消亡的危险。",
+   "form": "dying out",
+   "cloze": "Many local languages are in danger of ＿＿＿.",
+   "distractors": [
+    "dropping by",
+    "dressing up",
+    "dozing off"
+   ],
+   "colloc": "",
+   "syn": "become extinct, disappear",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "dispose of",
+   "pos": "熟",
+   "ja": "処分する",
+   "zh": "处理；丢掉",
+   "ex": "It is important to dispose of old batteries safely.",
+   "exTr": "安全地处理旧电池很重要。",
+   "form": "dispose of",
+   "cloze": "It is important to ＿＿＿ old batteries safely.",
+   "distractors": [
+    "approve of",
+    "consist of",
+    "make fun of"
+   ],
+   "colloc": "",
+   "syn": "get rid of, throw away",
+   "note": "名词：disposal",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "drop by",
+   "pos": "熟",
+   "ja": "ちょっと立ち寄る",
+   "zh": "顺便拜访",
+   "ex": "Please drop by my office if you have any questions.",
+   "exTr": "有问题的话请随时来我办公室。",
+   "form": "drop by",
+   "cloze": "Please ＿＿＿ my office if you have any questions.",
+   "distractors": [
+    "drop out",
+    "pass away",
+    "break down"
+   ],
+   "colloc": "",
+   "syn": "stop by, visit",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "fall through",
+   "pos": "熟",
+   "ja": "（計画などが）失敗に終わる",
+   "zh": "（计划等）落空",
+   "ex": "Our plans to travel abroad fell through because of the pandemic.",
+   "exTr": "因为疫情，我们出国旅行的计划泡汤了。",
+   "form": "fell through",
+   "cloze": "Our plans to travel abroad ＿＿＿ because of the pandemic.",
+   "distractors": [
+    "fell for",
+    "came across",
+    "took after"
+   ],
+   "colloc": "",
+   "syn": "fail, collapse",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "go over",
+   "pos": "熟",
+   "ja": "見直す；よく調べる",
+   "zh": "仔细检查；复习",
+   "ex": "Let's go over the report once more before we send it.",
+   "exTr": "发送之前我们再把报告检查一遍吧。",
+   "form": "go over",
+   "cloze": "Let's ＿＿＿ the report once more before we send it.",
+   "distractors": [
+    "go without",
+    "give off",
+    "get along with"
+   ],
+   "colloc": "",
+   "syn": "review, check",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "hand in",
+   "pos": "熟",
+   "ja": "提出する",
+   "zh": "提交",
+   "ex": "Please hand in your essays by Friday.",
+   "exTr": "请在周五之前交作文。",
+   "form": "hand in",
+   "cloze": "Please ＿＿＿ your essays by Friday.",
+   "distractors": [
+    "hang up",
+    "hold on",
+    "hit on"
+   ],
+   "colloc": "",
+   "syn": "submit, turn in",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "hold back",
+   "pos": "熟",
+   "ja": "抑える；隠す",
+   "zh": "抑制；忍住",
+   "ex": "She could not hold back her tears when she heard the sad news.",
+   "exTr": "听到这个悲伤的消息，她忍不住流下了眼泪。",
+   "form": "hold back",
+   "cloze": "She could not ＿＿＿ her tears when she heard the sad news.",
+   "distractors": [
+    "hold on",
+    "hand over",
+    "head off"
+   ],
+   "colloc": "",
+   "syn": "restrain, suppress",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "kick off",
+   "pos": "熟",
+   "ja": "始まる；開始する",
+   "zh": "开始",
+   "ex": "The festival will kick off with a parade on Saturday morning.",
+   "exTr": "节日将在周六上午以游行拉开序幕。",
+   "form": "kick off",
+   "cloze": "The festival will ＿＿＿ with a parade on Saturday morning.",
+   "distractors": [
+    "kick out",
+    "knock out",
+    "keep off"
+   ],
+   "colloc": "",
+   "syn": "begin, start",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "lay out",
+   "pos": "熟",
+   "ja": "並べる；設計する；説明する",
+   "zh": "摆开；设计；阐述",
+   "ex": "The architect laid out his plans for the new library at the meeting.",
+   "exTr": "建筑师在会上阐述了新图书馆的设计方案。",
+   "form": "laid out",
+   "cloze": "The architect ＿＿＿ his plans for the new library at the meeting.",
+   "distractors": [
+    "laid off",
+    "looked down on",
+    "ran over"
+   ],
+   "colloc": "",
+   "syn": "present, explain",
+   "note": "名词：layout（布局）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "look over",
+   "pos": "熟",
+   "ja": "ざっと目を通す",
+   "zh": "浏览；检查",
+   "ex": "Could you look over my essay and check for mistakes?",
+   "exTr": "你能帮我看一下作文，检查有没有错误吗？",
+   "form": "look over",
+   "cloze": "Could you ＿＿＿ my essay and check for mistakes?",
+   "distractors": [
+    "look up to",
+    "look down on",
+    "look forward to"
+   ],
+   "colloc": "",
+   "syn": "check, examine",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "make out",
+   "pos": "熟",
+   "ja": "理解する；判別する",
+   "zh": "辨认出；理解",
+   "ex": "It was so foggy that I could hardly make out the road signs.",
+   "exTr": "雾太大了，我几乎看不清路标。",
+   "form": "make out",
+   "cloze": "It was so foggy that I could hardly ＿＿＿ the road signs.",
+   "distractors": [
+    "make off",
+    "put off",
+    "run out"
+   ],
+   "colloc": "",
+   "syn": "see, distinguish",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "pass out",
+   "pos": "熟",
+   "ja": "気を失う；配る",
+   "zh": "昏倒；分发",
+   "ex": "One of the runners passed out because of the heat.",
+   "exTr": "有一名跑者因为太热晕倒了。",
+   "form": "passed out",
+   "cloze": "One of the runners ＿＿＿ because of the heat.",
+   "distractors": [
+    "showed off",
+    "gave off",
+    "broke even"
+   ],
+   "colloc": "",
+   "syn": "faint",
+   "note": "pass away＝去世，别搞混",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "pick up",
+   "pos": "熟",
+   "ja": "拾う；迎えに行く；身につける",
+   "zh": "捡起；接（人）；（自然而然）学会",
+   "ex": "She picked up a little Spanish while she was traveling in Mexico.",
+   "exTr": "她在墨西哥旅行时学会了一点西班牙语。",
+   "form": "picked up",
+   "cloze": "She ＿＿＿ a little Spanish while she was traveling in Mexico.",
+   "distractors": [
+    "picked on",
+    "pulled over",
+    "passed out"
+   ],
+   "colloc": "",
+   "syn": "learn, acquire",
+   "note": "意思很多：捡起／开车去接人／学会",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "point out",
+   "pos": "熟",
+   "ja": "指摘する",
+   "zh": "指出",
+   "ex": "The teacher pointed out several mistakes in my essay.",
+   "exTr": "老师指出了我作文里的几处错误。",
+   "form": "pointed out",
+   "cloze": "The teacher ＿＿＿ several mistakes in my essay.",
+   "distractors": [
+    "paid off",
+    "put out",
+    "passed away"
+   ],
+   "colloc": "",
+   "syn": "indicate, mention",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "pull over",
+   "pos": "熟",
+   "ja": "（車を）道路脇に寄せる",
+   "zh": "靠边停车",
+   "ex": "The police officer told the driver to pull over to the side of the road.",
+   "exTr": "警察让司机把车停到路边。",
+   "form": "pull over",
+   "cloze": "The police officer told the driver to ＿＿＿ to the side of the road.",
+   "distractors": [
+    "put up",
+    "pay off",
+    "pass out"
+   ],
+   "colloc": "",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "put forward",
+   "pos": "熟",
+   "ja": "提案する",
+   "zh": "提出（意见、计划）",
+   "ex": "Several members put forward new ideas at the meeting.",
+   "exTr": "好几位成员在会上提出了新的想法。",
+   "form": "put forward",
+   "cloze": "Several members ＿＿＿ new ideas at the meeting.",
+   "distractors": [
+    "put away",
+    "put out",
+    "take after"
+   ],
+   "colloc": "",
+   "syn": "propose, suggest",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "run into",
+   "pos": "熟",
+   "ja": "偶然出会う；（困難に）直面する",
+   "zh": "偶然遇到；遭遇",
+   "ex": "I ran into an old friend at the station yesterday.",
+   "exTr": "我昨天在车站偶然遇到了一个老朋友。",
+   "form": "ran into",
+   "cloze": "I ＿＿＿ an old friend at the station yesterday.",
+   "distractors": [
+    "ran out of",
+    "took after",
+    "gave in to"
+   ],
+   "colloc": "run into trouble（遇到麻烦）",
+   "syn": "come across, bump into",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "set up",
+   "pos": "熟",
+   "ja": "設立する；準備する",
+   "zh": "建立；设立",
+   "ex": "My uncle set up his own company when he was only 25.",
+   "exTr": "我叔叔才25岁就创办了自己的公司。",
+   "form": "set up",
+   "cloze": "My uncle ＿＿＿ his own company when he was only 25.",
+   "distractors": [
+    "set off",
+    "sum up",
+    "give off"
+   ],
+   "colloc": "",
+   "syn": "establish, found",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "show off",
+   "pos": "熟",
+   "ja": "見せびらかす",
+   "zh": "炫耀",
+   "ex": "He likes to show off his expensive car to his friends.",
+   "exTr": "他喜欢向朋友们炫耀他的豪车。",
+   "form": "show off",
+   "cloze": "He likes to ＿＿＿ his expensive car to his friends.",
+   "distractors": [
+    "sum up",
+    "settle down",
+    "stand out"
+   ],
+   "colloc": "",
+   "syn": "boast about, flaunt",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "show up",
+   "pos": "熟",
+   "ja": "現れる",
+   "zh": "出现；露面",
+   "ex": "Only half of the people who were invited showed up at the party.",
+   "exTr": "被邀请的人只有一半来参加了派对。",
+   "form": "showed up",
+   "cloze": "Only half of the people who were invited ＿＿＿ at the party.",
+   "distractors": [
+    "showed off",
+    "summed up",
+    "set up"
+   ],
+   "colloc": "",
+   "syn": "turn up, appear",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "sort out",
+   "pos": "熟",
+   "ja": "解決する；整理する",
+   "zh": "解决；整理",
+   "ex": "It took weeks to sort out the problems with the new computer system.",
+   "exTr": "花了好几周才解决新电脑系统的问题。",
+   "form": "sort out",
+   "cloze": "It took weeks to ＿＿＿ the problems with the new computer system.",
+   "distractors": [
+    "sell out",
+    "stand out",
+    "sit back"
+   ],
+   "colloc": "",
+   "syn": "resolve, settle",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "step down",
+   "pos": "熟",
+   "ja": "辞任する",
+   "zh": "辞职；下台",
+   "ex": "The CEO decided to step down after the company lost millions of dollars.",
+   "exTr": "公司亏损数百万美元后，首席执行官决定辞职。",
+   "form": "step down",
+   "cloze": "The CEO decided to ＿＿＿ after the company lost millions of dollars.",
+   "distractors": [
+    "settle down",
+    "sit back",
+    "show off"
+   ],
+   "colloc": "",
+   "syn": "resign, quit",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "sum up",
+   "pos": "熟",
+   "ja": "要約する",
+   "zh": "总结；概括",
+   "ex": "At the end of the lecture, the professor summed up the main points.",
+   "exTr": "讲座结束时，教授总结了要点。",
+   "form": "summed up",
+   "cloze": "At the end of the lecture, the professor ＿＿＿ the main points.",
+   "distractors": [
+    "showed up",
+    "stood out",
+    "broke out"
+   ],
+   "colloc": "",
+   "syn": "summarize",
+   "note": "写要约时也能用：To sum up, ...",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "take on",
+   "pos": "熟",
+   "ja": "引き受ける；雇う",
+   "zh": "承担；雇用",
+   "ex": "She took on too much work and became exhausted.",
+   "exTr": "她揽了太多工作，累垮了。",
+   "form": "took on",
+   "cloze": "She ＿＿＿ too much work and became exhausted.",
+   "distractors": [
+    "took after",
+    "took off",
+    "gave off"
+   ],
+   "colloc": "",
+   "syn": "undertake, accept",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "take up",
+   "pos": "熟",
+   "ja": "始める；（時間・場所を）取る",
+   "zh": "开始从事；占用",
+   "ex": "My father took up golf after he retired.",
+   "exTr": "我父亲退休后开始打高尔夫。",
+   "form": "took up",
+   "cloze": "My father ＿＿＿ golf after he retired.",
+   "distractors": [
+    "took after",
+    "took down",
+    "ran over"
+   ],
+   "colloc": "",
+   "syn": "start, begin",
+   "note": "也有“占用（时间、空间）”的意思",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "tear down",
+   "pos": "熟",
+   "ja": "取り壊す",
+   "zh": "拆除",
+   "ex": "The old school building was torn down to make way for a park.",
+   "exTr": "旧校舍被拆除，为建公园腾出地方。",
+   "form": "torn down",
+   "cloze": "The old school building was ＿＿＿ to make way for a park.",
+   "distractors": [
+    "turned up",
+    "looked up to",
+    "carried on"
+   ],
+   "colloc": "",
+   "syn": "demolish, pull down",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "think over",
+   "pos": "熟",
+   "ja": "よく考える",
+   "zh": "仔细考虑",
+   "ex": "Take a few days to think over the job offer before you decide.",
+   "exTr": "作决定之前，花几天时间好好考虑一下这份工作。",
+   "form": "think over",
+   "cloze": "Take a few days to ＿＿＿ the job offer before you decide.",
+   "distractors": [
+    "thin out",
+    "throw up",
+    "turn up"
+   ],
+   "colloc": "",
+   "syn": "consider",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "turn out",
+   "pos": "熟",
+   "ja": "結局～だとわかる",
+   "zh": "结果是；证明是",
+   "ex": "The rumor turned out to be false.",
+   "exTr": "那个传闻原来是假的。",
+   "form": "turned out",
+   "cloze": "The rumor ＿＿＿ to be false.",
+   "distractors": [
+    "turned in",
+    "turned over",
+    "tore down"
+   ],
+   "colloc": "turn out to be ～",
+   "syn": "prove",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "wear out",
+   "pos": "熟",
+   "ja": "すり減る；疲れ果てさせる",
+   "zh": "磨损；使筋疲力尽",
+   "ex": "I need new shoes because my old ones have worn out.",
+   "exTr": "我的旧鞋穿坏了，得买双新的。",
+   "form": "worn out",
+   "cloze": "I need new shoes because my old ones have ＿＿＿.",
+   "distractors": [
+    "won over",
+    "worked out",
+    "broken even"
+   ],
+   "colloc": "be worn out＝累坏了",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "work out",
+   "pos": "熟",
+   "ja": "解決する；うまくいく；運動する",
+   "zh": "解决；（结果）顺利；锻炼",
+   "ex": "Don't worry; I'm sure everything will work out in the end.",
+   "exTr": "别担心，我相信最后一切都会好起来的。",
+   "form": "work out",
+   "cloze": "Don't worry; I'm sure everything will ＿＿＿ in the end.",
+   "distractors": [
+    "wipe out",
+    "write off",
+    "wait on"
+   ],
+   "colloc": "",
+   "syn": "turn out well, succeed",
+   "note": "意思很多：解决／顺利／健身",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "ward off",
+   "pos": "熟",
+   "ja": "防ぐ；撃退する",
+   "zh": "避开；防止",
+   "ex": "Some people drink ginger tea to ward off colds in winter.",
+   "exTr": "有些人冬天喝姜茶来预防感冒。",
+   "form": "ward off",
+   "cloze": "Some people drink ginger tea to ＿＿＿ colds in winter.",
+   "distractors": [
+    "wash off",
+    "wait on",
+    "wind up"
+   ],
+   "colloc": "",
+   "syn": "prevent, fend off",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "weigh up",
+   "pos": "熟",
+   "ja": "比較検討する",
+   "zh": "权衡",
+   "ex": "Before buying a house, you should weigh up the advantages and disadvantages.",
+   "exTr": "买房之前，你应该权衡一下利弊。",
+   "form": "weigh up",
+   "cloze": "Before buying a house, you should ＿＿＿ the advantages and disadvantages.",
+   "distractors": [
+    "wake up",
+    "warm up",
+    "wind up"
+   ],
+   "colloc": "",
+   "syn": "consider, evaluate",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "wipe out",
+   "pos": "熟",
+   "ja": "全滅させる；一掃する",
+   "zh": "消灭；彻底摧毁",
+   "ex": "The disease wiped out almost all the frogs in the area.",
+   "exTr": "这种疾病几乎消灭了这一带所有的青蛙。",
+   "form": "wiped out",
+   "cloze": "The disease ＿＿＿ almost all the frogs in the area.",
+   "distractors": [
+    "worked out",
+    "wore off",
+    "waited on"
+   ],
+   "colloc": "",
+   "syn": "destroy, eliminate",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "write off",
+   "pos": "熟",
+   "ja": "帳消しにする；見限る",
+   "zh": "注销；认定无用",
+   "ex": "Many experts had written off the team, but it won the championship.",
+   "exTr": "很多专家都不看好这支队伍，它却拿了冠军。",
+   "form": "written off",
+   "cloze": "Many experts had ＿＿＿ the team, but it won the championship.",
+   "distractors": [
+    "written down",
+    "worn off",
+    "won over"
+   ],
+   "colloc": "",
+   "syn": "dismiss, give up on",
+   "note": "",
+   "importance": 3
+  }
+ ],
+ "images": []
+}

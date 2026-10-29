@@ -1,0 +1,810 @@
+{
+ "id": "eiken-p9-social",
+ "kind": "cards",
+ "subject": "vocab",
+ "title": "準1級 長文の社会話題 40",
+ "summary": "- 准1级长文和听力常见的话题：**环境**（biodiversity、emission、deforestation、renewable）、**医疗**（infectious、chronic、vaccination）、**社会**（aging、pension、welfare、depopulation、immigrant）、**经济**（inflation、recession、tariff、automation）\n- 这些词写意見論述时也能直接用（例如 Japan's aging population、renewable energy）\n- 形近陷阱：**welfare**（福利）vs warfare（战争）、**conservation**（保护）vs conversation、**habitat**（栖息地）vs habit、**immigrant**（移入）vs emigrant（移出）",
+ "cards": [
+  {
+   "type": "word",
+   "word": "biodiversity",
+   "pos": "名",
+   "ja": "生物多様性",
+   "zh": "生物多样性",
+   "ex": "Destroying rainforests is a major threat to biodiversity.",
+   "exTr": "破坏热带雨林是对生物多样性的重大威胁。",
+   "form": "biodiversity",
+   "cloze": "Destroying rainforests is a major threat to ＿＿＿.",
+   "distractors": [
+    "biography",
+    "bibliography",
+    "bilingualism"
+   ],
+   "colloc": "",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "emission",
+   "pos": "名",
+   "ja": "排出（物）",
+   "zh": "排放（物）",
+   "ex": "The government aims to cut carbon emissions by half by 2030.",
+   "exTr": "政府的目标是到2030年把碳排放减半。",
+   "form": "emissions",
+   "cloze": "The government aims to cut carbon ＿＿＿ by half by 2030.",
+   "distractors": [
+    "admissions",
+    "omissions",
+    "missions"
+   ],
+   "colloc": "carbon emissions",
+   "syn": "discharge",
+   "note": "动词：emit",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "deforestation",
+   "pos": "名",
+   "ja": "森林伐採",
+   "zh": "森林砍伐",
+   "ex": "Deforestation has caused many animals to lose their homes.",
+   "exTr": "森林砍伐让许多动物失去了家园。",
+   "form": "Deforestation",
+   "cloze": "＿＿＿ has caused many animals to lose their homes.",
+   "distractors": [
+    "Decoration",
+    "Desalination",
+    "Deflation"
+   ],
+   "colloc": "",
+   "syn": "logging",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "renewable",
+   "pos": "形",
+   "ja": "再生可能な",
+   "zh": "可再生的",
+   "ex": "Solar and wind power are renewable sources of energy.",
+   "exTr": "太阳能和风能是可再生能源。",
+   "form": "renewable",
+   "cloze": "Solar and wind power are ＿＿＿ sources of energy.",
+   "distractors": [
+    "refundable",
+    "reputable",
+    "retractable"
+   ],
+   "colloc": "renewable energy",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "drought",
+   "pos": "名",
+   "ja": "干ばつ",
+   "zh": "干旱",
+   "ex": "The long drought destroyed most of the crops in the region.",
+   "exTr": "长期干旱毁掉了该地区大部分农作物。",
+   "form": "drought",
+   "cloze": "The long ＿＿＿ destroyed most of the crops in the region.",
+   "distractors": [
+    "dropout",
+    "draft",
+    "doubt"
+   ],
+   "colloc": "",
+   "syn": "dry spell",
+   "note": "发音 /draʊt/",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "famine",
+   "pos": "名",
+   "ja": "飢饉",
+   "zh": "饥荒",
+   "ex": "Millions of people died during the famine that followed the war.",
+   "exTr": "战后的饥荒中有数百万人死亡。",
+   "form": "famine",
+   "cloze": "Millions of people died during the ＿＿＿ that followed the war.",
+   "distractors": [
+    "fanfare",
+    "fabric",
+    "fable"
+   ],
+   "colloc": "",
+   "syn": "starvation",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "pesticide",
+   "pos": "名",
+   "ja": "殺虫剤；農薬",
+   "zh": "杀虫剂；农药",
+   "ex": "Many consumers prefer vegetables grown without pesticides.",
+   "exTr": "许多消费者更喜欢不用农药种植的蔬菜。",
+   "form": "pesticides",
+   "cloze": "Many consumers prefer vegetables grown without ＿＿＿.",
+   "distractors": [
+    "pedestrians",
+    "pedestals",
+    "persecutions"
+   ],
+   "colloc": "",
+   "syn": "insecticide",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "vaccination",
+   "pos": "名",
+   "ja": "予防接種",
+   "zh": "接种疫苗",
+   "ex": "Vaccination is one of the most effective ways to prevent infectious diseases.",
+   "exTr": "接种疫苗是预防传染病最有效的方法之一。",
+   "form": "Vaccination",
+   "cloze": "＿＿＿ is one of the most effective ways to prevent infectious diseases.",
+   "distractors": [
+    "Vacation",
+    "Vacancy",
+    "Validation"
+   ],
+   "colloc": "",
+   "syn": "immunization",
+   "note": "名词：vaccine（疫苗）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "infectious",
+   "pos": "形",
+   "ja": "感染性の",
+   "zh": "传染性的",
+   "ex": "Measles is a highly infectious disease that spreads through the air.",
+   "exTr": "麻疹是一种通过空气传播、传染性很强的疾病。",
+   "form": "infectious",
+   "cloze": "Measles is a highly ＿＿＿ disease that spreads through the air.",
+   "distractors": [
+    "infamous",
+    "inferior",
+    "infinite"
+   ],
+   "colloc": "an infectious disease",
+   "syn": "contagious",
+   "note": "名词：infection",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "symptom",
+   "pos": "名",
+   "ja": "症状",
+   "zh": "症状",
+   "ex": "A high fever is one of the main symptoms of the flu.",
+   "exTr": "高烧是流感的主要症状之一。",
+   "form": "symptoms",
+   "cloze": "A high fever is one of the main ＿＿＿ of the flu.",
+   "distractors": [
+    "symphonies",
+    "synonyms",
+    "syllables"
+   ],
+   "colloc": "",
+   "syn": "sign",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "chronic",
+   "pos": "形",
+   "ja": "慢性の",
+   "zh": "慢性的",
+   "ex": "He has suffered from chronic back pain for years.",
+   "exTr": "他多年来一直饱受慢性腰痛之苦。",
+   "form": "chronic",
+   "cloze": "He has suffered from ＿＿＿ back pain for years.",
+   "distractors": [
+    "comic",
+    "cosmic",
+    "civic"
+   ],
+   "colloc": "",
+   "syn": "long-term",
+   "note": "反义：acute（急性的）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "obesity",
+   "pos": "名",
+   "ja": "肥満",
+   "zh": "肥胖",
+   "ex": "Lack of exercise is one of the causes of obesity among children.",
+   "exTr": "缺乏运动是儿童肥胖的原因之一。",
+   "form": "obesity",
+   "cloze": "Lack of exercise is one of the causes of ＿＿＿ among children.",
+   "distractors": [
+    "obscurity",
+    "opacity",
+    "ovation"
+   ],
+   "colloc": "",
+   "syn": "",
+   "note": "形容词：obese",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "longevity",
+   "pos": "名",
+   "ja": "長寿",
+   "zh": "长寿",
+   "ex": "Japan is famous for the longevity of its people.",
+   "exTr": "日本以国民长寿而闻名。",
+   "form": "longevity",
+   "cloze": "Japan is famous for the ＿＿＿ of its people.",
+   "distractors": [
+    "longitude",
+    "levity",
+    "lethargy"
+   ],
+   "colloc": "",
+   "syn": "long life",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "aging",
+   "pos": "形",
+   "ja": "高齢化している",
+   "zh": "老龄化的",
+   "ex": "Japan's aging population is putting pressure on the pension system.",
+   "exTr": "日本人口老龄化正在给养老金制度带来压力。",
+   "form": "aging",
+   "cloze": "Japan's ＿＿＿ population is putting pressure on the pension system.",
+   "distractors": [
+    "aching",
+    "arching",
+    "agile"
+   ],
+   "colloc": "an aging society / an aging population",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "pension",
+   "pos": "名",
+   "ja": "年金",
+   "zh": "养老金",
+   "ex": "After retiring, he lives on a small pension.",
+   "exTr": "退休后，他靠一笔微薄的养老金生活。",
+   "form": "pension",
+   "cloze": "After retiring, he lives on a small ＿＿＿.",
+   "distractors": [
+    "tension",
+    "passion",
+    "pendant"
+   ],
+   "colloc": "live on a pension",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "welfare",
+   "pos": "名",
+   "ja": "福祉",
+   "zh": "福利",
+   "ex": "The government spends a large amount of money on social welfare.",
+   "exTr": "政府在社会福利上花了大量资金。",
+   "form": "welfare",
+   "cloze": "The government spends a large amount of money on social ＿＿＿.",
+   "distractors": [
+    "warfare",
+    "wildfire",
+    "wayfarer"
+   ],
+   "colloc": "social welfare",
+   "syn": "well-being",
+   "note": "形近词：warfare＝战争",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "inequality",
+   "pos": "名",
+   "ja": "不平等",
+   "zh": "不平等",
+   "ex": "The gap between the rich and the poor shows growing economic inequality.",
+   "exTr": "贫富差距体现了日益加剧的经济不平等。",
+   "form": "inequality",
+   "cloze": "The gap between the rich and the poor shows growing economic ＿＿＿.",
+   "distractors": [
+    "infidelity",
+    "insanity",
+    "invalidity"
+   ],
+   "colloc": "",
+   "syn": "disparity, gap",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "unemployment",
+   "pos": "名",
+   "ja": "失業",
+   "zh": "失业",
+   "ex": "Unemployment rose sharply after several factories closed.",
+   "exTr": "几家工厂关闭后，失业率急剧上升。",
+   "form": "Unemployment",
+   "cloze": "＿＿＿ rose sharply after several factories closed.",
+   "distractors": [
+    "Uniformity",
+    "Unanimity",
+    "Upholstery"
+   ],
+   "colloc": "the unemployment rate",
+   "syn": "joblessness",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "inflation",
+   "pos": "名",
+   "ja": "インフレ；物価上昇",
+   "zh": "通货膨胀",
+   "ex": "Rising inflation has made daily necessities more expensive.",
+   "exTr": "通胀加剧让日用品变得更贵了。",
+   "form": "inflation",
+   "cloze": "Rising ＿＿＿ has made daily necessities more expensive.",
+   "distractors": [
+    "infatuation",
+    "inflammation",
+    "inclination"
+   ],
+   "colloc": "",
+   "syn": "rising prices",
+   "note": "反义：deflation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "recession",
+   "pos": "名",
+   "ja": "景気後退",
+   "zh": "经济衰退",
+   "ex": "Many companies cut jobs during the recession.",
+   "exTr": "经济衰退期间，许多公司裁减了岗位。",
+   "form": "recession",
+   "cloze": "Many companies cut jobs during the ＿＿＿.",
+   "distractors": [
+    "procession",
+    "concession",
+    "recitation"
+   ],
+   "colloc": "",
+   "syn": "downturn, slump",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "consumption",
+   "pos": "名",
+   "ja": "消費（量）",
+   "zh": "消费（量）",
+   "ex": "Energy consumption increases in summer because people use air conditioners.",
+   "exTr": "夏天因为人们开空调，能源消耗会增加。",
+   "form": "consumption",
+   "cloze": "Energy ＿＿＿ increases in summer because people use air conditioners.",
+   "distractors": [
+    "assumption",
+    "conception",
+    "contraption"
+   ],
+   "colloc": "",
+   "syn": "use",
+   "note": "动词：consume",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "tariff",
+   "pos": "名",
+   "ja": "関税",
+   "zh": "关税",
+   "ex": "The government raised tariffs on imported cars to protect local carmakers.",
+   "exTr": "政府提高了进口汽车的关税，以保护本国车企。",
+   "form": "tariffs",
+   "cloze": "The government raised ＿＿＿ on imported cars to protect local carmakers.",
+   "distractors": [
+    "tremors",
+    "tributes",
+    "turbines"
+   ],
+   "colloc": "a tariff on ～",
+   "syn": "duty, tax",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "outsource",
+   "pos": "動",
+   "ja": "外部委託する",
+   "zh": "外包",
+   "ex": "Many firms outsource their customer service to other countries.",
+   "exTr": "许多公司把客服外包给其他国家。",
+   "form": "outsource",
+   "cloze": "Many firms ＿＿＿ their customer service to other countries.",
+   "distractors": [
+    "outlast",
+    "outrun",
+    "outnumber"
+   ],
+   "colloc": "",
+   "syn": "contract out",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "automation",
+   "pos": "名",
+   "ja": "自動化",
+   "zh": "自动化",
+   "ex": "Automation in factories has reduced the need for human workers.",
+   "exTr": "工厂的自动化减少了对人工的需求。",
+   "form": "Automation",
+   "cloze": "＿＿＿ in factories has reduced the need for human workers.",
+   "distractors": [
+    "Authorization",
+    "Autobiography",
+    "Authenticity"
+   ],
+   "colloc": "",
+   "syn": "mechanization",
+   "note": "动词：automate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "artificial",
+   "pos": "形",
+   "ja": "人工の",
+   "zh": "人工的",
+   "ex": "Artificial intelligence is changing the way many people work.",
+   "exTr": "人工智能正在改变许多人的工作方式。",
+   "form": "Artificial",
+   "cloze": "＿＿＿ intelligence is changing the way many people work.",
+   "distractors": [
+    "Arterial",
+    "Arbitrary",
+    "Archaic"
+   ],
+   "colloc": "artificial intelligence (AI)",
+   "syn": "man-made",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "privacy",
+   "pos": "名",
+   "ja": "プライバシー；私生活",
+   "zh": "隐私",
+   "ex": "Many users worry that social media companies do not protect their privacy.",
+   "exTr": "许多用户担心社交媒体公司不保护他们的隐私。",
+   "form": "privacy",
+   "cloze": "Many users worry that social media companies do not protect their ＿＿＿.",
+   "distractors": [
+    "piracy",
+    "primacy",
+    "pharmacy"
+   ],
+   "colloc": "invade someone's privacy",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "misinformation",
+   "pos": "名",
+   "ja": "誤情報",
+   "zh": "错误信息；虚假信息",
+   "ex": "Social media makes it easy for misinformation to spread quickly.",
+   "exTr": "社交媒体让错误信息很容易迅速传播。",
+   "form": "misinformation",
+   "cloze": "Social media makes it easy for ＿＿＿ to spread quickly.",
+   "distractors": [
+    "malformation",
+    "mispronunciation",
+    "misappropriation"
+   ],
+   "colloc": "",
+   "syn": "false information",
+   "note": "disinformation＝故意散布的假信息",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "legislation",
+   "pos": "名",
+   "ja": "法律；立法",
+   "zh": "法律；立法",
+   "ex": "New legislation was introduced to protect workers from long working hours.",
+   "exTr": "为了保护劳动者免受长时间工作之苦，出台了新的法律。",
+   "form": "legislation",
+   "cloze": "New ＿＿＿ was introduced to protect workers from long working hours.",
+   "distractors": [
+    "levitation",
+    "liquidation",
+    "lamentation"
+   ],
+   "colloc": "",
+   "syn": "law(s)",
+   "note": "动词：legislate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "regulate",
+   "pos": "動",
+   "ja": "規制する",
+   "zh": "管制；调控",
+   "ex": "The government strictly regulates the sale of medicines.",
+   "exTr": "政府严格管制药品的销售。",
+   "form": "regulates",
+   "cloze": "The government strictly ＿＿＿ the sale of medicines.",
+   "distractors": [
+    "relegates",
+    "recuperates",
+    "reverberates"
+   ],
+   "colloc": "",
+   "syn": "control",
+   "note": "名词：regulation",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "democracy",
+   "pos": "名",
+   "ja": "民主主義",
+   "zh": "民主",
+   "ex": "Free elections are an essential part of democracy.",
+   "exTr": "自由选举是民主不可或缺的一部分。",
+   "form": "democracy",
+   "cloze": "Free elections are an essential part of ＿＿＿.",
+   "distractors": [
+    "demography",
+    "demolition",
+    "dementia"
+   ],
+   "colloc": "",
+   "syn": "",
+   "note": "形容词：democratic",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "diplomatic",
+   "pos": "形",
+   "ja": "外交の；如才ない",
+   "zh": "外交的；圆滑的",
+   "ex": "The two countries are trying to solve the conflict through diplomatic negotiations.",
+   "exTr": "两国正试图通过外交谈判解决冲突。",
+   "form": "diplomatic",
+   "cloze": "The two countries are trying to solve the conflict through ＿＿＿ negotiations.",
+   "distractors": [
+    "dyslexic",
+    "diabetic",
+    "dietetic"
+   ],
+   "colloc": "diplomatic relations",
+   "syn": "tactful",
+   "note": "名词：diplomacy",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "refugee",
+   "pos": "名",
+   "ja": "難民",
+   "zh": "难民",
+   "ex": "Thousands of refugees fled the war and crossed the border.",
+   "exTr": "数千名难民逃离战火，越过了边境。",
+   "form": "refugees",
+   "cloze": "Thousands of ＿＿＿ fled the war and crossed the border.",
+   "distractors": [
+    "refunds",
+    "refusals",
+    "referees"
+   ],
+   "colloc": "",
+   "syn": "",
+   "note": "refuge＝避难（所）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "immigrant",
+   "pos": "名",
+   "ja": "（外国からの）移民",
+   "zh": "（外来）移民",
+   "ex": "The number of immigrants living in Japan has been increasing.",
+   "exTr": "在日本生活的移民人数一直在增加。",
+   "form": "immigrants",
+   "cloze": "The number of ＿＿＿ living in Japan has been increasing.",
+   "distractors": [
+    "emigrants",
+    "implants",
+    "impulses"
+   ],
+   "colloc": "",
+   "syn": "",
+   "note": "immigrant＝移入的人；emigrant＝移出的人",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "urbanization",
+   "pos": "名",
+   "ja": "都市化",
+   "zh": "城市化",
+   "ex": "Rapid urbanization has led to a shortage of housing in big cities.",
+   "exTr": "快速的城市化导致大城市住房短缺。",
+   "form": "urbanization",
+   "cloze": "Rapid ＿＿＿ has led to a shortage of housing in big cities.",
+   "distractors": [
+    "unification",
+    "usurpation",
+    "uniformity"
+   ],
+   "colloc": "",
+   "syn": "",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "depopulation",
+   "pos": "名",
+   "ja": "過疎化；人口減少",
+   "zh": "人口减少",
+   "ex": "Depopulation in rural areas has forced many schools to close.",
+   "exTr": "农村人口减少迫使许多学校关闭。",
+   "form": "Depopulation",
+   "cloze": "＿＿＿ in rural areas has forced many schools to close.",
+   "distractors": [
+    "Depreciation",
+    "Desalination",
+    "Detoxification"
+   ],
+   "colloc": "",
+   "syn": "population decline",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "commute",
+   "pos": "動",
+   "ja": "通勤する",
+   "zh": "通勤",
+   "ex": "Many people commute more than an hour to work every day.",
+   "exTr": "许多人每天通勤要一个多小时。",
+   "form": "commute",
+   "cloze": "Many people ＿＿＿ more than an hour to work every day.",
+   "distractors": [
+    "compute",
+    "commend",
+    "compost"
+   ],
+   "colloc": "",
+   "syn": "travel to work",
+   "note": "名词也是 commute；commuter＝通勤者",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "workforce",
+   "pos": "名",
+   "ja": "労働力；全従業員",
+   "zh": "劳动力；全体员工",
+   "ex": "Women now make up nearly half of the country's workforce.",
+   "exTr": "现在女性占该国劳动力的将近一半。",
+   "form": "workforce",
+   "cloze": "Women now make up nearly half of the country's ＿＿＿.",
+   "distractors": [
+    "workshop",
+    "worksheet",
+    "workbench"
+   ],
+   "colloc": "",
+   "syn": "labor force",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "conservation",
+   "pos": "名",
+   "ja": "（自然の）保護；保存",
+   "zh": "（自然资源）保护",
+   "ex": "The organization works for the conservation of endangered species.",
+   "exTr": "这个组织致力于保护濒危物种。",
+   "form": "conservation",
+   "cloze": "The organization works for the ＿＿＿ of endangered species.",
+   "distractors": [
+    "conversation",
+    "consternation",
+    "conservatory"
+   ],
+   "colloc": "",
+   "syn": "protection, preservation",
+   "note": "形近词：conversation＝对话",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "endangered",
+   "pos": "形",
+   "ja": "絶滅の危機に瀕した",
+   "zh": "濒危的",
+   "ex": "The giant panda was once listed as an endangered species.",
+   "exTr": "大熊猫曾被列为濒危物种。",
+   "form": "endangered",
+   "cloze": "The giant panda was once listed as an ＿＿＿ species.",
+   "distractors": [
+    "endeared",
+    "enraged",
+    "engraved"
+   ],
+   "colloc": "an endangered species",
+   "syn": "threatened",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "habitat",
+   "pos": "名",
+   "ja": "生息地",
+   "zh": "栖息地",
+   "ex": "Building the dam destroyed the natural habitat of many birds.",
+   "exTr": "修建水坝破坏了许多鸟类的自然栖息地。",
+   "form": "habitat",
+   "cloze": "Building the dam destroyed the natural ＿＿＿ of many birds.",
+   "distractors": [
+    "hamlet",
+    "hatchet",
+    "harness"
+   ],
+   "colloc": "",
+   "syn": "home, environment",
+   "note": "形近词：habit＝习惯",
+   "importance": 3
+  }
+ ],
+ "images": []
+}

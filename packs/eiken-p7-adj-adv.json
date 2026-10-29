@@ -1,0 +1,810 @@
+{
+ "id": "eiken-p7-adj-adv",
+ "kind": "cards",
+ "subject": "vocab",
+ "title": "準1級 頻出形容詞・副詞 40",
+ "summary": "- 形容词 35 个 + 副词 5 个\n- 形近陷阱：**eligible**（有资格的）vs illegible（难以辨认的）、**negligible**（微不足道）vs negligent（疏忽的）、**comprehensive**（全面的）vs comprehensible（可理解的）\n- 意思容易搞错：**indifferent**＝不关心（不是“没区别”）、**virtually**＝几乎（不是“虚拟地”）、**notorious**＝臭名昭著（只用于坏事）\n- 写作评分也看这些：**coherent**（连贯）、explicit、crucial、substantial",
+ "cards": [
+  {
+   "type": "word",
+   "word": "adequate",
+   "pos": "形",
+   "ja": "十分な；適切な",
+   "zh": "足够的；适当的",
+   "ex": "Many elderly people do not have adequate income to live on.",
+   "exTr": "许多老年人没有足够的收入维持生活。",
+   "form": "adequate",
+   "cloze": "Many elderly people do not have ＿＿＿ income to live on.",
+   "distractors": [
+    "adjacent",
+    "adamant",
+    "adept"
+   ],
+   "colloc": "",
+   "syn": "sufficient, enough",
+   "note": "反义：inadequate",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "affluent",
+   "pos": "形",
+   "ja": "裕福な",
+   "zh": "富裕的",
+   "ex": "The new shopping mall is located in an affluent neighborhood.",
+   "exTr": "新购物中心位于一个富人区。",
+   "form": "affluent",
+   "cloze": "The new shopping mall is located in an ＿＿＿ neighborhood.",
+   "distractors": [
+    "fluent",
+    "abrasive",
+    "aquatic"
+   ],
+   "colloc": "",
+   "syn": "wealthy, rich",
+   "note": "名词：affluence",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "apparent",
+   "pos": "形",
+   "ja": "明らかな；見かけの",
+   "zh": "明显的；表面上的",
+   "ex": "It soon became apparent that the plan would not work.",
+   "exTr": "很快就看出这个计划行不通。",
+   "form": "apparent",
+   "cloze": "It soon became ＿＿＿ that the plan would not work.",
+   "distractors": [
+    "appreciative",
+    "ardent",
+    "arable"
+   ],
+   "colloc": "It is apparent that ～",
+   "syn": "obvious, clear",
+   "note": "副词：apparently（看起来；似乎）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "articulate",
+   "pos": "形",
+   "ja": "はっきり話せる；明瞭な",
+   "zh": "口才好的；表达清晰的",
+   "ex": "She is an articulate speaker who can explain complex ideas clearly.",
+   "exTr": "她口才很好，能把复杂的想法讲得很清楚。",
+   "form": "articulate",
+   "cloze": "She is an ＿＿＿ speaker who can explain complex ideas clearly.",
+   "distractors": [
+    "arid",
+    "ample",
+    "antique"
+   ],
+   "colloc": "",
+   "syn": "eloquent",
+   "note": "也可作动词：清楚地表达",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "authentic",
+   "pos": "形",
+   "ja": "本物の",
+   "zh": "真正的；正宗的",
+   "ex": "The restaurant is famous for its authentic Italian food.",
+   "exTr": "这家餐厅以正宗的意大利菜而闻名。",
+   "form": "authentic",
+   "cloze": "The restaurant is famous for its ＿＿＿ Italian food.",
+   "distractors": [
+    "autonomous",
+    "authoritarian",
+    "audible"
+   ],
+   "colloc": "",
+   "syn": "genuine, real",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "benevolent",
+   "pos": "形",
+   "ja": "慈悲深い；善意の",
+   "zh": "仁慈的；乐善好施的",
+   "ex": "The benevolent businessman donated millions of dollars to local schools.",
+   "exTr": "那位乐善好施的商人向当地学校捐了数百万美元。",
+   "form": "benevolent",
+   "cloze": "The ＿＿＿ businessman donated millions of dollars to local schools.",
+   "distractors": [
+    "belligerent",
+    "bankrupt",
+    "brittle"
+   ],
+   "colloc": "",
+   "syn": "kind, generous",
+   "note": "反义：malevolent（恶意的）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "candid",
+   "pos": "形",
+   "ja": "率直な",
+   "zh": "坦率的",
+   "ex": "Thank you for your candid opinion; it helped me see the problem clearly.",
+   "exTr": "谢谢你坦率的意见，它让我看清了问题。",
+   "form": "candid",
+   "cloze": "Thank you for your ＿＿＿ opinion; it helped me see the problem clearly.",
+   "distractors": [
+    "candied",
+    "callous",
+    "cryptic"
+   ],
+   "colloc": "",
+   "syn": "frank, honest",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "coherent",
+   "pos": "形",
+   "ja": "首尾一貫した；筋の通った",
+   "zh": "连贯的；有条理的",
+   "ex": "The essay was well organized and presented a coherent argument.",
+   "exTr": "这篇文章结构清晰，论证连贯。",
+   "form": "coherent",
+   "cloze": "The essay was well organized and presented a ＿＿＿ argument.",
+   "distractors": [
+    "corrosive",
+    "covert",
+    "culinary"
+   ],
+   "colloc": "",
+   "syn": "logical, consistent",
+   "note": "反义：incoherent；写作的“構成”就看这个",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "complacent",
+   "pos": "形",
+   "ja": "自己満足の；油断した",
+   "zh": "自满的",
+   "ex": "After winning three games in a row, the team became complacent and lost the next one.",
+   "exTr": "连赢三场后，球队自满起来，结果输了下一场。",
+   "form": "complacent",
+   "cloze": "After winning three games in a row, the team became ＿＿＿ and lost the next one.",
+   "distractors": [
+    "complimentary",
+    "competent",
+    "compatible"
+   ],
+   "colloc": "",
+   "syn": "self-satisfied",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "comprehensive",
+   "pos": "形",
+   "ja": "包括的な",
+   "zh": "全面的；综合的",
+   "ex": "The report provides a comprehensive review of the country's education system.",
+   "exTr": "这份报告对该国的教育制度做了全面的评述。",
+   "form": "comprehensive",
+   "cloze": "The report provides a ＿＿＿ review of the country's education system.",
+   "distractors": [
+    "compulsive",
+    "condescending",
+    "contagious"
+   ],
+   "colloc": "",
+   "syn": "thorough, complete",
+   "note": "形近词：comprehensible＝可理解的",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "crucial",
+   "pos": "形",
+   "ja": "決定的な；極めて重要な",
+   "zh": "至关重要的",
+   "ex": "Getting enough sleep is crucial for students' health and performance.",
+   "exTr": "充足的睡眠对学生的健康和成绩至关重要。",
+   "form": "crucial",
+   "cloze": "Getting enough sleep is ＿＿＿ for students' health and performance.",
+   "distractors": [
+    "cruel",
+    "crude",
+    "crunchy"
+   ],
+   "colloc": "be crucial for/to ～",
+   "syn": "vital, essential",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "deliberate",
+   "pos": "形",
+   "ja": "故意の；慎重な",
+   "zh": "故意的；深思熟虑的",
+   "ex": "The police believe the fire was a deliberate act, not an accident.",
+   "exTr": "警方认为这场火是有人故意放的，不是意外。",
+   "form": "deliberate",
+   "cloze": "The police believe the fire was a ＿＿＿ act, not an accident.",
+   "distractors": [
+    "delicate",
+    "delightful",
+    "delirious"
+   ],
+   "colloc": "",
+   "syn": "intentional",
+   "note": "副词：deliberately；作动词＝仔细考虑",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "detrimental",
+   "pos": "形",
+   "ja": "有害な",
+   "zh": "有害的",
+   "ex": "Too much screen time can be detrimental to children's eyesight.",
+   "exTr": "看屏幕时间太长会损害孩子的视力。",
+   "form": "detrimental",
+   "cloze": "Too much screen time can be ＿＿＿ to children's eyesight.",
+   "distractors": [
+    "determined",
+    "decimal",
+    "departmental"
+   ],
+   "colloc": "be detrimental to ～",
+   "syn": "harmful, damaging",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "diligent",
+   "pos": "形",
+   "ja": "勤勉な",
+   "zh": "勤奋的",
+   "ex": "He is a diligent student who always finishes his homework on time.",
+   "exTr": "他是个勤奋的学生，总是按时完成作业。",
+   "form": "diligent",
+   "cloze": "He is a ＿＿＿ student who always finishes his homework on time.",
+   "distractors": [
+    "delinquent",
+    "diluted",
+    "dormant"
+   ],
+   "colloc": "",
+   "syn": "hardworking",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "eligible",
+   "pos": "形",
+   "ja": "資格のある",
+   "zh": "有资格的",
+   "ex": "Students with high grades are eligible for a scholarship.",
+   "exTr": "成绩好的学生有资格申请奖学金。",
+   "form": "eligible",
+   "cloze": "Students with high grades are ＿＿＿ for a scholarship.",
+   "distractors": [
+    "illegible",
+    "elegant",
+    "edible"
+   ],
+   "colloc": "be eligible for ～ / be eligible to do",
+   "syn": "qualified",
+   "note": "形近词：illegible＝难以辨认的",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "explicit",
+   "pos": "形",
+   "ja": "明確な；露骨な",
+   "zh": "明确的；直截了当的",
+   "ex": "The teacher gave explicit instructions about how to write the report.",
+   "exTr": "老师对怎么写报告给出了明确的指示。",
+   "form": "explicit",
+   "cloze": "The teacher gave ＿＿＿ instructions about how to write the report.",
+   "distractors": [
+    "implicit",
+    "exquisite",
+    "extinct"
+   ],
+   "colloc": "",
+   "syn": "clear, specific",
+   "note": "反义：implicit（含蓄的）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "hostile",
+   "pos": "形",
+   "ja": "敵意のある",
+   "zh": "有敌意的",
+   "ex": "The local people were hostile to the plan to build a garbage plant nearby.",
+   "exTr": "当地人强烈反对在附近建垃圾处理厂的计划。",
+   "form": "hostile",
+   "cloze": "The local people were ＿＿＿ to the plan to build a garbage plant nearby.",
+   "distractors": [
+    "hollow",
+    "humid",
+    "humble"
+   ],
+   "colloc": "be hostile to ～",
+   "syn": "unfriendly, opposed",
+   "note": "名词：hostility",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "immense",
+   "pos": "形",
+   "ja": "莫大な；巨大な",
+   "zh": "巨大的",
+   "ex": "The project required an immense amount of time and money.",
+   "exTr": "这个项目需要大量的时间和金钱。",
+   "form": "immense",
+   "cloze": "The project required an ＿＿＿ amount of time and money.",
+   "distractors": [
+    "immune",
+    "imminent",
+    "immaculate"
+   ],
+   "colloc": "",
+   "syn": "enormous, vast",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "impartial",
+   "pos": "形",
+   "ja": "公平な",
+   "zh": "公正的；不偏不倚的",
+   "ex": "A judge must remain impartial and listen to both sides.",
+   "exTr": "法官必须保持公正，听取双方的意见。",
+   "form": "impartial",
+   "cloze": "A judge must remain ＿＿＿ and listen to both sides.",
+   "distractors": [
+    "impatient",
+    "imperial",
+    "impassable"
+   ],
+   "colloc": "",
+   "syn": "fair, neutral",
+   "note": "反义：partial（偏袒的）",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "indifferent",
+   "pos": "形",
+   "ja": "無関心な",
+   "zh": "冷漠的；不关心的",
+   "ex": "Many young people are indifferent to politics and do not vote.",
+   "exTr": "很多年轻人对政治漠不关心，不去投票。",
+   "form": "indifferent",
+   "cloze": "Many young people are ＿＿＿ to politics and do not vote.",
+   "distractors": [
+    "indigenous",
+    "indispensable",
+    "indelible"
+   ],
+   "colloc": "be indifferent to ～",
+   "syn": "uninterested",
+   "note": "注意不是“没有区别的”",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "intricate",
+   "pos": "形",
+   "ja": "複雑な；入り組んだ",
+   "zh": "错综复杂的",
+   "ex": "The watch contains hundreds of intricate parts.",
+   "exTr": "这块手表里有几百个精密复杂的零件。",
+   "form": "intricate",
+   "cloze": "The watch contains hundreds of ＿＿＿ parts.",
+   "distractors": [
+    "intrepid",
+    "irate",
+    "insolent"
+   ],
+   "colloc": "",
+   "syn": "complex, complicated",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "lavish",
+   "pos": "形",
+   "ja": "豪華な；気前のよい",
+   "zh": "奢华的；慷慨的",
+   "ex": "They held a lavish wedding party at an expensive hotel.",
+   "exTr": "他们在一家昂贵的酒店举办了奢华的婚宴。",
+   "form": "lavish",
+   "cloze": "They held a ＿＿＿ wedding party at an expensive hotel.",
+   "distractors": [
+    "lanky",
+    "livid",
+    "lunar"
+   ],
+   "colloc": "",
+   "syn": "luxurious, extravagant",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "mandatory",
+   "pos": "形",
+   "ja": "義務的な；必須の",
+   "zh": "强制的；必须的",
+   "ex": "Wearing a helmet is mandatory for all workers at the construction site.",
+   "exTr": "工地上所有工人都必须戴安全帽。",
+   "form": "mandatory",
+   "cloze": "Wearing a helmet is ＿＿＿ for all workers at the construction site.",
+   "distractors": [
+    "migratory",
+    "monetary",
+    "momentary"
+   ],
+   "colloc": "",
+   "syn": "compulsory, obligatory",
+   "note": "反义：optional",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "modest",
+   "pos": "形",
+   "ja": "控えめな；ささやかな",
+   "zh": "谦虚的；适度的",
+   "ex": "Despite her great success, she remained modest about her achievements.",
+   "exTr": "尽管非常成功，她对自己的成就依然很谦虚。",
+   "form": "modest",
+   "cloze": "Despite her great success, she remained ＿＿＿ about her achievements.",
+   "distractors": [
+    "molten",
+    "morbid",
+    "mundane"
+   ],
+   "colloc": "a modest increase（小幅增加）",
+   "syn": "humble",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "negligible",
+   "pos": "形",
+   "ja": "無視できるほどの；ごくわずかな",
+   "zh": "微不足道的",
+   "ex": "The difference in price between the two products is negligible.",
+   "exTr": "这两种产品的价格差别微乎其微。",
+   "form": "negligible",
+   "cloze": "The difference in price between the two products is ＿＿＿.",
+   "distractors": [
+    "negligent",
+    "nocturnal",
+    "nutritious"
+   ],
+   "colloc": "",
+   "syn": "tiny, insignificant",
+   "note": "形近词：negligent＝疏忽的",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "notorious",
+   "pos": "形",
+   "ja": "悪名高い",
+   "zh": "臭名昭著的",
+   "ex": "The area was once notorious for its high crime rate.",
+   "exTr": "这一带曾经因犯罪率高而臭名昭著。",
+   "form": "notorious",
+   "cloze": "The area was once ＿＿＿ for its high crime rate.",
+   "distractors": [
+    "nutritious",
+    "numerous",
+    "nostalgic"
+   ],
+   "colloc": "be notorious for ～",
+   "syn": "infamous",
+   "note": "和 famous 不同，只用于坏事",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "obscure",
+   "pos": "形",
+   "ja": "不明瞭な；無名の",
+   "zh": "模糊的；默默无闻的",
+   "ex": "The meaning of the old poem is obscure, even to experts.",
+   "exTr": "这首古诗的意思连专家都不太清楚。",
+   "form": "obscure",
+   "cloze": "The meaning of the old poem is ＿＿＿, even to experts.",
+   "distractors": [
+    "obese",
+    "obedient",
+    "oblong"
+   ],
+   "colloc": "",
+   "syn": "unclear, vague",
+   "note": "也可作动词：使模糊",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "optimistic",
+   "pos": "形",
+   "ja": "楽観的な",
+   "zh": "乐观的",
+   "ex": "Despite the bad economy, the company is optimistic about next year's sales.",
+   "exTr": "尽管经济不景气，公司对明年的销售仍然乐观。",
+   "form": "optimistic",
+   "cloze": "Despite the bad economy, the company is ＿＿＿ about next year's sales.",
+   "distractors": [
+    "optional",
+    "optical",
+    "orthodox"
+   ],
+   "colloc": "be optimistic about ～",
+   "syn": "positive, hopeful",
+   "note": "反义：pessimistic",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "persistent",
+   "pos": "形",
+   "ja": "しつこい；粘り強い",
+   "zh": "持续的；坚持不懈的",
+   "ex": "He went to see a doctor about his persistent cough.",
+   "exTr": "他因为一直咳嗽不止去看了医生。",
+   "form": "persistent",
+   "cloze": "He went to see a doctor about his ＿＿＿ cough.",
+   "distractors": [
+    "pertinent",
+    "persuasive",
+    "perishable"
+   ],
+   "colloc": "",
+   "syn": "continuous, constant",
+   "note": "动词：persist；名词：persistence",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "pragmatic",
+   "pos": "形",
+   "ja": "実際的な；実用主義の",
+   "zh": "务实的",
+   "ex": "We need a pragmatic solution that can be put into practice quickly.",
+   "exTr": "我们需要一个能尽快付诸实施的务实方案。",
+   "form": "pragmatic",
+   "cloze": "We need a ＿＿＿ solution that can be put into practice quickly.",
+   "distractors": [
+    "prismatic",
+    "prophetic",
+    "problematic"
+   ],
+   "colloc": "",
+   "syn": "practical, realistic",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "reckless",
+   "pos": "形",
+   "ja": "無謀な；向こう見ずな",
+   "zh": "鲁莽的",
+   "ex": "Reckless driving is one of the main causes of traffic accidents.",
+   "exTr": "鲁莽驾驶是交通事故的主要原因之一。",
+   "form": "Reckless",
+   "cloze": "＿＿＿ driving is one of the main causes of traffic accidents.",
+   "distractors": [
+    "Rustic",
+    "Regal",
+    "Rigid"
+   ],
+   "colloc": "",
+   "syn": "careless, rash",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "redundant",
+   "pos": "形",
+   "ja": "余分な；（人員が）余剰の",
+   "zh": "多余的；冗余的",
+   "ex": "Please remove any redundant words from your essay to make it clearer.",
+   "exTr": "请删掉作文里多余的词，让它更清楚。",
+   "form": "redundant",
+   "cloze": "Please remove any ＿＿＿ words from your essay to make it clearer.",
+   "distractors": [
+    "radiant",
+    "resonant",
+    "reverent"
+   ],
+   "colloc": "",
+   "syn": "unnecessary",
+   "note": "英式英语里 be made redundant＝被裁员",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "robust",
+   "pos": "形",
+   "ja": "頑丈な；堅調な",
+   "zh": "强健的；稳健的",
+   "ex": "The country's economy has remained robust despite the global slowdown.",
+   "exTr": "尽管全球经济放缓，该国经济依然稳健。",
+   "form": "robust",
+   "cloze": "The country's economy has remained ＿＿＿ despite the global slowdown.",
+   "distractors": [
+    "rustic",
+    "robotic",
+    "rueful"
+   ],
+   "colloc": "",
+   "syn": "strong, sturdy",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "spontaneous",
+   "pos": "形",
+   "ja": "自発的な；自然発生的な",
+   "zh": "自发的",
+   "ex": "The audience broke into spontaneous applause at the end of the speech.",
+   "exTr": "演讲结束时，观众自发地鼓起掌来。",
+   "form": "spontaneous",
+   "cloze": "The audience broke into ＿＿＿ applause at the end of the speech.",
+   "distractors": [
+    "sumptuous",
+    "superfluous",
+    "sanctimonious"
+   ],
+   "colloc": "",
+   "syn": "unplanned, natural",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "substantial",
+   "pos": "形",
+   "ja": "かなりの；相当な",
+   "zh": "大量的；可观的",
+   "ex": "The company made a substantial profit last year.",
+   "exTr": "这家公司去年赚了一大笔利润。",
+   "form": "substantial",
+   "cloze": "The company made a ＿＿＿ profit last year.",
+   "distractors": [
+    "subsidiary",
+    "submissive",
+    "subterranean"
+   ],
+   "colloc": "",
+   "syn": "considerable, significant",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "inevitably",
+   "pos": "副",
+   "ja": "必然的に",
+   "zh": "不可避免地",
+   "ex": "If you don't get enough sleep, your work will inevitably suffer.",
+   "exTr": "睡眠不足的话，工作必然会受影响。",
+   "form": "inevitably",
+   "cloze": "If you don't get enough sleep, your work will ＿＿＿ suffer.",
+   "distractors": [
+    "inaudibly",
+    "incredulously",
+    "impolitely"
+   ],
+   "colloc": "",
+   "syn": "unavoidably",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "predominantly",
+   "pos": "副",
+   "ja": "主に；大部分は",
+   "zh": "主要地；大多数",
+   "ex": "The town's population is predominantly elderly.",
+   "exTr": "这个镇的人口以老年人为主。",
+   "form": "predominantly",
+   "cloze": "The town's population is ＿＿＿ elderly.",
+   "distractors": [
+    "prohibitively",
+    "posthumously",
+    "precariously"
+   ],
+   "colloc": "",
+   "syn": "mainly, mostly",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "reluctantly",
+   "pos": "副",
+   "ja": "しぶしぶ",
+   "zh": "不情愿地",
+   "ex": "He reluctantly agreed to work on Sunday because his boss asked him to.",
+   "exTr": "因为老板要求，他勉强同意周日上班。",
+   "form": "reluctantly",
+   "cloze": "He ＿＿＿ agreed to work on Sunday because his boss asked him to.",
+   "distractors": [
+    "rhythmically",
+    "ravenously",
+    "relentlessly"
+   ],
+   "colloc": "",
+   "syn": "unwillingly",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "virtually",
+   "pos": "副",
+   "ja": "事実上；ほとんど",
+   "zh": "几乎；实际上",
+   "ex": "Smartphones are now used by virtually everyone in the country.",
+   "exTr": "如今这个国家几乎人人都在用智能手机。",
+   "form": "virtually",
+   "cloze": "Smartphones are now used by ＿＿＿ everyone in the country.",
+   "distractors": [
+    "visually",
+    "verbally",
+    "vigorously"
+   ],
+   "colloc": "",
+   "syn": "almost, practically",
+   "note": "注意不是“虚拟地”",
+   "importance": 3
+  },
+  {
+   "type": "word",
+   "word": "scarcely",
+   "pos": "副",
+   "ja": "ほとんど～ない",
+   "zh": "几乎不",
+   "ex": "It was so dark that I could scarcely see the road.",
+   "exTr": "天太黑了，我几乎看不清路。",
+   "form": "scarcely",
+   "cloze": "It was so dark that I could ＿＿＿ see the road.",
+   "distractors": [
+    "sparsely",
+    "scornfully",
+    "sternly"
+   ],
+   "colloc": "",
+   "syn": "hardly, barely",
+   "note": "否定意义的副词，和 hardly 一样",
+   "importance": 3
+  }
+ ],
+ "images": []
+}
