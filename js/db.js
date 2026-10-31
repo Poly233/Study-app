@@ -2,8 +2,8 @@
 // except the photos/text you explicitly send to the AI.
 
 const DB_NAME = 'studyquest';
-const DB_VERSION = 3;
-export const STORES = ['cards', 'problems', 'images', 'sources', 'feynman', 'essays', 'meta'];
+const DB_VERSION = 4;
+export const STORES = ['cards', 'problems', 'images', 'sources', 'feynman', 'essays', 'sheets', 'meta'];
 
 let dbPromise;
 

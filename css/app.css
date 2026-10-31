@@ -384,3 +384,32 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 .hbar.score i { background: var(--primary); }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .tags .tag { margin: 0; font-size: 13px; padding: 3px 10px; }
+
+/* ---------- 纸上问题 ---------- */
+.sheets-head { display: flex; align-items: center; justify-content: space-between; }
+.sheet-list { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.sheet-row { display: flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 8px 8px 12px; }
+.sheet-main { flex: 1; min-width: 0; text-align: left; font: inherit; color: var(--text); background: none; border: 0; padding: 4px 0; }
+.sheet-main b { font-size: 16px; }
+.sheet-main small { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.sheet-btns { display: flex; gap: 6px; }
+.sheet-btns.big { margin: 8px 0; }
+.sheet-btns.big .sb { flex: 1; width: auto; font-size: 16px; }
+.sb { width: 46px; height: 46px; border: 0; border-radius: 12px; font: inherit; font-size: 22px; font-weight: 800; color: #fff; }
+.sb:active { transform: scale(.93); }
+.sb.ok { background: var(--good); }
+.sb.half { background: #f08a3c; }
+.sb.bad { background: var(--bad); }
+.due { font-weight: 700; color: var(--text); }
+.due.late { color: var(--bad); }
+.due.today { color: var(--primary); }
+.due.done { color: var(--good); }
+.hd { font-style: normal; font-weight: 800; margin-left: 2px; }
+.hd.ok { color: var(--good); }
+.hd.half { color: #f08a3c; }
+.hd.bad { color: var(--bad); }
+.undo-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14px; border-color: var(--good); }
+.hist .kv { border-bottom: 1px solid var(--line); font-size: 14px; }
+.big-btn.sheet-entry { margin: 0 0 10px; }
+.big-btn.sheet-entry.has-due { border-color: var(--primary); background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 16%, var(--card)), var(--card)); }
+#tabbar a { min-width: 0; }

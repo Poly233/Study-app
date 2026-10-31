@@ -29,6 +29,7 @@ const S = {
   sources: [],
   feynman: [],
   essays: [],
+  sheets: [],
   settings: null,
   stats: null,
 };
@@ -64,6 +65,7 @@ async function load() {
     db.all('cards'), db.all('problems'), db.all('sources'), db.all('feynman'), db.all('essays'),
     db.getMeta('settings', null), db.getMeta('stats', null),
   ]);
+  S.sheets = await db.all('sheets');
   // Data from the old school-subject version stays in the database but is not shown.
   const known = x => SUBJ[x.subject];
   S.cards = cards.filter(known);
@@ -254,11 +256,17 @@ function tabs(active) {
 async function route() {
   const hash = location.hash.replace(/^#\/?/, '') || 'home';
   const [name, arg] = hash.split('/');
+  if (name === 'sheets' && document.body.dataset.view !== 'sheets') {
+    // coming from another screen: start on today's list
+    sheetsUI.tab = 'today';
+    sheetsUI.undo = null;
+  }
   document.body.dataset.view = name;
   header();
   const map = { home: viewHome, add: viewAdd, review: viewReview, session: viewSession, lib: viewLib,
     problem: viewProblem, tutor: viewTutor, source: viewSource, settings: viewSettings,
-    feynman: viewFeynmanList, fey: viewFey, packs: viewPacks, writing: viewWriting, essay: viewEssay, essayr: viewEssayResult };
+    feynman: viewFeynmanList, fey: viewFey, packs: viewPacks, writing: viewWriting, essay: viewEssay, essayr: viewEssayResult,
+    sheets: viewSheets };
   tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review', packs: 'add',
     writing: 'review', essay: 'review', essayr: 'review' }[name] || name);
   await (map[name] || viewHome)(arg);
@@ -292,6 +300,8 @@ async function viewHome() {
   const examLabel = x => x.s.name;
   const groupLabel = xs => (allSame && xs.length === SUBJECTS.length ? '英検準1級 一次試験' : xs.map(examLabel).join('、'));
   const weekEssays = S.essays.filter(e => e.result && e.gradedAt > Date.now() - 7 * DAY).length;
+  const sheetsDue = S.sheets.filter(x => !x.archived && !x.done && x.due <= todayKey());
+  const sheetsLate = sheetsDue.filter(x => x.due < todayKey()).length;
   const todayExams = upcoming.filter(x => x.d === 0);
   const tomorrowExams = upcoming.filter(x => x.d === 1);
   const next = upcoming.find(x => x.d > 0);
@@ -321,6 +331,10 @@ async function viewHome() {
     </ol>
     <div class="row"><button class="btn" data-act="nav" data-to="settings">去设置</button><button class="btn primary" data-act="nav" data-to="packs">📦 导入单词</button></div>
   </section>` : ''}
+
+  <button class="big-btn sheet-entry ${sheetsDue.length ? 'has-due' : ''}" data-act="nav" data-to="sheets">${S.sheets.length
+    ? `<b>📝 纸上问题：今天 ${sheetsDue.length} 张${sheetsLate ? `（逾期 ${sheetsLate}）` : ''}</b><span>${sheetsDue.length ? '做完在 App 里点 ○ △ ×' : '今天的都做完了 🎉'}</span>`
+    : '<b>📝 纸上问题</b><span>自己出在纸上的题，也能按遗忘曲线提醒你哪天做</span>'}</button>
 
   <section class="card today">
     <div class="ring" style="--p:${pct}"><div><b>${t.reviews}</b><small>/${goal}</small></div></div>
@@ -2095,6 +2109,184 @@ async function viewEssayResult(id) {
 }
 
 // ====================================================================
+// SHEETS (纸上问题): questions the student writes and answers on paper.
+// The app only keeps the schedule: how many times, when next, what's due.
+// ====================================================================
+
+const DEFAULT_STEPS = [1, 7, 14, 30, 60];
+const RESULT = { ok: { mark: '○', label: '全对' }, half: { mark: '△', label: '有错' }, bad: { mark: '×', label: '大部分错' } };
+const sheetsUI = { tab: 'today', tag: 'all', undo: null };
+
+const sheetSteps = () => (Array.isArray(S.settings.sheetSteps) && S.settings.sheetSteps.length ? S.settings.sheetSteps : DEFAULT_STEPS);
+const sheetAttempts = x => (x.history || []).length;
+const shortDate = key => key.slice(5).split('-').map(Number).join('/');
+
+function addDays(key, n) {
+  const [y, m, d] = key.split('-').map(Number);
+  return todayKey(new Date(y, m - 1, d + n).getTime());
+}
+
+async function putSheet(x) { await db.put('sheets', x); upsert(S.sheets, x); }
+
+// Next date for an interval; with an exam date set, nothing is pushed past
+// the day before the exam, so every sheet gets one last pass in time.
+function nextDue(fromKey, days) {
+  let due = addDays(fromKey, days);
+  const exam = S.settings.sheetExam;
+  if (exam) {
+    const last = addDays(exam, -1);
+    if (fromKey < last && due > last) due = last;
+  }
+  return due;
+}
+
+// ○ moves to the next (longer) interval, △ repeats the same interval,
+// × starts again from the first one. Passing the last interval = mastered.
+function recordSheet(x, result) {
+  const t = todayKey();
+  x.history = [...(x.history || []), { date: t, result }];
+  if (result === 'ok') x.stage = (x.stage || 0) + 1;
+  else if (result === 'bad') x.stage = 0;
+  const days = sheetSteps()[x.stage || 0];
+  x.done = days == null;
+  x.due = x.done ? null : nextDue(t, days);
+}
+
+function dueLabel(x) {
+  if (x.done) return '<span class="due done">✅ 已掌握</span>';
+  const d = daysUntil(x.due);
+  if (d < 0) return `<span class="due late">逾期 ${-d} 天</span>`;
+  if (d === 0) return '<span class="due today">今天</span>';
+  if (d === 1) return '<span class="due">明天</span>';
+  return `<span class="due">${shortDate(x.due)}（${d} 天后）</span>`;
+}
+
+const historyDots = x => (x.history || []).slice(-8).map(h => `<i class="hd ${h.result}">${RESULT[h.result].mark}</i>`).join('');
+
+function sheetRow(x, withButtons) {
+  return `<div class="sheet-row">
+    <button class="sheet-main" data-act="sheetOpen" data-id="${x.id}">
+      <b>${esc(x.title)}</b>${x.tag ? ` <span class="tag">${esc(x.tag)}</span>` : ''}
+      <small>${x.done ? '' : `第 ${sheetAttempts(x) + 1} 次 · `}${dueLabel(x)} ${historyDots(x)}</small>
+    </button>
+    ${withButtons ? `<div class="sheet-btns">${Object.entries(RESULT).map(([r, v]) => `<button class="sb ${r}" data-act="sheetRec" data-id="${x.id}" data-r="${r}" aria-label="${v.label}">${v.mark}</button>`).join('')}</div>` : ''}
+  </div>`;
+}
+
+function sheetForecast(active) {
+  const t = todayKey();
+  const days = [];
+  for (let i = 0; i < 14; i++) {
+    const k = addDays(t, i);
+    const n = active.filter(x => !x.done && x.due && (i === 0 ? x.due <= k : x.due === k)).length;
+    days.push({ k, n });
+  }
+  const max = Math.max(5, ...days.map(d => d.n));
+  return `<div class="card week">${days.map((d, i) => `<div class="wk"><div class="wk-bar"><i style="height:${d.n / max * 100}%"></i></div><small>${i === 0 ? '今' : Number(d.k.slice(8))}</small><small class="muted">${d.n || ''}</small></div>`).join('')}</div>`;
+}
+
+async function viewSheets() {
+  const t = todayKey();
+  const all = S.sheets.filter(x => !x.archived);
+  const tags = [...new Set(all.map(x => x.tag).filter(Boolean))].sort();
+  if (sheetsUI.tag !== 'all' && !tags.includes(sheetsUI.tag)) sheetsUI.tag = 'all';
+  const active = all.filter(x => sheetsUI.tag === 'all' || x.tag === sheetsUI.tag);
+  const due = active.filter(x => !x.done && x.due <= t).sort((a, b) => a.due.localeCompare(b.due));
+  const late = due.filter(x => x.due < t).length;
+  const doneToday = all.filter(x => (x.history || []).some(h => h.date === t)).length;
+  const u = sheetsUI.undo;
+  let list = '';
+  if (sheetsUI.tab === 'today') {
+    list = due.length ? due.map(x => sheetRow(x, true)).join('')
+      : `<div class="empty">${all.length ? '🎉 今天的纸上问题都做完了！' : '还没有登记。做好一张题目纸，就点上面的“＋ 登记”。'}</div>`;
+  } else if (sheetsUI.tab === 'all') {
+    const xs = active.filter(x => !x.done).sort((a, b) => a.due.localeCompare(b.due));
+    list = xs.length ? xs.map(x => sheetRow(x, false)).join('') : '<div class="empty">没有进行中的题目。</div>';
+  } else {
+    const xs = active.filter(x => x.done);
+    list = xs.length ? xs.map(x => sheetRow(x, false)).join('') : '<div class="empty">还没有“已掌握”的题目。最后一个间隔也全对，就会到这里。</div>';
+  }
+  const steps = sheetSteps();
+  setView(`
+    <div class="sheets-head"><h2>📝 纸上问题</h2><button class="btn primary small" data-act="sheetNew">＋ 登记</button></div>
+    <div class="muted small">题目和答案写在纸上，App 帮你记住每张做了几次、下次哪天做。今天已经做了 ${doneToday} 张。</div>
+    ${u ? `<div class="card undo-bar"><span>${u.msg}</span><button class="btn small" data-act="sheetUndo">撤销</button></div>` : ''}
+    ${tags.length ? `<div class="chips"><button class="chip ${sheetsUI.tag === 'all' ? 'on' : ''}" data-act="sheetTag" data-tag="all">全部</button>${tags.map(g => `<button class="chip ${sheetsUI.tag === g ? 'on' : ''}" data-act="sheetTag" data-tag="${esc(g)}">${esc(g)}</button>`).join('')}</div>` : ''}
+    <div class="seg">
+      <button class="${sheetsUI.tab === 'today' ? 'on' : ''}" data-act="sheetTab" data-tab="today">今天要做（${due.length}）</button>
+      <button class="${sheetsUI.tab === 'all' ? 'on' : ''}" data-act="sheetTab" data-tab="all">进行中</button>
+      <button class="${sheetsUI.tab === 'done' ? 'on' : ''}" data-act="sheetTab" data-tab="done">已掌握</button>
+    </div>
+    ${sheetsUI.tab === 'today' && late ? `<div class="muted small">⚠️ 有 ${late} 张逾期了，排在最前面，先做它们。</div>` : ''}
+    ${sheetsUI.tab === 'today' && due.length ? '<div class="muted small">做完一张，按结果点：<b>○ 全对</b>（进入下一个更长的间隔）／<b>△ 有错</b>（同样的间隔再来一次）／<b>× 大部分错</b>（1 天后重新开始）</div>' : ''}
+    <div class="sheet-list">${list}</div>
+    ${all.length ? `<h3 class="sec">接下来 14 天要做的张数</h3>${sheetForecast(all)}` : ''}
+    <details class="card"><summary>⚙️ 间隔设置</summary>
+      <label class="lbl">复习间隔（天，用逗号分隔）</label>
+      <input id="ss-steps" value="${steps.join(', ')}" inputmode="numeric">
+      <div class="muted small">现在：做好题目后 ${steps[0]} 天第一次做，之后全对就依次隔 ${steps.slice(1).join('、')} 天，最后一次也全对就算“已掌握”。你以前的做法是 1, 7, 14。</div>
+      <label class="lbl">考试日期（可选）</label>
+      <input id="ss-exam" type="date" value="${esc(S.settings.sheetExam || '')}">
+      <div class="muted small">设了考试日期后，原本会排到考试之后的题，会提前到考试前一天，保证考前每张都再做一遍。</div>
+      <button class="btn block" data-act="sheetSettings">保存设置</button>
+    </details>
+  `);
+}
+
+async function sheetDetail(id) {
+  const x = S.sheets.find(s => s.id === id);
+  if (!x) return;
+  const steps = sheetSteps();
+  const nextGap = x.done ? null : steps[x.stage || 0];
+  modal(`
+    <h3>${esc(x.title)}</h3>
+    <div class="muted small">${x.tag ? `${esc(x.tag)} · ` : ''}登记于 ${shortDate(todayKey(x.created))} · 做过 ${sheetAttempts(x)} 次</div>
+    ${x.photoId ? await imgsHTML([x.photoId]) : ''}
+    ${x.note ? `<div class="note">${md(x.note)}</div>` : ''}
+    <div class="card small">${x.done ? '✅ 已掌握，不会再出现。想继续练就点下面的“重新开始”。' : `下次：${dueLabel(x)}（第 ${(x.stage || 0) + 1} 个间隔：${nextGap} 天）`}</div>
+    ${(x.history || []).length ? `<h4>做题记录</h4><div class="hist">${x.history.map((h, i) => `<div class="kv"><span>第 ${i + 1} 次 · ${shortDate(h.date)}</span><b class="hd ${h.result}">${RESULT[h.result].mark} ${RESULT[h.result].label}</b></div>`).join('')}</div>` : ''}
+    <h4>${x.done ? '' : '记录这次的结果'}</h4>
+    ${x.done ? '' : `<div class="sheet-btns big">${Object.entries(RESULT).map(([r, v]) => `<button class="sb ${r}" data-act="sheetRec" data-id="${x.id}" data-r="${r}">${v.mark} ${v.label}</button>`).join('')}</div>
+    <div class="muted small">没到日子提前做了也可以记录。</div>`}
+    <label class="lbl">标题</label><input id="sd-title" value="${esc(x.title)}">
+    <label class="lbl">分类</label><input id="sd-tag" value="${esc(x.tag || '')}" list="sheet-tags">${tagDatalist()}
+    <label class="lbl">备注</label><textarea id="sd-note" rows="2">${esc(x.note || '')}</textarea>
+    ${x.done ? '' : `<label class="lbl">手动改下次日期</label><input id="sd-due" type="date" value="${x.due}">`}
+    <div class="stack">
+      <button class="btn primary block" data-act="sheetSave" data-id="${x.id}">保存修改</button>
+      <button class="btn block" data-act="sheetRestart" data-id="${x.id}">重新开始（从第 1 个间隔）</button>
+      <button class="btn danger ghost block" data-act="sheetDel" data-id="${x.id}">删除</button>
+    </div>`);
+}
+
+function tagDatalist() {
+  const tags = [...new Set(S.sheets.map(x => x.tag).filter(Boolean))];
+  return `<datalist id="sheet-tags">${tags.map(t => `<option value="${esc(t)}">`).join('')}</datalist>`;
+}
+
+function sheetNewModal() {
+  modalData.sheetPhoto = null;
+  const steps = sheetSteps();
+  modal(`
+    <h3>＋ 登记纸上问题</h3>
+    <div class="muted small">一张题目纸（或一组题）登记成一条。今天做好，${steps[0]} 天后第一次做。</div>
+    <label class="lbl">标题</label>
+    <input id="sn-title" placeholder="例：英検 句動詞 ①、化学 第3章 Q1–10">
+    <label class="lbl">分类（可选）</label>
+    <input id="sn-tag" placeholder="例：英検、化学、公共" list="sheet-tags" value="${esc(sheetsUI.tag !== 'all' ? sheetsUI.tag : '')}">${tagDatalist()}
+    <label class="lbl">张数</label>
+    <input id="sn-count" type="number" min="1" max="50" value="1" inputmode="numeric">
+    <div class="muted small">一次做了好几张时填张数，会自动编号成「标题 #1」「标题 #2」…</div>
+    <label class="lbl">照片（可选，拍下题目纸方便认出是哪张）</label>
+    <div class="row"><label class="btn"><input type="file" accept="image/*" capture="environment" data-file="sheetPhoto" hidden>📷 拍照</label>
+      <label class="btn"><input type="file" accept="image/*" data-file="sheetPhoto" hidden>🖼 相册</label></div>
+    <div id="sn-photo"></div>
+    <label class="lbl">备注（可选）</label>
+    <textarea id="sn-note" rows="2" placeholder="例：放在蓝色文件夹里"></textarea>
+    <button class="btn primary block" data-act="sheetCreate">登记</button>`);
+}
+
+// ====================================================================
 // SETTINGS
 // ====================================================================
 
@@ -2350,6 +2542,89 @@ const acts = {
 
   // tutor
   tutorSend: d => tutorSend(d.id),
+
+  // sheets
+  sheetNew: () => sheetNewModal(),
+  sheetTab: d => { sheetsUI.tab = d.tab; viewSheets(); },
+  sheetTag: d => { sheetsUI.tag = d.tag; viewSheets(); },
+  sheetOpen: d => sheetDetail(d.id),
+  sheetCreate: async () => {
+    const title = document.getElementById('sn-title').value.trim();
+    if (!title) return toast('写一个标题吧');
+    const tag = document.getElementById('sn-tag').value.trim();
+    const note = document.getElementById('sn-note').value.trim();
+    const n = Math.max(1, Math.min(50, +document.getElementById('sn-count').value || 1));
+    const photoId = modalData.sheetPhoto ? (await saveImages([modalData.sheetPhoto]))[0] : null;
+    const now = Date.now();
+    const due = nextDue(todayKey(), sheetSteps()[0]);
+    for (let i = 0; i < n; i++) {
+      await putSheet({ id: uid(), title: n > 1 ? `${title} #${i + 1}` : title, tag, note, photoId, stage: 0, due, done: false, history: [], created: now + i });
+    }
+    modalData.sheetPhoto = null;
+    closeModal();
+    addXP(2 * n);
+    toast(`已登记 ${n} 张，${shortDate(due)} 第一次做`);
+    sheetsUI.tab = 'all';
+    route();
+  },
+  sheetRec: async d => {
+    const x = S.sheets.find(s => s.id === d.id);
+    const before = JSON.parse(JSON.stringify(x));
+    recordSheet(x, d.r);
+    await putSheet(x);
+    addXP({ ok: 5, half: 3, bad: 2 }[d.r], { review: true, correct: d.r === 'ok' });
+    const next = x.done ? '🎓 已掌握！' : `下次 ${shortDate(x.due)}（${daysUntil(x.due)} 天后）`;
+    sheetsUI.undo = { before, msg: `已记录「${esc(x.title)}」${RESULT[d.r].mark} → ${next}` };
+    closeModal();
+    header();
+    if (location.hash === '#/sheets') viewSheets(); else go('sheets');
+  },
+  sheetUndo: async () => {
+    const u = sheetsUI.undo;
+    if (!u) return;
+    await putSheet(u.before);
+    sheetsUI.undo = null;
+    toast('已撤销');
+    viewSheets();
+  },
+  sheetSave: async d => {
+    const x = S.sheets.find(s => s.id === d.id);
+    x.title = document.getElementById('sd-title').value.trim() || x.title;
+    x.tag = document.getElementById('sd-tag').value.trim();
+    x.note = document.getElementById('sd-note').value.trim();
+    const due = document.getElementById('sd-due')?.value;
+    if (due) x.due = due;
+    await putSheet(x);
+    closeModal();
+    toast('已保存');
+    viewSheets();
+  },
+  sheetRestart: async d => {
+    const x = S.sheets.find(s => s.id === d.id);
+    Object.assign(x, { stage: 0, done: false, due: nextDue(todayKey(), sheetSteps()[0]) });
+    await putSheet(x);
+    closeModal();
+    toast(`已重新开始，${shortDate(x.due)} 做`);
+    viewSheets();
+  },
+  sheetDel: async d => {
+    if (!confirm('删除这条记录？（纸本身当然还在 😄）')) return;
+    const x = S.sheets.find(s => s.id === d.id);
+    if (x.photoId && !S.sheets.some(s => s.id !== x.id && s.photoId === x.photoId)) await db.del('images', x.photoId);
+    await db.del('sheets', d.id);
+    S.sheets = S.sheets.filter(s => s.id !== d.id);
+    closeModal();
+    viewSheets();
+  },
+  sheetSettings: async () => {
+    const steps = document.getElementById('ss-steps').value.split(/[^0-9]+/).map(Number).filter(n => n > 0);
+    if (!steps.length) return toast('至少要有一个间隔');
+    S.settings.sheetSteps = steps;
+    S.settings.sheetExam = document.getElementById('ss-exam').value || '';
+    await saveSettings();
+    toast('已保存（之后记录的结果按新设置排）');
+    viewSheets();
+  },
 
   // words
   say: d => speak(d.t),
@@ -2626,8 +2901,8 @@ ${text}
   wipe: async () => {
     if (!confirm('真的要清空全部闪卡、错题和记录吗？（API Key 和考试日期保留）')) return;
     if (!confirm('再确认一次：不可恢复！')) return;
-    for (const s of ['cards', 'problems', 'images', 'sources', 'feynman', 'essays']) await db.clear(s);
-    S.cards = []; S.problems = []; S.sources = []; S.feynman = []; S.essays = [];
+    for (const s of ['cards', 'problems', 'images', 'sources', 'feynman', 'essays', 'sheets']) await db.clear(s);
+    S.cards = []; S.problems = []; S.sources = []; S.feynman = []; S.essays = []; S.sheets = [];
     S.stats = { xp: 0, streak: 0, lastDay: null, days: {} };
     await saveStats();
     go('home');
@@ -2690,6 +2965,11 @@ document.addEventListener('change', async e => {
         toast('导入完成');
         route();
       } catch (err) { alertBox('导入失败', err.message); }
+      return;
+    }
+    if (t.dataset.file === 'sheetPhoto') {
+      modalData.sheetPhoto = await resizeImage(files[0]);
+      document.getElementById('sn-photo').innerHTML = `<div class="photos"><div class="ph"><img src="${URL.createObjectURL(modalData.sheetPhoto)}"></div></div>`;
       return;
     }
     if (t.dataset.file === 'tutor') {
