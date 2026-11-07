@@ -1,0 +1,648 @@
+{
+ "id": "chemb-06-formula",
+ "kind": "cards",
+ "subject": "chemb",
+ "title": "化学基礎⑥ イオンの名前・化学式",
+ "summary": "- 多原子イオン必背：$\\ce{NH4+}$ アンモニウム・$\\ce{OH-}$ 水酸化物・$\\ce{NO3-}$ 硝酸・$\\ce{SO4^2-}$ 硫酸・$\\ce{CO3^2-}$ 炭酸・$\\ce{HCO3-}$ 炭酸水素・$\\ce{PO4^3-}$ リン酸・$\\ce{CH3COO-}$ 酢酸\n- 氧化还原用：$\\ce{MnO4-}$ 過マンガン酸（赤紫）・$\\ce{Cr2O7^2-}$ 二クロム酸（橙赤）\n- 单原子阴离子叫「〜化物イオン」：$\\ce{Cl-}$ 塩化物・$\\ce{O^2-}$ 酸化物・$\\ce{S^2-}$ 硫化物\n- 命名：**阴离子 → 阳离子** 的顺序读（$\\ce{CaCl2}$＝塩化カルシウム）\n- 组成式：正电荷总和＝负电荷总和（$\\ce{Al^3+}$ 和 $\\ce{SO4^2-}$ → $\\ce{Al2(SO4)3}$）",
+ "cards": [
+  {
+   "type": "qa",
+   "front": "$\\ce{NH4+}$ の名前は？",
+   "back": "アンモニウムイオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "アンモニアイオン",
+    "オキソニウムイオン",
+    "窒化物イオン"
+   ],
+   "memo": "アンモニア（NH₃）＋H⁺ → アンモニ**ウム**（加了 H⁺ 变成“ウム”）"
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H3O+}$ の名前は？",
+   "back": "オキソニウムイオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "水素化物イオン",
+    "アンモニウムイオン",
+    "水酸化物イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{OH-}$ の名前は？",
+   "back": "水酸化物イオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "酸化物イオン",
+    "水素イオン",
+    "オキソニウムイオン"
+   ],
+   "memo": "“水酸化”＝OH：水酸化ナトリウム NaOH 的 OH"
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NO3-}$ の名前は？",
+   "back": "硝酸イオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "亜硝酸イオン",
+    "窒化物イオン",
+    "炭酸イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{SO4^2-}$ の名前は？",
+   "back": "硫酸イオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "亜硫酸イオン",
+    "硫化物イオン",
+    "硫酸水素イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{CO3^2-}$ の名前は？",
+   "back": "炭酸イオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "炭酸水素イオン",
+    "酢酸イオン",
+    "硝酸イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{HCO3-}$ の名前は？",
+   "back": "炭酸水素イオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "炭酸イオン",
+    "酢酸イオン",
+    "硫酸水素イオン"
+   ],
+   "memo": "炭酸イオン CO₃²⁻ ＋ H → 炭酸**水素**イオン（电荷少 1）"
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{PO4^3-}$ の名前は？",
+   "back": "リン酸イオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "過マンガン酸イオン",
+    "硫酸イオン",
+    "リン化物イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{CH3COO-}$ の名前は？",
+   "back": "酢酸イオン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "炭酸イオン",
+    "シュウ酸イオン",
+    "ギ酸イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{HSO4-}$ の名前は？",
+   "back": "硫酸水素イオン",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "硫酸イオン",
+    "亜硫酸イオン",
+    "炭酸水素イオン"
+   ],
+   "memo": "硫酸イオン SO₄²⁻ ＋ H → 硫酸**水素**イオン"
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{MnO4-}$ の名前は？",
+   "back": "過マンガン酸イオン",
+   "note": "赤紫色，强氧化剂",
+   "importance": 3,
+   "distractors": [
+    "マンガン酸イオン",
+    "マンガン(II)イオン",
+    "二クロム酸イオン"
+   ],
+   "memo": "“過マンガン酸カリウム”＝紫色的消毒液（KMnO₄）里的离子"
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Cr2O7^2-}$ の名前は？",
+   "back": "二クロム酸イオン",
+   "note": "橙赤色，氧化剂",
+   "importance": 2,
+   "distractors": [
+    "クロム酸イオン",
+    "過マンガン酸イオン",
+    "クロム(III)イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{SO3^2-}$ の名前は？",
+   "back": "亜硫酸イオン",
+   "note": "",
+   "importance": 1,
+   "distractors": [
+    "硫酸イオン",
+    "硫化物イオン",
+    "硫酸水素イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{C2O4^2-}$ の名前は？",
+   "back": "シュウ酸イオン",
+   "note": "",
+   "importance": 1,
+   "distractors": [
+    "酢酸イオン",
+    "炭酸イオン",
+    "クロム酸イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Fe^2+}$ の名前は？",
+   "back": "鉄(II)イオン",
+   "note": "旧称：第一鉄イオン",
+   "importance": 2,
+   "distractors": [
+    "鉄(III)イオン",
+    "鉄イオン(2)",
+    "酸化鉄イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Fe^3+}$ の名前は？",
+   "back": "鉄(III)イオン",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "鉄(II)イオン",
+    "鉄イオン(3)",
+    "酸化鉄イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Cu^2+}$ の名前は？",
+   "back": "銅(II)イオン",
+   "note": "水溶液是蓝色",
+   "importance": 2,
+   "distractors": [
+    "銅(I)イオン",
+    "銅イオン(2)",
+    "コバルトイオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{S^2-}$ の名前は？",
+   "back": "硫化物イオン",
+   "note": "单原子阴离子：〜化物イオン",
+   "importance": 2,
+   "distractors": [
+    "硫酸イオン",
+    "亜硫酸イオン",
+    "硫黄イオン"
+   ],
+   "memo": "单原子阴离子都叫“〜**化物**イオン”：塩化物・酸化物・硫化物"
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{O^2-}$ の名前は？",
+   "back": "酸化物イオン",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "水酸化物イオン",
+    "酸素イオン",
+    "過酸化物イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Cl-}$ の名前は？",
+   "back": "塩化物イオン",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "塩素イオン",
+    "塩酸イオン",
+    "次亜塩素酸イオン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "硫酸イオン のイオン式は？",
+   "back": "$\\ce{SO4^2-}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{SO4-}$",
+    "$\\ce{SO3^2-}$",
+    "$\\ce{S^2-}$"
+   ],
+   "memo": "硫酸 H₂SO₄ 去掉 2 个 H⁺ → SO₄²⁻（去掉几个 H，就带几个 −）"
+  },
+  {
+   "type": "qa",
+   "front": "硝酸イオン のイオン式は？",
+   "back": "$\\ce{NO3-}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{NO3^2-}$",
+    "$\\ce{NO2-}$",
+    "$\\ce{N^3-}$"
+   ],
+   "memo": "硝酸 HNO₃ 去掉 1 个 H⁺ → NO₃⁻"
+  },
+  {
+   "type": "qa",
+   "front": "炭酸イオン のイオン式は？",
+   "back": "$\\ce{CO3^2-}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{CO3-}$",
+    "$\\ce{HCO3-}$",
+    "$\\ce{CO2^2-}$"
+   ],
+   "memo": "炭酸 H₂CO₃ 去掉 2 个 H⁺ → CO₃²⁻"
+  },
+  {
+   "type": "qa",
+   "front": "アンモニウムイオン のイオン式は？",
+   "back": "$\\ce{NH4+}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{NH3+}$",
+    "$\\ce{NH4-}$",
+    "$\\ce{NH2-}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "水酸化物イオン のイオン式は？",
+   "back": "$\\ce{OH-}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{O^2-}$",
+    "$\\ce{H3O+}$",
+    "$\\ce{OH+}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "リン酸イオン のイオン式は？",
+   "back": "$\\ce{PO4^3-}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{PO4^2-}$",
+    "$\\ce{PO3^3-}$",
+    "$\\ce{P^3-}$"
+   ],
+   "memo": "リン酸 H₃PO₄ 去掉 3 个 H⁺ → PO₄³⁻"
+  },
+  {
+   "type": "qa",
+   "front": "酢酸イオン のイオン式は？",
+   "back": "$\\ce{CH3COO-}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{CH3COO+}$",
+    "$\\ce{C2O4^2-}$",
+    "$\\ce{CO3^2-}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "イオンからなる物質の名前の付け方は？",
+   "back": "陰イオン → 陽イオンの順に読み、「〜化物イオン」「〜イオン」の部分を取る",
+   "note": "例：$\\ce{NaCl}$＝塩化ナトリウム、$\\ce{CuSO4}$＝硫酸銅(II)",
+   "importance": 3,
+   "memo": "日语和中文一样，**后写的先读**：NaCl＝“塩化”ナトリウム"
+  },
+  {
+   "type": "qa",
+   "front": "組成式のつくり方は？",
+   "back": "陽イオンの正電荷の合計と陰イオンの負電荷の合計が等しくなる、最も簡単な整数比で書く",
+   "note": "陽イオンを先に書く",
+   "importance": 3,
+   "memo": "“たすき掛け”：Al³⁺ と SO₄²⁻ → 电荷数交叉 → Al₂(SO₄)₃"
+  },
+  {
+   "type": "qa",
+   "front": "塩化カルシウム の化学式（組成式）は？",
+   "back": "$\\ce{CaCl2}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{CaCl}$",
+    "$\\ce{Ca2Cl}$",
+    "$\\ce{CaCl3}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "硫酸アルミニウム の化学式（組成式）は？",
+   "back": "$\\ce{Al2(SO4)3}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{AlSO4}$",
+    "$\\ce{Al3(SO4)2}$",
+    "$\\ce{Al(SO4)3}$"
+   ],
+   "memo": "Al³⁺ × 2 ＝ +6，SO₄²⁻ × 3 ＝ −6 → 交叉相乘（たすき掛け）"
+  },
+  {
+   "type": "qa",
+   "front": "炭酸ナトリウム の化学式（組成式）は？",
+   "back": "$\\ce{Na2CO3}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{NaCO3}$",
+    "$\\ce{Na(CO3)2}$",
+    "$\\ce{NaHCO3}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "炭酸水素ナトリウム の化学式（組成式）は？",
+   "back": "$\\ce{NaHCO3}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{Na2CO3}$",
+    "$\\ce{NaHCO2}$",
+    "$\\ce{Na2HCO3}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "水酸化カルシウム の化学式（組成式）は？",
+   "back": "$\\ce{Ca(OH)2}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{CaOH}$",
+    "$\\ce{Ca2OH}$",
+    "$\\ce{CaO}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "硫酸アンモニウム の化学式（組成式）は？",
+   "back": "$\\ce{(NH4)2SO4}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{NH4SO4}$",
+    "$\\ce{NH4(SO4)2}$",
+    "$\\ce{(NH3)2SO4}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "塩化アンモニウム の化学式（組成式）は？",
+   "back": "$\\ce{NH4Cl}$",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{NH3Cl}$",
+    "$\\ce{(NH4)2Cl}$",
+    "$\\ce{NH4Cl2}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "硝酸銀 の化学式（組成式）は？",
+   "back": "$\\ce{AgNO3}$",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{Ag2NO3}$",
+    "$\\ce{Ag(NO3)2}$",
+    "$\\ce{AgNO2}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "酸化アルミニウム の化学式（組成式）は？",
+   "back": "$\\ce{Al2O3}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{AlO}$",
+    "$\\ce{Al3O2}$",
+    "$\\ce{AlO3}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "酸化鉄(III) の化学式（組成式）は？",
+   "back": "$\\ce{Fe2O3}$",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{FeO}$",
+    "$\\ce{Fe3O2}$",
+    "$\\ce{Fe3O4}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "リン酸カルシウム の化学式（組成式）は？",
+   "back": "$\\ce{Ca3(PO4)2}$",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{CaPO4}$",
+    "$\\ce{Ca2(PO4)3}$",
+    "$\\ce{Ca(PO4)2}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "硫酸銅(II) の化学式（組成式）は？",
+   "back": "$\\ce{CuSO4}$",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{Cu2SO4}$",
+    "$\\ce{Cu(SO4)2}$",
+    "$\\ce{CuSO3}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "酢酸ナトリウム の化学式（組成式）は？",
+   "back": "$\\ce{CH3COONa}$",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{NaCH3}$",
+    "$\\ce{CH3COONa2}$",
+    "$\\ce{Na2C2O4}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NH3}$ の名前は？",
+   "back": "アンモニア",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "アンモニウム",
+    "ヒドラジン",
+    "窒素"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2S}$ の名前は？",
+   "back": "硫化水素",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "硫酸",
+    "二酸化硫黄",
+    "亜硫酸"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{SO2}$ の名前は？",
+   "back": "二酸化硫黄",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "三酸化硫黄",
+    "硫化水素",
+    "亜硫酸"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NO2}$ の名前は？",
+   "back": "二酸化窒素",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "一酸化窒素",
+    "硝酸",
+    "亜硝酸"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2O2}$ の名前は？",
+   "back": "過酸化水素",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "水",
+    "オゾン",
+    "水酸化物"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{HNO3}$ の名前は？",
+   "back": "硝酸",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "亜硝酸",
+    "二酸化窒素",
+    "アンモニア"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2SO4}$ の名前は？",
+   "back": "硫酸",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "亜硫酸",
+    "硫化水素",
+    "二酸化硫黄"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H3PO4}$ の名前は？",
+   "back": "リン酸",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "亜リン酸",
+    "十酸化四リン",
+    "過リン酸"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{CH3COOH}$ の名前は？",
+   "back": "酢酸",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "エタノール",
+    "シュウ酸",
+    "メタノール"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{(COOH)2}$ の名前は？",
+   "back": "シュウ酸",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "酢酸",
+    "炭酸",
+    "ギ酸"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{C2H5OH}$ の名前は？",
+   "back": "エタノール",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "メタノール",
+    "酢酸",
+    "エチレン"
+   ]
+  }
+ ]
+}

@@ -80,6 +80,114 @@
    "file": "eiken-p9-social.json",
    "count": 40,
    "created": "2026-10-30T07:41+09:00"
+  },
+  {
+   "id": "chemb-01-ptable",
+   "title": "化学基礎① 周期表と元素記号",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-01-ptable.json",
+   "count": 66,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-02-flame",
+   "title": "化学基礎② 炎色反応・成分元素の検出",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-02-flame.json",
+   "count": 23,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-03-substance",
+   "title": "化学基礎③ 物質の分類・分離・同素体・状態変化",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-03-substance.json",
+   "count": 51,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-04-atom",
+   "title": "化学基礎④ 原子の構造・電子配置・イオン・周期律",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-04-atom.json",
+   "count": 43,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-05-bond",
+   "title": "化学基礎⑤ 化学結合・分子の形・結晶",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-05-bond.json",
+   "count": 48,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-06-formula",
+   "title": "化学基礎⑥ イオンの名前・化学式",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-06-formula.json",
+   "count": 53,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-07-mol",
+   "title": "化学基礎⑦ 物質量・濃度・化学反応式・基本法則",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-07-mol.json",
+   "count": 53,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-08-acid",
+   "title": "化学基礎⑧ 酸と塩基・pH・指示薬",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-08-acid.json",
+   "count": 41,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-09-neutral",
+   "title": "化学基礎⑨ 中和滴定・塩",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-09-neutral.json",
+   "count": 35,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-10-redox",
+   "title": "化学基礎⑩ 酸化と還元・酸化数・酸化剤と還元剤",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-10-redox.json",
+   "count": 48,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-11-metal",
+   "title": "化学基礎⑪ イオン化傾向・電池・金属の製錬",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-11-metal.json",
+   "count": 42,
+   "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "chemb-12-life",
+   "title": "化学基礎⑫ 身の回りの化学・実験の安全",
+   "subject": "chemb",
+   "kind": "cards",
+   "file": "chemb-12-life.json",
+   "count": 39,
+   "created": "2026-11-07T20:33+09:00"
   }
  ]
 }

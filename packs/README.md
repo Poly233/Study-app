@@ -7,6 +7,7 @@ Claude 在聊天里根据照片做好的内容放在这里，App 的 **拍照 �
 - `img/`：错题照片等（这个仓库公开时照片也公开，别拍到名字；有版权的教材页面不要放进来）
 
 部分 id（英検準1級）：`vocab` 語彙・熟語・`read` 長文読解・`write` 英作文・`listen` リスニング
+共通テスト：`chemb` 化学基礎（化学式用 `$\ce{H2SO4}$` 这种 mhchem 写法）
 
 ## 卡包种类
 
@@ -22,7 +23,10 @@ Claude 在聊天里根据照片做好的内容放在这里，App 的 **拍照 �
 ```json
 { "id": "...", "kind": "cards", "subject": "write",
   "title": "意見論述で使える表現", "summary": "- 要点（Markdown）",
-  "cards": [ { "type": "qa|cloze", "front": "问题", "back": "答案", "note": "中文提示", "importance": 1-3 } ],
+  "cards": [ { "type": "qa|cloze", "front": "问题", "back": "答案", "note": "中文提示", "importance": 1-3,
+               "distractors": ["可选：3 个和 back 同格式的错误选项 → 复习时出 4 选 1"],
+               "quiz": "可选：true＝一直以 4 选 1 出现（「〇〇はどれ？」这种题）",
+               "memo": "可选：记法・語呂合わせ（Markdown）。忘了或答错时显示；自创的语呂要写（自创）" } ],
   "images": [] }
 ```
 
