@@ -3,20 +3,33 @@ import { schedule, newSrs, isDue, mastery, weakness, daysUntil } from './srs.js'
 import * as AI from './ai.js';
 import { esc, md, renderMath, resizeImage, blobToBase64, blobURL, toast, todayKey, shuffle, copyText } from './util.js';
 import { WRITING_TASKS, WRITING_RULES, countWords } from './eiken.js';
+import { ELEMENTS, PT_CATS, PT_TARGETS } from './chem.js';
 
 // ====================================================================
 // constants
 // ====================================================================
 
-// 英検準1級 一次試験の4つのパート
+// 英検準1級 一次試験の4つのパート ＋ 共通テスト 化学基礎
 export const SUBJECTS = [
-  { id: 'vocab', name: '語彙・熟語', book: '単熟語EX', color: '#4f7cff', icon: '🔤', modes: ['cards', 'problem', 'lesson'] },
-  { id: 'read', name: '長文読解', book: '過去問', color: '#16b26b', icon: '📰', modes: ['problem', 'lesson', 'cards'] },
-  { id: 'write', name: '英作文', book: '過去問', color: '#e24a6b', icon: '✍️', modes: ['cards', 'lesson'] },
-  { id: 'listen', name: 'リスニング', book: '過去問', color: '#ff8a3d', icon: '🎧', modes: ['problem', 'cards'] },
+  { id: 'vocab', name: '語彙・熟語', book: '単熟語EX', color: '#4f7cff', icon: '🔤', modes: ['cards', 'problem', 'lesson'], exam: 'eiken' },
+  { id: 'read', name: '長文読解', book: '過去問', color: '#16b26b', icon: '📰', modes: ['problem', 'lesson', 'cards'], exam: 'eiken' },
+  { id: 'write', name: '英作文', book: '過去問', color: '#e24a6b', icon: '✍️', modes: ['cards', 'lesson'], exam: 'eiken' },
+  { id: 'listen', name: 'リスニング', book: '過去問', color: '#ff8a3d', icon: '🎧', modes: ['problem', 'cards'], exam: 'eiken' },
+  // id は旧バージョンの「化学」(chem) と別にして、昔のデータが混ざらないようにする
+  { id: 'chemb', name: '化学基礎', book: '教科書・プリント', color: '#9b5de5', icon: '⚗️', modes: ['cards', 'problem', 'lesson'], exam: 'kyotsu' },
 ];
 const SUBJ = Object.fromEntries(SUBJECTS.map(s => [s.id, s]));
-const REASONS = ['不认识单词', '没读懂句子', '找不到根据', '被选项骗了', '听不清', '时间不够'];
+const EXAMS = {
+  eiken: { name: '英検準1級 一次試験', short: '英検' },
+  kyotsu: { name: '共通テスト', short: '共通テスト' },
+};
+const examSubjects = ex => SUBJECTS.filter(s => s.exam === ex);
+const REASONS_BY_EXAM = {
+  eiken: ['不认识单词', '没读懂句子', '找不到根据', '被选项骗了', '听不清', '时间不够'],
+  kyotsu: ['知识没记住', '概念没理解', '计算错误', '看错题目', '被选项骗了', '时间不够'],
+};
+const REASONS = [...new Set(Object.values(REASONS_BY_EXAM).flat())];
+const reasonsFor = sid => REASONS_BY_EXAM[SUBJ[sid]?.exam] || REASONS;
 const DAY = 86400000;
 
 // ====================================================================
@@ -43,9 +56,11 @@ let busy = false;
 
 // 2026年度 第3回 英検 一次試験（本会場）。出願前に公式サイトで確認すること。
 const EXAM_DAY = '2027-01-24';
-const EXAM_PRESET = Object.fromEntries(SUBJECTS.map(s => [s.id, EXAM_DAY]));
+// 令和10年度 共通テスト（2028年1月）。日程は未発表なので例年どおり1月中旬の土日の2日目（理科）と仮定。
+const KYOTSU_DAY = '2028-01-16';
+const EXAM_PRESET = Object.fromEntries(SUBJECTS.map(s => [s.id, s.exam === 'kyotsu' ? KYOTSU_DAY : EXAM_DAY]));
 // the preset stays the default until the exam day has passed
-const presetActive = () => SUBJECTS.some(s => daysUntil(EXAM_PRESET[s.id]) >= 0);
+const presetActive = sid => daysUntil(EXAM_PRESET[sid]) >= 0;
 
 function defaultSettings() {
   const later = todayKey(Date.now() + 22 * DAY);
@@ -55,7 +70,7 @@ function defaultSettings() {
     lang: 'zh',
     dailyGoal: 60,
     autoSpeak: false,
-    exams: Object.fromEntries(SUBJECTS.map(s => [s.id, presetActive() ? EXAM_PRESET[s.id] : later])),
+    exams: Object.fromEntries(SUBJECTS.map(s => [s.id, presetActive(s.id) ? EXAM_PRESET[s.id] : later])),
     eikenV1: true,
   };
 }
@@ -78,7 +93,8 @@ async function load() {
   if (!settings) await db.setMeta('settings', S.settings);
   // Installs from the school version: switch to the 英検 exam date once.
   if (settings && !settings.eikenV1) {
-    S.settings.exams = { ...S.settings.exams, ...defaultSettings().exams };
+    const fresh = defaultSettings().exams;
+    examSubjects('eiken').forEach(s => { S.settings.exams[s.id] = fresh[s.id]; });
     S.settings.eikenV1 = true;
     await saveSettings();
     setTimeout(() => toast('已切换为英検準1級模式 📚', 3500), 600);
@@ -172,16 +188,28 @@ function streakNow() {
 
 const daysTo = sid => daysUntil(S.settings.exams[sid]);
 
-function nearestExam() {
+function nearestExam(ex = null) {
   let best = null;
   for (const s of SUBJECTS) {
+    if (ex && s.exam !== ex) continue;
     const d = daysTo(s.id);
     if (d != null && d >= 0 && (best == null || d < best)) best = d;
   }
   return best;
 }
 
-function phase(d) {
+// The exam that is coming up first (its phase is shown on the home screen).
+function nearestExamKey() {
+  let best = null;
+  for (const ex of Object.keys(EXAMS)) {
+    const d = nearestExam(ex);
+    if (d != null && (best == null || d < best.d)) best = { ex, d };
+  }
+  return best?.ex || 'eiken';
+}
+
+function phase(d, ex = 'eiken') {
+  if (ex === 'kyotsu') return kyotsuPhase(d);
   if (d == null) return { name: '设置考试日期', tip: '到 设置 里填写考试日期。' };
   if (d > 45) return { name: '第1阶段：词汇打底', tip: '每天把单词卡清零；単熟語EX里不会的词做上记号拍进来。每周写 1 篇作文。' };
   if (d > 14) return { name: '第2阶段：过去问＋写作', tip: '每周做 1 回过去问，错题拍进来分析；每周写 2 篇作文并批改。单词卡继续每天清零。' };
@@ -189,6 +217,18 @@ function phase(d) {
   if (d > 0) return { name: '最后调整', tip: '不再加新词，只复习弱项；看一遍自己作文里的常见错误。早点睡！' };
   if (d === 0) return { name: '考试当天', tip: '早上用冲刺模式过一遍弱项单词，然后相信自己！' };
   return { name: '考试结束', tip: '辛苦了！可以在设置里改成二次考试（面接）或下次考试的日期。' };
+}
+
+function kyotsuPhase(d) {
+  if (d == null) return { name: '设置考试日期', tip: '到 设置 里填写共通テスト的日期。' };
+  if (d > 300) return { name: '第0阶段：跟着学校打基础', tip: '每天把化学基礎闪卡清零（新卡每天约 15 张）。学校学到哪个单元，就把讲义拍进来做卡。' };
+  if (d > 150) return { name: '第1阶段：全范围过一遍', tip: '所有单元的卡都在复习中；用周期表练习把 1–20 号元素背熟；计算题（物质量・中和・氧化还原）错题拍进来。' };
+  if (d > 60) return { name: '第2阶段：共通テスト过去问', tip: '每周做 1 回化学基礎过去问（30 分钟），错题拍进来分析；闪卡继续每天清零。' };
+  if (d > 14) return { name: '第3阶段：实战演练', tip: '按考试时间做过去问和模拟题；用“考前冲刺”刷弱项；化学基礎和另一门基礎科目一共 60 分钟，练好时间分配。' };
+  if (d > 3) return { name: '第4阶段：冲刺', tip: '不再加新卡，只刷弱项和错题；重看炎色反应、指示薬、半反应式这些容易混的点。' };
+  if (d > 0) return { name: '最后调整', tip: '只复习弱项，早点睡！' };
+  if (d === 0) return { name: '考试当天', tip: '早上用冲刺模式过一遍弱项，然后相信自己！' };
+  return { name: '考试结束', tip: '辛苦了！可以在设置里改成下次考试的日期。' };
 }
 
 function newQuota(sid) {
@@ -266,9 +306,9 @@ async function route() {
   const map = { home: viewHome, add: viewAdd, review: viewReview, session: viewSession, lib: viewLib,
     problem: viewProblem, tutor: viewTutor, source: viewSource, settings: viewSettings,
     feynman: viewFeynmanList, fey: viewFey, packs: viewPacks, writing: viewWriting, essay: viewEssay, essayr: viewEssayResult,
-    sheets: viewSheets };
+    sheets: viewSheets, ptable: viewPtable };
   tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review', packs: 'add',
-    writing: 'review', essay: 'review', essayr: 'review' }[name] || name);
+    writing: 'review', essay: 'review', essayr: 'review', ptable: 'review' }[name] || name);
   await (map[name] || viewHome)(arg);
 }
 
@@ -281,8 +321,9 @@ function go(h) {
 // ====================================================================
 
 async function viewHome() {
-  const d = nearestExam();
-  const ph = phase(d);
+  const heroEx = nearestExamKey();
+  const d = nearestExam(heroEx);
+  const ph = phase(d, heroEx);
   const plan = todayPlan();
   const t = today();
   const goal = S.settings.dailyGoal;
@@ -296,9 +337,24 @@ async function viewHome() {
   const reasonMax = Math.max(1, ...Object.values(reasons));
 
   const upcoming = SUBJECTS.map(s => ({ s, d: daysTo(s.id) })).filter(x => x.d != null && x.d >= 0).sort((a, b) => a.d - b.d);
-  const allSame = new Set(SUBJECTS.map(s => S.settings.exams[s.id])).size === 1;
-  const examLabel = x => x.s.name;
-  const groupLabel = xs => (allSame && xs.length === SUBJECTS.length ? '英検準1級 一次試験' : xs.map(examLabel).join('、'));
+  // "英検準1級 一次試験" when every part of that exam is on the list, otherwise the part names
+  const groupLabel = xs => Object.keys(EXAMS).map(ex => {
+    const mine = xs.filter(x => x.s.exam === ex);
+    if (!mine.length) return '';
+    return mine.length === examSubjects(ex).length ? EXAMS[ex].name : mine.map(x => x.s.name).join('、');
+  }).filter(Boolean).join('、');
+  const examLine = ex => {
+    const xs = upcoming.filter(x => x.s.exam === ex && x.d > 0);
+    if (!xs.length) return '';
+    const sameDay = new Set(examSubjects(ex).map(s => S.settings.exams[s.id])).size === 1;
+    const n = xs[0];
+    const date = S.settings.exams[n.s.id].split('-').map(Number);
+    const label = sameDay ? EXAMS[ex].name : `${EXAMS[ex].short}・${n.s.name}`;
+    return `${label} · ${ex === heroEx ? '' : `${date[0]}/`}${date[1]}/${date[2]}${ex === heroEx ? '' : ` · 还有 <b>${n.d}</b> 天`}`;
+  };
+  const bannerTip = (xs, when) => xs.every(x => x.s.exam === 'kyotsu')
+    ? (when === 'today' ? '考前用 10 分钟刷一下弱项就好，相信自己！' : '今晚只复习弱项和错题，然后早点睡。')
+    : (when === 'today' ? '考前用 10 分钟刷一下弱项就好，相信自己！' : '今晚只复习弱项单词和自己作文里的常见错误，然后早点睡。');
   const weekEssays = S.essays.filter(e => e.result && e.gradedAt > Date.now() - 7 * DAY).length;
   const sheetsDue = S.sheets.filter(x => !x.archived && !x.done && x.due <= todayKey());
   const sheetsLate = sheetsDue.filter(x => x.due < todayKey()).length;
@@ -307,15 +363,16 @@ async function viewHome() {
   const next = upcoming.find(x => x.d > 0);
 
   setView(`
-  ${todayExams.length ? `<section class="card exam-banner today-exam">📝 <b>今天考：${groupLabel(todayExams)}</b><br><span class="small">考前用 10 分钟刷一下弱项就好，相信自己！</span>
+  ${todayExams.length ? `<section class="card exam-banner today-exam">📝 <b>今天考：${groupLabel(todayExams)}</b><br><span class="small">${bannerTip(todayExams, 'today')}</span>
     <div class="row wrap">${todayExams.map(x => `<button class="btn small" data-act="startMode" data-mode="cram" data-sid="${x.s.id}">🔥 ${x.s.name} 弱项</button>`).join('')}</div></section>` : ''}
-  ${tomorrowExams.length ? `<section class="card exam-banner">⏰ <b>明天考：${groupLabel(tomorrowExams)}</b><br><span class="small">今晚只复习弱项单词和自己作文里的常见错误，然后早点睡。</span>
+  ${tomorrowExams.length ? `<section class="card exam-banner">⏰ <b>明天考：${groupLabel(tomorrowExams)}</b><br><span class="small">${bannerTip(tomorrowExams, 'tomorrow')}</span>
     <div class="row wrap">${tomorrowExams.map(x => `<button class="btn primary small" data-act="startMode" data-mode="cram" data-sid="${x.s.id}">🔥 ${x.s.name} 冲刺</button>`).join('')}</div></section>` : ''}
   <section class="hero">
     <div class="hero-days"><b>${d == null ? '?' : Math.max(0, d)}</b><span>天后考试</span></div>
     <div class="hero-txt">
       <div class="phase">${esc(ph.name)}</div>
-      ${next ? `<div class="small next-exam">${allSame ? '一次試験' : `下一科：${examLabel(next)}`} · ${S.settings.exams[next.s.id].slice(5).split('-').map(Number).join('/')}</div>` : ''}
+      ${next ? `<div class="small next-exam">${examLine(heroEx)}</div>` : ''}
+      ${Object.keys(EXAMS).filter(ex => ex !== heroEx).map(examLine).filter(Boolean).map(l => `<div class="small next-exam other-exam">${l}</div>`).join('')}
       <div class="muted small">${esc(ph.tip)}</div>
       <div class="muted small">称号：${TITLES[Math.min(TITLES.length - 1, lv.level - 1)]} · 再 ${lv.toNext} XP 升级</div>
     </div>
@@ -387,7 +444,11 @@ function reasonTip(r) {
     '找不到根据': '“找不到根据”最多 → 先读设问再读文章，在文章里画出根据句再选答案。',
     '被选项骗了': '“被选项骗了”最多 → 正确选项通常是本文的换说；和原文用词一模一样的选项要小心。',
     '听不清': '“听不清”最多 → 用过去问的音频跟读（shadowing），对照スクリプト找出没听出来的地方。',
-    '时间不够': '“时间不够”最多 → 词汇题每题控制在 30 秒内；写作先列提纲再写，按考试时间练。',
+    '时间不够': '“时间不够”最多 → 词汇题每题控制在 30 秒内；写作先列提纲再写，按考试时间练。化学基礎每大题按分配时间做。',
+    '知识没记住': '“知识没记住”最多 → 把这些题考到的知识做成闪卡（拍照 → 资料），每天清零。',
+    '概念没理解': '“概念没理解”最多 → 用 📖 补课把这个单元从头讲一遍，再用 🗣 费曼模式讲给小明听。',
+    '计算错误': '“计算错误”最多 → 先写出“求什么 mol”再列式；单位（g・mol・L・mL）每步都写上；有效数字最后再处理。',
+    '看错题目': '“看错题目”最多 → 把“正しいもの／誤っているもの”“すべて選べ”圈出来再作答。',
   }[top] || '';
 }
 
@@ -419,6 +480,7 @@ async function viewAdd() {
   const isP = draft.mode === 'problem';
   const isL = draft.mode === 'lesson';
   const isW = draft.mode === 'cards' && draft.subject === 'vocab';
+  const isC = s.exam === 'kyotsu';
   setView(`
   <h2>📷 拍照导入</h2>
   <button class="big-btn pack-entry" data-act="nav" data-to="packs"><b>📦 导入卡包</b><span>Claude 在聊天里帮你做好的闪卡・错题解法・补课（不花 API 费用）</span></button>
@@ -432,7 +494,7 @@ async function viewAdd() {
 
   ${isL ? `
   <div class="card">
-    <b>看不懂？</b>把看不懂的<b>语法、长难句、过去问的长文或解说、写作范文</b>拍进来，AI 会像一对一补课一样从零讲起，一节一节讲到你懂，最后自动做成闪卡。
+    <b>看不懂？</b>把看不懂的${isC ? '<b>教科书・讲义・过去问的解说</b>（概念、反应、计算方法）' : '<b>语法、长难句、过去问的长文或解说、写作范文</b>'}拍进来，AI 会像一对一补课一样从零讲起，一节一节讲到你懂，最后自动做成闪卡。
     <div class="muted small">💡 一次拍一个主题（2–4 张）效果最好。</div>
   </div>` : isW ? `
   <div class="card">
@@ -440,14 +502,15 @@ async function viewAdd() {
     <div class="muted small">💡 例句和解释由 AI 原创，不会照抄书上的内容。一次 1–2 页最好。</div>
   </div>` : !isP ? `
   <div class="card">
-    <b>资料 → 闪卡</b>：笔记、参考书、过去问的解说、写作范文……AI 会挑出值得背的单词、搭配和能直接套用的表达。
+    ${isC ? '<b>资料 → 闪卡</b>：教科书、学校讲义、图录、笔记……AI 会挑出共通テスト要背的知识（物质的性质・颜色・反应式・定义・实验操作），能出选择题的卡还会附 4 选 1。'
+      : '<b>资料 → 闪卡</b>：笔记、参考书、过去问的解说、写作范文……AI 会挑出值得背的单词、搭配和能直接套用的表达。'}
     ${draft.subject === 'write' ? '<button class="btn block" data-act="nav" data-to="writing" style="margin-top:8px">✍️ 去英作文练习（写作并批改）</button>' : ''}
   </div>` : `
   <div class="card">
     <label class="lbl">题号（可选）</label>
-    <input data-bind="ref" placeholder="例：2025年度第1回 大問1 (5)" value="${esc(draft.ref)}">
+    <input data-bind="ref" placeholder="${isC ? '例：2026 共通テスト 化学基礎 第1問 問3' : '例：2025年度第1回 大問1 (5)'}" value="${esc(draft.ref)}">
     <label class="lbl">错因（可多选）</label>
-    <div class="chips">${REASONS.map(r => `<button class="chip ${draft.reason.includes(r) ? 'on' : ''}" data-act="toggleReason" data-r="${r}">${r}</button>`).join('')}</div>
+    <div class="chips">${reasonsFor(draft.subject).map(r => `<button class="chip ${draft.reason.includes(r) ? 'on' : ''}" data-act="toggleReason" data-r="${r}">${r}</button>`).join('')}</div>
   </div>`}
 
   <div class="card">
@@ -501,7 +564,7 @@ function aiOverlay(msg) {
   return () => { clearInterval(h); el.classList.remove('show'); };
 }
 
-const cardsSchema = () => (draft.subject === 'vocab' ? 'words' : 'cards');
+const cardsSchema = () => ({ vocab: 'words', chemb: 'chemcards' }[draft.subject] || 'cards');
 
 function draftPrompt() {
   const subject = SUBJ[draft.subject];
@@ -610,7 +673,7 @@ function viewPreview() {
     <div class="muted small">点 × 删除不需要的卡。保存后可在“题库”里编辑。</div>
     ${cards.map((c, i) => `
       <div class="card pv ${c._del ? 'del' : ''}">
-        <div class="pv-top"><span class="tag">${c.type === 'cloze' ? '填空' : '问答'}</span><span class="stars">${'★'.repeat(c.importance || 2)}</span>
+        <div class="pv-top"><span class="tag">${c.type === 'cloze' ? '填空' : '问答'}${cardDistractors(c) ? '・4択' : ''}</span><span class="stars">${'★'.repeat(c.importance || 2)}</span>
           <button class="x" data-act="pvDel" data-i="${i}">${c._del ? '↺' : '×'}</button></div>
         <div class="pv-f">${md(c.front)}</div>
         <div class="pv-b">${md(c.back)}</div>
@@ -679,7 +742,17 @@ function makeCard(c, src, i) {
       ex: c.ex || '', exTr: c.exTr || '', form, cloze: c.cloze || '', distractors: c.distractors || [], colloc: c.colloc || '', syn: c.syn || '',
     };
   }
-  return { ...base, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back };
+  const card = { ...base, type: c.type === 'cloze' ? 'cloze' : 'qa', front: c.front, back: c.back };
+  const d = cardDistractors(c);
+  if (d) card.distractors = d;
+  if (d && c.quiz) card.quiz = true; // "which of these…" cards are always shown with their options
+  return card;
+}
+
+// 3 wrong answers that turn a flashcard into a 4択 question (共通テスト style)
+function cardDistractors(c) {
+  const d = (c.distractors || []).map(x => String(x || '').trim()).filter(x => x && x !== String(c.back).trim());
+  return new Set(d).size >= 3 ? [...new Set(d)].slice(0, 3) : null;
 }
 
 // Saves a 资料/补课 source and turns its raw cards into deck cards.
@@ -722,6 +795,7 @@ async function viewReview() {
     <button class="big-btn danger" data-act="startMode" data-mode="cram"><b>🔥 考前冲刺</b><span>不管到期，专刷弱项</span></button>
   </div>
   <button class="big-btn write-entry" data-act="nav" data-to="writing"><b>✍️ 英作文（要約・意見論述）</b><span>写作 → 按英検 4 个观点评分 → 范文和表达变成闪卡</span></button>
+  <button class="big-btn chem-entry" data-act="nav" data-to="ptable"><b>🧪 周期表练习（化学基礎）</b><span>看表记位置 → 点出元素在哪里 → 看位置认元素</span></button>
   <button class="big-btn fey" data-act="nav" data-to="feynman"><b>🗣 费曼模式：讲给 AI 听</b><span>用自己的话讲出来 → AI 追问 → 评分 → 漏洞自动变成闪卡${S.feynman.filter(f => f.result).length ? ` · 已讲 ${S.feynman.filter(f => f.result).length} 次` : ''}</span></button>
   <h3 class="sec">按科目</h3>
   <div class="list">
@@ -748,6 +822,7 @@ function subjectMenu(sid) {
     <div class="stack">
       <button class="btn primary block" data-act="startMode" data-mode="today" data-sid="${sid}">▶ 今日任务（卡 ${p.dueCards.length + p.newCards.length} · 题 ${p.dueProblems.length}）</button>
       <button class="btn block" data-act="startMode" data-mode="cards" data-sid="${sid}">🃏 只刷闪卡</button>
+      ${sid === 'chemb' ? '<button class="btn block" data-act="nav" data-to="ptable">🧪 周期表练习</button>' : ''}
       <button class="btn block" data-act="startMode" data-mode="method" data-sid="${sid}">🧠 解法闪卡</button>
       <button class="btn block" data-act="startMode" data-mode="problems" data-sid="${sid}">✏️ 错题重做</button>
       <button class="btn block danger" data-act="startMode" data-mode="cram" data-sid="${sid}">🔥 考前冲刺（弱项 50）</button>
@@ -836,6 +911,12 @@ function renderCardItem(prog, c) {
   const s = SUBJ[c.subject];
   const typeName = { qa: '问答', cloze: '填空', method: '解法闪卡' }[c.type] || '';
   const isNew = !c.srs || c.srs.isNew;
+  // cards with distractors: learn by flipping first, later half the time as 4択
+  if (!session.wmode) {
+    const canQuiz = c.distractors?.length >= 3;
+    session.wmode = canQuiz && (c.quiz || (!isNew && Math.random() < 0.5)) ? 'quiz' : 'flip';
+  }
+  if (session.wmode === 'quiz') return renderCardQuiz(prog, c, s, typeName);
   const f = session.flipped;
   setView(`${prog}
     <div class="flash ${f ? 'flipped' : ''} ${c.type === 'method' ? 'method' : ''}" data-act="${f ? '' : 'flip'}" style="--c:${s.color}">
@@ -848,6 +929,22 @@ function renderCardItem(prog, c) {
     </div>
     ${f ? gradeBar(['忘了', '模糊', '记得', '秒答']) : `<button class="btn primary block big" data-act="flip">显示答案</button>`}
   `);
+}
+
+function renderCardQuiz(prog, c, s, typeName) {
+  if (!session.quiz) session.quiz = { choices: shuffle([c.back, ...c.distractors.slice(0, 3)]), picked: null, t0: Date.now() };
+  const q = session.quiz;
+  const done = q.picked != null;
+  const ok = done && q.picked === c.back;
+  const g = ok ? (q.ms < 10000 ? 3 : 2) : 0;
+  setView(`${prog}
+    <div class="flash quiz" style="--c:${s.color}">
+      <div class="flash-meta"><span>${s.icon} ${s.name}</span><span>4択・${typeName}</span></div>
+      <div class="flash-front">${md(c.front)}</div>
+      <div class="choices">${q.choices.map((ch, i) => `<button class="choice ${done ? (ch === c.back ? 'ok' : ch === q.picked ? 'ng' : 'dim') : ''}" data-act="quizPick" data-i="${i}" ${done ? 'disabled' : ''}><b>${i + 1}</b><span>${md(ch)}</span></button>`).join('')}</div>
+      ${done && c.note ? `<div class="note">${md(c.note)}</div>` : ''}
+    </div>
+    ${done ? `<button class="btn primary block big" data-act="grade" data-g="${g}">${ok ? (g === 3 ? '⚡ 秒答！继续' : '⭕ 正确！继续') : '❌ 记住了，继续'}</button>` : ''}`);
 }
 
 function gradeBar(labels) {
@@ -2287,6 +2384,121 @@ function sheetNewModal() {
 }
 
 // ====================================================================
+// 周期表练习 (化学基礎)
+// ====================================================================
+
+// look: tap to see each element / where: find the cell / name: which element is this cell?
+const pt = { mode: 'look', range: 'key', sel: null, q: null, score: 0, total: 0, miss: [] };
+const ptEl = sym => ELEMENTS.find(e => e.sym === sym);
+const ptPool = () => (pt.range === '20' ? PT_TARGETS.filter(x => ptEl(x).z <= 20) : PT_TARGETS);
+
+function ptNewQuestion() {
+  const pool = ptPool();
+  const last = pt.q?.sym;
+  const misses = pt.miss.filter(x => pool.includes(x) && x !== last);
+  let sym;
+  do {
+    sym = misses.length && Math.random() < 0.4 ? misses[Math.floor(Math.random() * misses.length)] : pool[Math.floor(Math.random() * pool.length)];
+  } while (sym === last && pool.length > 1);
+  const q = { sym, picked: null };
+  if (pt.mode === 'name') {
+    const e = ptEl(sym);
+    // wrong answers from neighbours make it about the position, not luck
+    const near = shuffle(pool.filter(x => x !== sym)).sort((a, b) => {
+      const A = ptEl(a), B = ptEl(b);
+      return (Math.abs(A.group - e.group) + Math.abs(A.period - e.period)) - (Math.abs(B.group - e.group) + Math.abs(B.period - e.period));
+    });
+    q.choices = shuffle([sym, ...near.slice(0, 3)]);
+  }
+  pt.q = q;
+}
+
+function ptAnswer(sym) {
+  const q = pt.q;
+  if (!q || q.picked) return;
+  q.picked = sym;
+  pt.total++;
+  if (sym === q.sym) {
+    pt.score++;
+    pt.miss = pt.miss.filter(x => x !== q.sym);
+    addXP(1);
+    header();
+  } else if (!pt.miss.includes(q.sym)) {
+    pt.miss.push(q.sym);
+  }
+  viewPtable();
+}
+
+function ptLabel(e) {
+  return `${e.z ? `${e.z} ` : ''}<b>${esc(e.sym)}</b> ${esc(e.name)}`;
+}
+
+function viewPtable() {
+  if (pt.mode !== 'look' && !pt.q) ptNewQuestion();
+  const q = pt.mode === 'look' ? null : pt.q;
+  const done = q?.picked != null;
+  const cell = e => {
+    const c = PT_CATS[e.cat].color;
+    let cls = 'pt-cell';
+    let txt = e.z ? e.sym : '※';
+    if (pt.mode === 'look') {
+      if (pt.sel === e.sym) cls += ' sel';
+    } else if (pt.mode === 'where') {
+      txt = done && (e.sym === q.sym || e.sym === q.picked) ? txt : '';
+      if (done && e.sym === q.sym) cls += ' ok';
+      else if (done && e.sym === q.picked) cls += ' ng';
+    } else if (e.sym === q.sym) {
+      cls += done ? (q.picked === q.sym ? ' ok' : ' ng') : ' ask';
+      txt = done ? e.sym : '?';
+    }
+    return `<button class="${cls}" style="--cc:${c};grid-column:${e.group};grid-row:${e.period + 1}" data-act="ptCell" data-sym="${esc(e.sym)}" aria-label="${esc(e.name)}">${txt}</button>`;
+  };
+  const heads = Array.from({ length: 18 }, (_, i) => `<span class="pt-g" style="grid-column:${i + 1};grid-row:1">${i + 1}</span>`).join('');
+  const sel = pt.mode === 'look' && pt.sel ? ptEl(pt.sel) : null;
+  const target = q ? ptEl(q.sym) : null;
+  let panel = '';
+  if (pt.mode === 'look') {
+    panel = sel ? `<div class="pt-info" style="--cc:${PT_CATS[sel.cat].color}">
+        <div class="pt-big">${ptLabel(sel)}</div>
+        <div class="small">${sel.z ? `第${sel.period}周期・${sel.group}族 · ` : ''}${PT_CATS[sel.cat].name}</div>
+        ${sel.memo ? `<div class="note">${esc(sel.memo)}</div>` : ''}</div>`
+      : '<div class="pt-info muted small">点一个元素看名字、族・周期和要记的点。</div>';
+  } else if (pt.mode === 'where') {
+    panel = `<div class="pt-info"><div class="pt-big">${esc(target.name)}（${esc(target.sym)}）在哪里？</div>
+      ${done ? `<div class="small">${q.picked === q.sym ? '⭕ 正确！' : `❌ 你点的是 ${ptLabel(ptEl(q.picked))}`} · 第${target.period}周期・${target.group}族（${PT_CATS[target.cat].name}）</div>${target.memo ? `<div class="note">${esc(target.memo)}</div>` : ''}` : '<div class="muted small">在表里点出它的位置</div>'}</div>`;
+  } else {
+    panel = `<div class="pt-info"><div class="pt-big">“?” 的位置是哪个元素？</div>
+      <div class="choices pt-choices">${q.choices.map((x, i) => {
+        const e = ptEl(x);
+        const st = done ? (x === q.sym ? 'ok' : x === q.picked ? 'ng' : 'dim') : '';
+        return `<button class="choice ${st}" data-act="ptPick" data-sym="${esc(x)}" ${done ? 'disabled' : ''}><b>${i + 1}</b>${esc(e.name)}（${esc(e.sym)}）</button>`;
+      }).join('')}</div>
+      ${done ? `<div class="small">第${target.period}周期・${target.group}族（${PT_CATS[target.cat].name}）</div>${target.memo ? `<div class="note">${esc(target.memo)}</div>` : ''}` : ''}</div>`;
+  }
+  setView(`
+    <button class="back" data-act="nav" data-to="review">‹ 复习</button>
+    <h2>🧪 周期表练习</h2>
+    <div class="seg small">
+      <button class="${pt.mode === 'look' ? 'on' : ''}" data-act="ptMode" data-mode="look">👀 看表</button>
+      <button class="${pt.mode === 'where' ? 'on' : ''}" data-act="ptMode" data-mode="where">📍 找位置</button>
+      <button class="${pt.mode === 'name' ? 'on' : ''}" data-act="ptMode" data-mode="name">❓ 认元素</button>
+    </div>
+    ${pt.mode === 'look' ? '' : `<div class="row pt-bar">
+      <div class="chips"><button class="chip ${pt.range === '20' ? 'on' : ''}" data-act="ptRange" data-r="20">1–20 号</button><button class="chip ${pt.range === 'key' ? 'on' : ''}" data-act="ptRange" data-r="key">重要元素 ${PT_TARGETS.length} 个</button></div>
+      <span class="small">${pt.score}/${pt.total}${pt.miss.length ? ` · 错过 ${pt.miss.length}` : ''}</span></div>`}
+    <div class="pt-grid">${heads}${ELEMENTS.map(cell).join('')}</div>
+    ${panel}
+    ${q && done ? '<button class="btn primary block big" data-act="ptNext">下一个 →</button>' : ''}
+    ${pt.mode === 'look' ? `<div class="pt-legend">${Object.values(PT_CATS).map(c => `<span style="--cc:${c.color}"><i></i>${c.name}</span>`).join('')}</div>
+    <div class="card small">
+      <b>1〜20 号的口诀</b>：水兵リーベ僕の船 七曲がりシップスクラークか<br>
+      H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca<br>
+      <span class="muted">现在的教科书：3〜12 族＝遷移元素，2 族全部＝アルカリ土類金属（包括 Be・Mg），18 族＝貴ガス。</span>
+    </div>` : ''}
+  `);
+}
+
+// ====================================================================
 // SETTINGS
 // ====================================================================
 
@@ -2302,8 +2514,14 @@ async function viewSettings() {
     <div class="card">
       <h4>📅 考试日期（英検 一次試験）</h4>
       <div class="muted small">默认是 2026年度第3回（本会场）的 1/24，请在英検官网确认后修改。</div>
-      ${SUBJECTS.map(s => `<div class="kv"><span>${s.icon} ${s.name}</span><input type="date" data-exam="${s.id}" value="${st.exams[s.id] || ''}"></div>`).join('')}
-      <button class="btn small" data-act="sameDate">全部设成同一天</button>
+      ${examSubjects('eiken').map(s => `<div class="kv"><span>${s.icon} ${s.name}</span><input type="date" data-exam="${s.id}" value="${st.exams[s.id] || ''}"></div>`).join('')}
+      <button class="btn small" data-act="sameDate">英検各部分设成同一天</button>
+    </div>
+
+    <div class="card">
+      <h4>📅 考试日期（共通テスト）</h4>
+      <div class="muted small">2028 年 1 月的日程还没公布，先按往年（1 月中旬的周六・周日，理科在第 2 天）设成 1/16。大学入試センター公布后请修改。</div>
+      ${examSubjects('kyotsu').map(s => `<div class="kv"><span>${s.icon} ${s.name}</span><input type="date" data-exam="${s.id}" value="${st.exams[s.id] || ''}"></div>`).join('')}
     </div>
 
     <div class="card">
@@ -2418,7 +2636,7 @@ const acts = {
         closeModal();
         return saveLesson(data).catch(e => toast('解析失败：' + e.message, 4000));
       }
-      if (d.schema === 'cards' && !Array.isArray(data.cards)) throw new Error('格式不对：没有 cards');
+      if ((d.schema === 'cards' || d.schema === 'chemcards') && !Array.isArray(data.cards)) throw new Error('格式不对：没有 cards');
       if (d.schema === 'words' && !Array.isArray(data.words)) throw new Error('格式不对：没有 words');
       if (d.schema === 'problem' && !data.pattern) throw new Error('格式不对：没有 pattern');
       draft.preview = data;
@@ -2626,6 +2844,16 @@ const acts = {
     viewSheets();
   },
 
+  // 周期表
+  ptMode: d => { pt.mode = d.mode; pt.q = null; pt.sel = null; viewPtable(); },
+  ptRange: d => { pt.range = d.r; pt.q = null; viewPtable(); },
+  ptCell: d => {
+    if (pt.mode === 'look') { pt.sel = pt.sel === d.sym ? null : d.sym; viewPtable(); return; }
+    if (pt.mode === 'where' && d.sym !== 'La-Lu') ptAnswer(d.sym);
+  },
+  ptPick: d => ptAnswer(d.sym),
+  ptNext: () => { ptNewQuestion(); viewPtable(); },
+
   // words
   say: d => speak(d.t),
   quizPick: d => {
@@ -2634,7 +2862,7 @@ const acts = {
     q.picked = q.choices[+d.i];
     q.ms = Date.now() - q.t0;
     const it = curItem();
-    if (it && (S.settings.autoSpeak || q.picked !== (it.obj.form || it.obj.word))) speak(it.obj.word);
+    if (it?.obj.type === 'word' && (S.settings.autoSpeak || q.picked !== (it.obj.form || it.obj.word))) speak(it.obj.word);
     viewSession();
   },
 
@@ -2870,7 +3098,7 @@ ${text}
   sameDate: async () => {
     const v = document.querySelector('[data-exam]')?.value;
     if (!v) return;
-    SUBJECTS.forEach(s => { S.settings.exams[s.id] = v; });
+    examSubjects('eiken').forEach(s => { S.settings.exams[s.id] = v; });
     await saveSettings();
     route();
   },

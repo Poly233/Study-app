@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = ROOT / 'packs'
-SUBJECTS = {'vocab', 'read', 'write', 'listen'}
+SUBJECTS = {'vocab', 'read', 'write', 'listen', 'chemb'}
 JST = timezone(timedelta(hours=9))
 
 PROBLEM_KEYS = ['title', 'ref', 'problemText', 'topic', 'pattern', 'trigger', 'keyIdea', 'firstStep',
@@ -37,6 +37,14 @@ def check_cards(cards, where):
             fail(f'{where}: card {i} bad type {c["type"]}')
         if c.get('importance', 2) not in (1, 2, 3):
             fail(f'{where}: card {i} bad importance')
+        d = c.get('distractors')
+        if d:
+            if len(d) != 3 or len(set(d)) != 3 or c['back'] in d:
+                fail(f'{where}: card {i} ({c["front"][:30]}) needs 3 distinct distractors different from back')
+        if c['type'] == 'cloze' and '（　　）' not in c['front']:
+            fail(f'{where}: card {i} cloze has no （　　）')
+        if c['front'].count('$') % 2 or c['back'].count('$') % 2 or any(x.count('$') % 2 for x in d or []):
+            fail(f'{where}: card {i} unbalanced $')
 
 
 def check_word(c, where):

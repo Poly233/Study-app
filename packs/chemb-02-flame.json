@@ -1,0 +1,275 @@
+{
+ "id": "chemb-02-flame",
+ "kind": "cards",
+ "subject": "chemb",
+ "title": "化学基礎② 炎色反応・成分元素の検出",
+ "summary": "- 炎色反应口诀：**リアカー無きK村、動力借りるとするもくれない馬力**\n- Li **赤**・Na **黄**・K **赤紫**・Cu **青緑**・Ca **橙赤**・Sr **紅（深赤）**・Ba **黄緑**\n- ⚠️ Be・Mg 是 2 族但**没有**炎色反应\n- 成分元素的检出：C → 石灰水白浊（$\\ce{CaCO3}$）／H → 无水硫酸铜 白→青（生成水）\n- Cl → 加硝酸银 **白色沉淀** $\\ce{AgCl}$／S → 酢酸鉛 **黑色沉淀** $\\ce{PbS}$／N → 产生 $\\ce{NH3}$ 使红色石蕊变蓝",
+ "cards": [
+  {
+   "type": "qa",
+   "front": "$\\ce{Li}$（リチウム）の炎色反応の色は？",
+   "back": "赤",
+   "note": "口诀：リアカー無きK村、動力借りるとするもくれない馬力",
+   "importance": 3,
+   "distractors": [
+    "黄",
+    "黄緑",
+    "青緑"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Na}$（ナトリウム）の炎色反応の色は？",
+   "back": "黄",
+   "note": "口诀：リアカー無きK村、動力借りるとするもくれない馬力",
+   "importance": 3,
+   "distractors": [
+    "赤紫",
+    "橙赤",
+    "青緑"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{K}$（カリウム）の炎色反応の色は？",
+   "back": "赤紫",
+   "note": "口诀：リアカー無きK村、動力借りるとするもくれない馬力",
+   "importance": 3,
+   "distractors": [
+    "黄",
+    "赤",
+    "黄緑"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Ca}$（カルシウム）の炎色反応の色は？",
+   "back": "橙赤",
+   "note": "口诀：リアカー無きK村、動力借りるとするもくれない馬力",
+   "importance": 3,
+   "distractors": [
+    "赤紫",
+    "黄緑",
+    "黄"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Sr}$（ストロンチウム）の炎色反応の色は？",
+   "back": "紅（深赤）",
+   "note": "口诀：リアカー無きK村、動力借りるとするもくれない馬力",
+   "importance": 3,
+   "distractors": [
+    "黄",
+    "青緑",
+    "赤紫"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Ba}$（バリウム）の炎色反応の色は？",
+   "back": "黄緑",
+   "note": "口诀：リアカー無きK村、動力借りるとするもくれない馬力",
+   "importance": 3,
+   "distractors": [
+    "青緑",
+    "黄",
+    "赤"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Cu}$（銅）の炎色反応の色は？",
+   "back": "青緑",
+   "note": "口诀：リアカー無きK村、動力借りるとするもくれない馬力",
+   "importance": 3,
+   "distractors": [
+    "黄緑",
+    "赤紫",
+    "橙赤"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "炎色反応で黄色を示す元素は？",
+   "back": "ナトリウム Na",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "カリウム K",
+    "カルシウム Ca",
+    "バリウム Ba"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "炎色反応で黄緑色を示す元素は？",
+   "back": "バリウム Ba",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "銅 Cu",
+    "ナトリウム Na",
+    "ストロンチウム Sr"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "炎色反応で青緑色を示す元素は？",
+   "back": "銅 Cu",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "バリウム Ba",
+    "リチウム Li",
+    "カルシウム Ca"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "炎色反応で赤紫色を示す元素は？",
+   "back": "カリウム K",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "リチウム Li",
+    "ナトリウム Na",
+    "ストロンチウム Sr"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "炎色反応で橙赤色を示す元素は？",
+   "back": "カルシウム Ca",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "ナトリウム Na",
+    "カリウム K",
+    "バリウム Ba"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "炎色反応で赤色を示す元素は？",
+   "back": "リチウム Li",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "カリウム K",
+    "ナトリウム Na",
+    "銅 Cu"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "マグネシウム Mg・ベリリウム Be は炎色反応を示す？",
+   "back": "示さない",
+   "note": "同是 2 族，Ca・Sr・Ba 有颜色，Be・Mg 没有。Al・Fe・Zn 也没有",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "炎色反応の観察方法は？",
+   "back": "白金線に試料の水溶液をつけ、ガスバーナーの外炎に入れる",
+   "note": "白金线先用浓盐酸洗净、烧到无色",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "花火のさまざまな色に利用されている現象は？",
+   "back": "炎色反応",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "昇華",
+    "電気分解",
+    "中和反応"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "物質を燃焼させて生じた気体を石灰水に通すと白く濁った。物質に含まれていた元素は？",
+   "back": "炭素 C",
+   "note": "燃烧生成 $\\ce{CO2}$ → 石灰水中生成 $\\ce{CaCO3}$ 白色沉淀",
+   "importance": 3,
+   "distractors": [
+    "水素 H",
+    "塩素 Cl",
+    "硫黄 S"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "物質を燃焼させて生じた液体を硫酸銅(II)無水塩につけると白色→青色になった。含まれていた元素は？",
+   "back": "水素 H",
+   "note": "生成的液体是水 $\\ce{H2O}$；无水硫酸铜（白）遇水变成五水合物（青）",
+   "importance": 3,
+   "distractors": [
+    "炭素 C",
+    "酸素 O",
+    "窒素 N"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "物質の水溶液に硝酸銀水溶液を加えると白色沈殿が生じた。含まれていた元素は？",
+   "back": "塩素 Cl",
+   "note": "白色沉淀＝塩化銀 $\\ce{AgCl}$",
+   "importance": 3,
+   "distractors": [
+    "ナトリウム Na",
+    "硫黄 S",
+    "炭素 C"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "物質に水酸化ナトリウムを加えて加熱し、酢酸鉛(II)水溶液を加えると黒色沈殿が生じた。含まれていた元素は？",
+   "back": "硫黄 S",
+   "note": "黑色沉淀＝硫化鉛(II) $\\ce{PbS}$",
+   "importance": 2,
+   "distractors": [
+    "塩素 Cl",
+    "炭素 C",
+    "窒素 N"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "物質に水酸化ナトリウムを加えて加熱し、発生した気体が湿った赤色リトマス紙を青変させた。含まれていた元素は？",
+   "back": "窒素 N",
+   "note": "产生的气体＝アンモニア $\\ce{NH3}$（碱性）",
+   "importance": 2,
+   "distractors": [
+    "塩素 Cl",
+    "硫黄 S",
+    "水素 H"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "塩素の検出で生じる白色沈殿の化学式は？",
+   "back": "$\\ce{AgCl}$",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{CaCO3}$",
+    "$\\ce{PbS}$",
+    "$\\ce{CuSO4}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "石灰水に二酸化炭素を通すと白く濁る。この白い物質は？",
+   "back": "炭酸カルシウム $\\ce{CaCO3}$",
+   "note": "$\\ce{Ca(OH)2 + CO2 -> CaCO3 + H2O}$",
+   "importance": 2,
+   "distractors": [
+    "水酸化カルシウム $\\ce{Ca(OH)2}$",
+    "酸化カルシウム $\\ce{CaO}$",
+    "塩化カルシウム $\\ce{CaCl2}$"
+   ]
+  }
+ ]
+}

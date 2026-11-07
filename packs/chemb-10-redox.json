@@ -1,0 +1,476 @@
+{
+ "id": "chemb-10-redox",
+ "kind": "cards",
+ "subject": "chemb",
+ "title": "化学基礎⑩ 酸化と還元・酸化数・酸化剤と還元剤",
+ "summary": "- 酸化＝**得 O・失 H・失电子・酸化数增加**；还原相反；两者**同时**发生\n- 酸化数规则：单质 0／H +1・O −2（例外 $\\ce{H2O2}$ 的 O −1）／合计 0（离子＝电荷）\n- 氧化剂＝自己被还原（得电子）；还原剂＝自己被氧化（失电子）\n- 半反应式 4 步：写出反应物和产物 → $\\ce{H2O}$ 配 O → $\\ce{H+}$ 配 H → $\\ce{e-}$ 配电荷\n- 必背：$\\ce{MnO4-}$（5e⁻，赤紫→无色）・$\\ce{Cr2O7^2-}$（6e⁻，橙赤→绿）・$\\ce{H2O2}$（两用）・$\\ce{(COOH)2}$・$\\ce{Fe^2+}$・$\\ce{I-}$\n- $\\ce{KMnO4}$ 滴定：不用指示剂；只用**硫酸**酸化",
+ "cards": [
+  {
+   "type": "qa",
+   "front": "酸素・水素のやりとりで見た酸化の定義は？",
+   "back": "酸素を受け取る、または水素を失う変化",
+   "note": "还原则相反",
+   "importance": 3
+  },
+  {
+   "type": "cloze",
+   "front": "電子を（　　）変化が酸化、電子を（　　）変化が還元",
+   "back": "失う／受け取る",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "受け取る／失う",
+    "共有する／放出する",
+    "放出する／共有する"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "酸化数が増加した原子は、酸化された？還元された？",
+   "back": "酸化された",
+   "note": "酸化数増加＝失去电子＝被氧化",
+   "importance": 3,
+   "distractors": [
+    "還元された",
+    "どちらでもない",
+    "中和された"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "酸化と還元は別々に起こる？",
+   "back": "必ず同時に起こる（酸化還元反応）",
+   "note": "一方失去的电子＝另一方得到的电子",
+   "importance": 3,
+   "distractors": [
+    "別々に起こる",
+    "酸化だけが起こることもある",
+    "還元のあとで酸化が起こる"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "単体中の原子の酸化数は？",
+   "back": "0",
+   "note": "例：$\\ce{H2}$・$\\ce{O2}$・$\\ce{Cu}$",
+   "importance": 3,
+   "distractors": [
+    "+1",
+    "−1",
+    "原子番号と同じ"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "化合物中の H と O の酸化数（原則）は？",
+   "back": "H は +1、O は −2",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "H は −1、O は +2",
+    "H は +1、O は −1",
+    "H は 0、O は −2"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "化合物を構成する原子の酸化数の合計は？",
+   "back": "0",
+   "note": "多原子离子：合计＝离子的电荷",
+   "importance": 3,
+   "distractors": [
+    "+1",
+    "原子の数",
+    "−1"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "単原子イオンの酸化数は？",
+   "back": "イオンの電荷に等しい",
+   "note": "例：$\\ce{Fe^3+}$ → +3",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "化合物中のアルカリ金属・2族元素の酸化数は？",
+   "back": "アルカリ金属 +1、2族 +2",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "アルカリ金属 −1、2族 −2",
+    "どちらも +1",
+    "どちらも +2"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "過酸化水素 $\\ce{H2O2}$ 中の O の酸化数は？",
+   "back": "−1",
+   "note": "例外！所以 $\\ce{H2O2}$ 既能做氧化剂（→−2）也能做还原剂（→0）",
+   "importance": 3,
+   "distractors": [
+    "−2",
+    "+1",
+    "0"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "水素化ナトリウム $\\ce{NaH}$ 中の H の酸化数は？",
+   "back": "−1",
+   "note": "例外（金属的氢化物）",
+   "importance": 1,
+   "distractors": [
+    "+1",
+    "0",
+    "−2"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2SO4}$ 中の S の酸化数は？",
+   "back": "+6",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "+7",
+    "+5",
+    "+4"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{SO2}$ 中の S の酸化数は？",
+   "back": "+4",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "+5",
+    "+3",
+    "+6"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2S}$ 中の S の酸化数は？",
+   "back": "−2",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "−1",
+    "−3",
+    "0"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{KMnO4}$ 中の Mn の酸化数は？",
+   "back": "+7",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "+6",
+    "+5",
+    "+4"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{MnO2}$ 中の Mn の酸化数は？",
+   "back": "+4",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "+5",
+    "+3",
+    "+6"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{K2Cr2O7}$ 中の Cr の酸化数は？",
+   "back": "+6",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "+7",
+    "+5",
+    "+4"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{HNO3}$ 中の N の酸化数は？",
+   "back": "+5",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "+6",
+    "+4",
+    "+7"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NH3}$ 中の N の酸化数は？",
+   "back": "−3",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "−2",
+    "−1",
+    "0"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NO2}$ 中の N の酸化数は？",
+   "back": "+4",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "+5",
+    "+3",
+    "+6"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NH4+}$ 中の N の酸化数は？",
+   "back": "−3",
+   "note": "x + 4×(+1) ＝ +1",
+   "importance": 2,
+   "distractors": [
+    "−2",
+    "−1",
+    "0"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Fe2O3}$ 中の Fe の酸化数は？",
+   "back": "+3",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "+4",
+    "+2",
+    "+5"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Cr2O7^2-}$ 中の Cr の酸化数は？",
+   "back": "+6",
+   "note": "2x + 7×(−2) ＝ −2",
+   "importance": 2,
+   "distractors": [
+    "+7",
+    "+5",
+    "+4"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "相手を酸化し、自身は還元される物質を何という？",
+   "back": "酸化剤",
+   "note": "氧化剂：得到电子、酸化数减少",
+   "importance": 3,
+   "distractors": [
+    "還元剤",
+    "触媒",
+    "電解質"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "相手を還元し、自身は酸化される物質を何という？",
+   "back": "還元剤",
+   "note": "还原剂：失去电子、酸化数增加",
+   "importance": 3,
+   "distractors": [
+    "酸化剤",
+    "触媒",
+    "電解質"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "半反応式のつくり方（4 ステップ）は？",
+   "back": "① 反応物と生成物を書く ② O の数を $\\ce{H2O}$ で合わせる ③ H の数を $\\ce{H+}$ で合わせる ④ 電荷を $\\ce{e-}$ で合わせる",
+   "note": "只要记住“反应前后是什么”，剩下的都能配平",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "過マンガン酸イオン（硫酸酸性）が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{MnO4- + 8H+ + 5e- -> Mn^2+ + 4H2O}$",
+   "note": "赤紫色 → 几乎无色（淡粉色）",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "二クロム酸イオン（硫酸酸性）が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{Cr2O7^2- + 14H+ + 6e- -> 2Cr^3+ + 7H2O}$",
+   "note": "橙赤色 → 绿色",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "過酸化水素が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{H2O2 + 2H+ + 2e- -> 2H2O}$",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "過酸化水素が還元剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{H2O2 -> O2 + 2H+ + 2e-}$",
+   "note": "遇到 $\\ce{KMnO4}$ 这种更强的氧化剂时",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "塩素が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{Cl2 + 2e- -> 2Cl-}$",
+   "note": "",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "熱濃硫酸が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{H2SO4 + 2H+ + 2e- -> SO2 + 2H2O}$",
+   "note": "生成 $\\ce{SO2}$",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "濃硝酸が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{HNO3 + H+ + e- -> NO2 + H2O}$",
+   "note": "浓 → $\\ce{NO2}$（红棕色）",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "希硝酸が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{HNO3 + 3H+ + 3e- -> NO + 2H2O}$",
+   "note": "稀 → $\\ce{NO}$（无色）",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "二酸化硫黄が酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{SO2 + 4H+ + 4e- -> S + 2H2O}$",
+   "note": "遇到 $\\ce{H2S}$ 时",
+   "importance": 1
+  },
+  {
+   "type": "qa",
+   "front": "二酸化硫黄が還元剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{SO2 + 2H2O -> SO4^2- + 4H+ + 2e-}$",
+   "note": "",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "硫化水素が還元剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{H2S -> S + 2H+ + 2e-}$",
+   "note": "",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "シュウ酸が還元剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{(COOH)2 -> 2CO2 + 2H+ + 2e-}$",
+   "note": "$\\ce{KMnO4}$ 滴定的常客",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "鉄(II)イオンが還元剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{Fe^2+ -> Fe^3+ + e-}$",
+   "note": "",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "ヨウ化物イオンが還元剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{2I- -> I2 + 2e-}$",
+   "note": "",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "スズ(II)イオンが還元剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{Sn^2+ -> Sn^4+ + 2e-}$",
+   "note": "",
+   "importance": 1
+  },
+  {
+   "type": "qa",
+   "front": "オゾンが酸化剤としてはたらくときの半反応式は？",
+   "back": "$\\ce{O3 + 2H+ + 2e- -> O2 + H2O}$",
+   "note": "",
+   "importance": 1
+  },
+  {
+   "type": "qa",
+   "front": "硫酸酸性で $\\ce{KMnO4}$ と $\\ce{H2O2}$ が反応するときのイオン反応式は？",
+   "back": "$\\ce{2MnO4- + 5H2O2 + 6H+ -> 2Mn^2+ + 5O2 + 8H2O}$",
+   "note": "电子数 5 和 2 的最小公倍数 10",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "硫酸酸性で $\\ce{KMnO4}$ と $\\ce{(COOH)2}$ は何 : 何の物質量比で反応する？",
+   "back": "2 : 5",
+   "note": "$\\ce{MnO4-}$ 收 5 个电子，$\\ce{(COOH)2}$ 给 2 个电子",
+   "importance": 3,
+   "distractors": [
+    "1 : 1",
+    "5 : 2",
+    "1 : 5"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{KMnO4}$ を使った酸化還元滴定で、指示薬が要らないのはなぜ？",
+   "back": "$\\ce{MnO4-}$ の赤紫色が消えなくなった点を終点にできるから",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{KMnO4}$ の酸化還元滴定で、酸性にするのに硫酸を使い、塩酸や硝酸を使わないのはなぜ？",
+   "back": "塩酸は $\\ce{MnO4-}$ に酸化され（還元剤になり）、硝酸は自身が酸化剤としてはたらくから",
+   "note": "",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{CuO + H2 -> Cu + H2O}$ で、酸化された物質は？",
+   "back": "$\\ce{H2}$",
+   "note": "H：0 → +1。$\\ce{CuO}$ 被还原",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{CuO}$",
+    "$\\ce{Cu}$",
+    "$\\ce{H2O}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "酸化還元反応でないのはどれ？",
+   "back": "$\\ce{HCl + NaOH -> NaCl + H2O}$",
+   "note": "中和没有酸化数变化；有单质参加或生成的反应基本都是氧化还原",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{2H2 + O2 -> 2H2O}$",
+    "$\\ce{Zn + 2HCl -> ZnCl2 + H2}$",
+    "$\\ce{Cu + Cl2 -> CuCl2}$"
+   ],
+   "quiz": true
+  }
+ ]
+}

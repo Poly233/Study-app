@@ -1,0 +1,446 @@
+{
+ "id": "chemb-08-acid",
+ "kind": "cards",
+ "subject": "chemb",
+ "title": "化学基礎⑧ 酸と塩基・pH・指示薬",
+ "summary": "- アレニウス：酸＝产生 $\\ce{H+}$，碱＝产生 $\\ce{OH-}$／ブレンステッド：酸＝**给** $\\ce{H+}$，碱＝**收** $\\ce{H+}$\n- 强酸：**$\\ce{HCl}$・$\\ce{HNO3}$・$\\ce{H2SO4}$**；强碱：**$\\ce{NaOH}$・$\\ce{KOH}$・$\\ce{Ca(OH)2}$・$\\ce{Ba(OH)2}$**；其余基本是弱的（HF 是弱酸）\n- 强弱由**電離度**决定，和价数无关；$\\ce{CH3COOH}$ 是 **1 价**\n- $[\\ce{H+}]$＝$10^{-n}$ → pH＝n；稀释 10 倍 pH 变化 1（酸再稀也不会超过 7）\n- 指示薬：メチルオレンジ **3.1〜4.4 赤→黄**／フェノールフタレイン **8.0〜9.8 無→赤**／BTB **黄→緑→青**",
+ "cards": [
+  {
+   "type": "qa",
+   "front": "アレニウスの定義で、酸と塩基とは？",
+   "back": "酸：水に溶けて $\\ce{H+}$（$\\ce{H3O+}$）を生じる物質／塩基：水に溶けて $\\ce{OH-}$ を生じる物質",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "ブレンステッド・ローリーの定義で、酸と塩基とは？",
+   "back": "酸：$\\ce{H+}$ を与える物質（分子・イオン）／塩基：$\\ce{H+}$ を受け取る物質",
+   "note": "可以用于不在水里的反应",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{HCl + H2O -> H3O+ + Cl-}$ で、$\\ce{H2O}$ は酸・塩基のどちら？",
+   "back": "塩基",
+   "note": "接受了 $\\ce{H+}$",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NH3 + H2O <=> NH4+ + OH-}$ で、$\\ce{H2O}$ は酸・塩基のどちら？",
+   "back": "酸",
+   "note": "给出了 $\\ce{H+}$。水根据对象可以是酸也可以是碱",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "酸の価数とは？",
+   "back": "酸 1 分子が出すことのできる $\\ce{H+}$ の数",
+   "note": "碱的价数＝能接受的 $\\ce{H+}$ 数（能产生的 $\\ce{OH-}$ 数）",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2SO4}$ は何価の酸（塩基）？",
+   "back": "2価",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "1価",
+    "3価",
+    "4価"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{CH3COOH}$ は何価の酸（塩基）？",
+   "back": "1価",
+   "note": "只有 COOH 的 H 能电离，$\\ce{CH3}$ 的 H 不算",
+   "importance": 3,
+   "distractors": [
+    "2価",
+    "3価",
+    "4価"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H3PO4}$ は何価の酸（塩基）？",
+   "back": "3価",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "1価",
+    "2価",
+    "4価"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{(COOH)2}$ は何価の酸（塩基）？",
+   "back": "2価",
+   "note": "シュウ酸",
+   "importance": 3,
+   "distractors": [
+    "1価",
+    "3価",
+    "4価"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{Ca(OH)2}$ は何価の酸（塩基）？",
+   "back": "2価",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "1価",
+    "3価",
+    "4価"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NH3}$ は何価の酸（塩基）？",
+   "back": "1価",
+   "note": "$\\ce{NH3 + H+ -> NH4+}$",
+   "importance": 3,
+   "distractors": [
+    "2価",
+    "3価",
+    "4価"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "電離度 α とは？",
+   "back": "溶かした電解質の物質量のうち、電離したものの割合（0＜α≦1）",
+   "note": "强酸・强碱 α≒1",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "代表的な強酸は？",
+   "back": "塩酸 $\\ce{HCl}$・硝酸 $\\ce{HNO3}$・硫酸 $\\ce{H2SO4}$",
+   "note": "还有 $\\ce{HBr}$・$\\ce{HI}$",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "代表的な弱酸は？",
+   "back": "酢酸 $\\ce{CH3COOH}$・炭酸 $\\ce{H2CO3}$（$\\ce{CO2}$ の水溶液）・硫化水素 $\\ce{H2S}$・シュウ酸 $\\ce{(COOH)2}$",
+   "note": "リン酸 $\\ce{H3PO4}$ 是中等强度；$\\ce{HF}$ 是弱酸",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "代表的な強塩基は？",
+   "back": "$\\ce{NaOH}$・$\\ce{KOH}$・$\\ce{Ca(OH)2}$・$\\ce{Ba(OH)2}$",
+   "note": "碱金属和 Ca・Sr・Ba 的氢氧化物",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "代表的な弱塩基は？",
+   "back": "アンモニア $\\ce{NH3}$、水に溶けにくい水酸化物（$\\ce{Cu(OH)2}$・$\\ce{Fe(OH)3}$・$\\ce{Mg(OH)2}$ など）",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "弱酸はどれ？",
+   "back": "酢酸",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "塩酸",
+    "硝酸",
+    "硫酸"
+   ],
+   "quiz": true
+  },
+  {
+   "type": "qa",
+   "front": "強酸はどれ？",
+   "back": "硝酸",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "酢酸",
+    "炭酸",
+    "硫化水素"
+   ],
+   "quiz": true
+  },
+  {
+   "type": "qa",
+   "front": "ハロゲン化水素のうち、水溶液が弱酸なのは？",
+   "back": "フッ化水素 HF",
+   "note": "其他（HCl・HBr・HI）都是强酸",
+   "importance": 2,
+   "distractors": [
+    "塩化水素 HCl",
+    "臭化水素 HBr",
+    "ヨウ化水素 HI"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "弱塩基はどれ？",
+   "back": "アンモニア",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "水酸化ナトリウム",
+    "水酸化カリウム",
+    "水酸化バリウム"
+   ],
+   "quiz": true
+  },
+  {
+   "type": "qa",
+   "front": "強塩基はどれ？",
+   "back": "水酸化カルシウム",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "アンモニア",
+    "水酸化銅(II)",
+    "水酸化鉄(III)"
+   ],
+   "quiz": true
+  },
+  {
+   "type": "qa",
+   "front": "酸・塩基の強弱は価数で決まる？",
+   "back": "決まらない。電離度の大きさで決まる",
+   "note": "例：酢酸 1 价是弱酸；リン酸 3 价也只是中等",
+   "importance": 3,
+   "distractors": [
+    "決まる。価数が大きいほど強い",
+    "決まる。価数が小さいほど強い",
+    "分子量で決まる"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$[\\ce{H+}] = 1.0 \\times 10^{-n}$ mol/L のとき、pH は？",
+   "back": "n",
+   "note": "pH＝$-\\log_{10}[\\ce{H+}]$",
+   "importance": 3,
+   "distractors": [
+    "−n",
+    "$10^{n}$",
+    "14 − n"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "25 ℃ で中性の水溶液の pH は？",
+   "back": "7",
+   "note": "酸性 <7 <碱性",
+   "importance": 3,
+   "distractors": [
+    "0",
+    "1",
+    "14"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "25 ℃ の水溶液で $[\\ce{H+}][\\ce{OH-}]$ の値は？",
+   "back": "$1.0 \\times 10^{-14}$ (mol/L)²",
+   "note": "碱性溶液先求 $[\\ce{OH-}]$ 再换成 $[\\ce{H+}]$",
+   "importance": 2,
+   "distractors": [
+    "$1.0 \\times 10^{-7}$ (mol/L)²",
+    "$1.0 \\times 10^{-1}$ (mol/L)²",
+    "$1.0 \\times 10^{14}$ (mol/L)²"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "0.010 mol/L の塩酸の pH は？",
+   "back": "2",
+   "note": "强酸 α＝1 → $[\\ce{H+}]$＝$1.0 \\times 10^{-2}$",
+   "importance": 3,
+   "distractors": [
+    "1",
+    "3",
+    "12"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "0.10 mol/L の酢酸（電離度 0.010）の pH は？",
+   "back": "3",
+   "note": "$[\\ce{H+}]$＝0.10×0.010＝$1.0 \\times 10^{-3}$",
+   "importance": 3,
+   "distractors": [
+    "1",
+    "2",
+    "4"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "0.010 mol/L の NaOH 水溶液の pH は？",
+   "back": "12",
+   "note": "$[\\ce{OH-}]$＝$10^{-2}$ → $[\\ce{H+}]$＝$10^{-12}$",
+   "importance": 3,
+   "distractors": [
+    "2",
+    "10",
+    "13"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "0.050 mol/L の硫酸（完全に電離）の pH は？",
+   "back": "1",
+   "note": "2 价 → $[\\ce{H+}]$＝0.10＝$10^{-1}$",
+   "importance": 2,
+   "distractors": [
+    "2",
+    "1.3",
+    "0.05"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "pH 3 の塩酸を水で 100 倍にうすめると pH は？",
+   "back": "5",
+   "note": "每稀释 10 倍 pH 加 1",
+   "importance": 3,
+   "distractors": [
+    "1",
+    "4",
+    "7"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "酸の水溶液をいくらうすめても、pH はどうなる？",
+   "back": "7 に近づくが、7 より大きくはならない",
+   "note": "水本身也会电离",
+   "importance": 2,
+   "distractors": [
+    "どこまでも大きくなる",
+    "変わらない",
+    "0 に近づく"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "pH 2 の水溶液の $[\\ce{H+}]$ は、pH 4 の水溶液の何倍？",
+   "back": "100 倍",
+   "note": "pH 差 2 ＝ $10^2$ 倍",
+   "importance": 3,
+   "distractors": [
+    "2 倍",
+    "10 倍",
+    "1/100 倍"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "身近な水溶液のおよその pH は？",
+   "back": "胃液 1〜2・レモン果汁 2・食酢 3・血液 7.4・海水 8・石けん水 10",
+   "note": "",
+   "importance": 1
+  },
+  {
+   "type": "qa",
+   "front": "塩基性を示すのはどれ？",
+   "back": "石けん水",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "食酢",
+    "レモン果汁",
+    "炭酸水"
+   ],
+   "quiz": true
+  },
+  {
+   "type": "qa",
+   "front": "メチルオレンジの変色域と色の変化は？",
+   "back": "pH 3.1〜4.4　赤 → 黄",
+   "note": "在酸性一侧变色",
+   "importance": 3,
+   "distractors": [
+    "pH 8.0〜9.8　無色 → 赤",
+    "pH 6.0〜7.6　黄 → 青",
+    "pH 4.4〜6.2　黄 → 赤"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "フェノールフタレインの変色域と色の変化は？",
+   "back": "pH 8.0〜9.8　無色 → 赤",
+   "note": "在碱性一侧变色（酸性・中性都是无色）",
+   "importance": 3,
+   "distractors": [
+    "pH 3.1〜4.4　赤 → 黄",
+    "pH 6.0〜7.6　黄 → 青",
+    "pH 8.0〜9.8　赤 → 無色"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "BTB 溶液の色（酸性・中性・塩基性）は？",
+   "back": "黄 → 緑 → 青",
+   "note": "变色域 pH 6.0〜7.6",
+   "importance": 3,
+   "distractors": [
+    "赤 → 黄 → 青",
+    "無色 → 緑 → 赤",
+    "青 → 緑 → 黄"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "リトマス紙の色の変化は？",
+   "back": "酸性：青 → 赤／塩基性：赤 → 青",
+   "note": "",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "塩基性側（pH 8〜10）で変色する指示薬は？",
+   "back": "フェノールフタレイン",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "メチルオレンジ",
+    "BTB",
+    "メチルレッド"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "非金属元素の酸化物（$\\ce{CO2}$・$\\ce{SO2}$・$\\ce{NO2}$ など）は、水に溶けると何性？",
+   "back": "酸性（酸性酸化物）",
+   "note": "例：$\\ce{CO2 + H2O <=> H2CO3}$",
+   "importance": 2,
+   "distractors": [
+    "塩基性（塩基性酸化物）",
+    "中性",
+    "両性"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "金属元素の酸化物（$\\ce{CaO}$・$\\ce{Na2O}$ など）は何性？",
+   "back": "塩基性（塩基性酸化物）",
+   "note": "例：$\\ce{CaO + H2O -> Ca(OH)2}$",
+   "importance": 2,
+   "distractors": [
+    "酸性（酸性酸化物）",
+    "中性",
+    "両性"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,590 @@
+{
+ "id": "chemb-07-mol",
+ "kind": "cards",
+ "subject": "chemb",
+ "title": "化学基礎⑦ 物質量・濃度・化学反応式・基本法則",
+ "summary": "- 原子量的基准：**$\\ce{^{12}C}$＝12**；原子量＝同位体的加权平均\n- **1 mol＝$6.0 \\times 10^{23}$ 个**；标准状态气体 **22.4 L/mol**\n- 计算第一步：**全部换成 mol**（质量÷摩尔质量、个数÷$6.0 \\times 10^{23}$、体积÷22.4）\n- 质量%浓度分母＝**溶液**的质量；モル濃度分母＝**溶液**的体积（L）\n- 反应式系数比＝**mol 比**（气体＝体积比），不是质量比\n- 基本法则：質量保存（ラボアジエ）・定比例（プルースト）・倍数比例（ドルトン）・気体反応（ゲーリュサック）・アボガドロ",
+ "cards": [
+  {
+   "type": "qa",
+   "front": "原子の相対質量の基準は？",
+   "back": "$\\ce{^{12}C}$ 原子 1 個の質量を 12 とする",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{^1H}$ 原子 1 個の質量を 1 とする",
+    "$\\ce{^{16}O}$ 原子 1 個の質量を 16 とする",
+    "陽子 1 個の質量を 1 とする"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "元素の原子量とは？",
+   "back": "各同位体の相対質量に存在比をかけて求めた平均値",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "塩素の原子量が 35.5 になるのはなぜ？",
+   "back": "$\\ce{^{35}Cl}$（約 75%）と $\\ce{^{37}Cl}$（約 25%）の平均だから",
+   "note": "35×0.75＋37×0.25＝35.5",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "よく使う原子量：H・C・N・O は？",
+   "back": "H 1.0・C 12・N 14・O 16",
+   "note": "考试会给出原子量，但记住算得更快",
+   "importance": 2,
+   "distractors": [
+    "H 1.0・C 12・N 16・O 14",
+    "H 2.0・C 12・N 14・O 16",
+    "H 1.0・C 14・N 12・O 16"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "よく使う原子量：Na・Mg・Al・S・Cl は？",
+   "back": "Na 23・Mg 24・Al 27・S 32・Cl 35.5",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "Na 24・Mg 23・Al 27・S 32・Cl 35.5",
+    "Na 23・Mg 24・Al 26・S 35.5・Cl 32",
+    "Na 23・Mg 27・Al 24・S 32・Cl 35.5"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "よく使う原子量：K・Ca・Fe・Cu・Ag は？",
+   "back": "K 39・Ca 40・Fe 56・Cu 64・Ag 108",
+   "note": "",
+   "importance": 1,
+   "distractors": [
+    "K 40・Ca 39・Fe 56・Cu 64・Ag 108",
+    "K 39・Ca 40・Fe 64・Cu 56・Ag 108",
+    "K 39・Ca 40・Fe 56・Cu 63・Ag 197"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "分子をもたない物質（イオン結晶・金属など）で、分子量の代わりに使う値は？",
+   "back": "式量",
+   "note": "例：$\\ce{NaCl}$ 的式量 58.5",
+   "importance": 3,
+   "distractors": [
+    "原子量",
+    "質量数",
+    "モル体積"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2O}$ の分子量（式量）は？",
+   "back": "18",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "16",
+    "17",
+    "20"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{CO2}$ の分子量（式量）は？",
+   "back": "44",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "28",
+    "32",
+    "48"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NaCl}$ の分子量（式量）は？",
+   "back": "58.5",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "35.5",
+    "23",
+    "60"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{H2SO4}$ の分子量（式量）は？",
+   "back": "98",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "96",
+    "49",
+    "100"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NaOH}$ の分子量（式量）は？",
+   "back": "40",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "39",
+    "41",
+    "56"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{CaCO3}$ の分子量（式量）は？",
+   "back": "100",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "84",
+    "56",
+    "106"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{NH3}$ の分子量（式量）は？",
+   "back": "17",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "14",
+    "18",
+    "15"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "$\\ce{C6H12O6}$ の分子量（式量）は？",
+   "back": "180",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "162",
+    "170",
+    "186"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "アボガドロ定数は？",
+   "back": "$6.0 \\times 10^{23}$ /mol",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$6.0 \\times 10^{22}$ /mol",
+    "$3.0 \\times 10^{23}$ /mol",
+    "$22.4$ /mol"
+   ]
+  },
+  {
+   "type": "cloze",
+   "front": "1 mol とは、粒子が（　　）個集まった集団のこと",
+   "back": "$6.0 \\times 10^{23}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$6.0 \\times 10^{22}$",
+    "$22.4$",
+    "$1.0 \\times 10^{23}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "モル質量とは？",
+   "back": "物質 1 mol あたりの質量。原子量・分子量・式量に g/mol をつけた値",
+   "note": "例：$\\ce{H2O}$ 18 g/mol",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "標準状態（0 ℃・$1.013 \\times 10^5$ Pa）で気体 1 mol の体積は？",
+   "back": "22.4 L",
+   "note": "和气体种类无关",
+   "importance": 3,
+   "distractors": [
+    "24.8 L",
+    "11.2 L",
+    "1.0 L"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "アボガドロの法則とは？",
+   "back": "同温・同圧で同体積の気体には、種類に関係なく同数の分子が含まれる",
+   "note": "",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "物質量 n [mol] を求める 3 つの式は？",
+   "back": "n＝質量[g]÷モル質量[g/mol]＝粒子数÷($6.0 \\times 10^{23}$)＝気体の体積[L]÷22.4（標準状態）",
+   "note": "计算题第一步：全部换成 mol",
+   "importance": 3
+  },
+  {
+   "type": "qa",
+   "front": "酸素 $\\ce{O2}$ 16 g は何 mol？",
+   "back": "0.50 mol",
+   "note": "16 ÷ 32 ＝ 0.50",
+   "importance": 3,
+   "distractors": [
+    "1.0 mol",
+    "0.25 mol",
+    "2.0 mol"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "標準状態で 11.2 L の気体は何 mol？",
+   "back": "0.50 mol",
+   "note": "11.2 ÷ 22.4",
+   "importance": 3,
+   "distractors": [
+    "1.0 mol",
+    "0.25 mol",
+    "2.0 mol"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "水 $\\ce{H2O}$ 1 mol に含まれる水素原子の数は？",
+   "back": "$1.2 \\times 10^{24}$ 個",
+   "note": "1 个水分子里有 2 个 H",
+   "importance": 3,
+   "distractors": [
+    "$6.0 \\times 10^{23}$ 個",
+    "$3.0 \\times 10^{23}$ 個",
+    "$1.8 \\times 10^{24}$ 個"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "二酸化炭素 $\\ce{CO2}$ 0.25 mol の質量は？",
+   "back": "11 g",
+   "note": "0.25 × 44",
+   "importance": 2,
+   "distractors": [
+    "44 g",
+    "22 g",
+    "7.0 g"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "標準状態での気体の密度 d [g/L] と分子量 M の関係は？",
+   "back": "$M = 22.4\\,d$",
+   "note": "1 mol（22.4 L）的质量＝摩尔质量",
+   "importance": 2,
+   "distractors": [
+    "$M = d \\div 22.4$",
+    "$M = 6.0 \\times 10^{23}\\,d$",
+    "$M = 2d$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "空気の平均分子量（約）は？",
+   "back": "約 29",
+   "note": "$\\ce{N2}$:$\\ce{O2}$≒4:1 → 28×0.8＋32×0.2≒28.8。比 29 大的气体比空气重",
+   "importance": 2,
+   "distractors": [
+    "約 14",
+    "約 32",
+    "約 22.4"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "質量パーセント濃度の式は？",
+   "back": "溶質の質量[g] ÷ 溶液の質量[g] × 100",
+   "note": "⚠️ 分母是溶液（溶质＋溶剂）",
+   "importance": 3,
+   "distractors": [
+    "溶質の質量 ÷ 溶媒の質量 × 100",
+    "溶質の物質量 ÷ 溶液の体積 × 100",
+    "溶媒の質量 ÷ 溶液の質量 × 100"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "モル濃度の式は？",
+   "back": "溶質の物質量[mol] ÷ 溶液の体積[L]",
+   "note": "单位 mol/L",
+   "importance": 3,
+   "distractors": [
+    "溶質の物質量[mol] ÷ 溶媒の体積[L]",
+    "溶質の質量[g] ÷ 溶液の体積[L]",
+    "溶質の物質量[mol] ÷ 溶媒の質量[kg]"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "質量パーセント濃度 a %・密度 d [g/cm³]・溶質のモル質量 M [g/mol] の溶液のモル濃度は？",
+   "back": "$\\dfrac{1000 \\times d \\times \\frac{a}{100}}{M}$ mol/L",
+   "note": "先想 1 L＝1000 cm³ 溶液的质量",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "0.10 mol/L の NaOH 水溶液 250 mL をつくるのに必要な NaOH（式量 40）は？",
+   "back": "1.0 g",
+   "note": "0.10 × 0.250 ＝ 0.025 mol → ×40",
+   "importance": 3,
+   "distractors": [
+    "0.40 g",
+    "4.0 g",
+    "10 g"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "決まったモル濃度の溶液を正確につくるときに使う器具は？",
+   "back": "メスフラスコ",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "ビュレット",
+    "ホールピペット",
+    "メスシリンダー"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "メスフラスコで溶液をつくる手順は？",
+   "back": "溶質をビーカーで少量の水に溶かす → メスフラスコに移す（ビーカーの洗液も入れる）→ 標線まで水を加える → 栓をしてよく振り混ぜる",
+   "note": "⚠️ 不是“加 1 L 的水”，是加到总体积 1 L",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "化学反応式の係数の比が表すものは？",
+   "back": "物質量（mol）の比",
+   "note": "气体在同温同压下也＝体积比。⚠️ 不是质量比",
+   "importance": 3,
+   "distractors": [
+    "質量の比",
+    "密度の比",
+    "分子量の比"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "メタン $\\ce{CH4}$ の完全燃焼の化学反応式は？",
+   "back": "$\\ce{CH4 + 2O2 -> CO2 + 2H2O}$",
+   "note": "",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{CH4 + O2 -> CO2 + 2H2}$",
+    "$\\ce{CH4 + 2O2 -> CO2 + H2O}$",
+    "$\\ce{2CH4 + 3O2 -> 2CO + 4H2O}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "プロパン $\\ce{C3H8}$ の完全燃焼の化学反応式は？",
+   "back": "$\\ce{C3H8 + 5O2 -> 3CO2 + 4H2O}$",
+   "note": "C → H → O 的顺序配平",
+   "importance": 3,
+   "distractors": [
+    "$\\ce{C3H8 + 3O2 -> 3CO2 + 4H2O}$",
+    "$\\ce{C3H8 + 5O2 -> 3CO2 + 8H2O}$",
+    "$\\ce{C3H8 + 4O2 -> 3CO2 + 4H2O}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "エタノール $\\ce{C2H5OH}$ の完全燃焼の化学反応式は？",
+   "back": "$\\ce{C2H5OH + 3O2 -> 2CO2 + 3H2O}$",
+   "note": "分子里本来就有 1 个 O",
+   "importance": 2,
+   "distractors": [
+    "$\\ce{C2H5OH + 7/2O2 -> 2CO2 + 3H2O}$",
+    "$\\ce{C2H5OH + 2O2 -> 2CO2 + 3H2O}$",
+    "$\\ce{C2H5OH + 3O2 -> 2CO2 + 6H2O}$"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "亜鉛と塩酸の反応式は？",
+   "back": "$\\ce{Zn + 2HCl -> ZnCl2 + H2}$",
+   "note": "产生氢气",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "過酸化水素の分解（触媒 $\\ce{MnO2}$）の反応式は？",
+   "back": "$\\ce{2H2O2 -> 2H2O + O2}$",
+   "note": "实验室制氧气",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "炭酸カルシウムと塩酸の反応式は？",
+   "back": "$\\ce{CaCO3 + 2HCl -> CaCl2 + H2O + CO2}$",
+   "note": "实验室制二氧化碳",
+   "importance": 2
+  },
+  {
+   "type": "qa",
+   "front": "メタン 1 mol を完全燃焼させるのに必要な酸素は何 mol？",
+   "back": "2 mol",
+   "note": "系数比 $\\ce{CH4}$:$\\ce{O2}$＝1:2",
+   "importance": 3,
+   "distractors": [
+    "1 mol",
+    "0.5 mol",
+    "3 mol"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "プロパン 0.10 mol を完全燃焼させたときに生じる水は何 mol？",
+   "back": "0.40 mol",
+   "note": "$\\ce{C3H8}$:$\\ce{H2O}$＝1:4",
+   "importance": 3,
+   "distractors": [
+    "0.10 mol",
+    "0.30 mol",
+    "0.80 mol"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "化学反応の前後で、物質の質量の総和は変わらない",
+   "back": "質量保存の法則",
+   "note": "发现者：ラボアジエ",
+   "importance": 3,
+   "distractors": [
+    "定比例の法則",
+    "倍数比例の法則",
+    "気体反応の法則"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "化合物を構成する元素の質量の比は、つくり方によらず一定である",
+   "back": "定比例の法則",
+   "note": "发现者：プルースト",
+   "importance": 3,
+   "distractors": [
+    "質量保存の法則",
+    "倍数比例の法則",
+    "気体反応の法則"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "2 種類の元素からなる化合物が複数あるとき、一方の元素の一定質量と結びつくもう一方の元素の質量は簡単な整数比になる",
+   "back": "倍数比例の法則",
+   "note": "发现者：ドルトン（例：CO と CO₂ の O は 1:2）",
+   "importance": 2,
+   "distractors": [
+    "質量保存の法則",
+    "定比例の法則",
+    "気体反応の法則"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "気体どうしの反応では、反応・生成する気体の体積は同温・同圧で簡単な整数比になる",
+   "back": "気体反応の法則",
+   "note": "发现者：ゲーリュサック",
+   "importance": 3,
+   "distractors": [
+    "質量保存の法則",
+    "定比例の法則",
+    "倍数比例の法則"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "同温・同圧で同体積の気体には、同数の分子が含まれる",
+   "back": "アボガドロの法則",
+   "note": "发现者：アボガドロ（分子説）",
+   "importance": 3,
+   "distractors": [
+    "質量保存の法則",
+    "定比例の法則",
+    "倍数比例の法則"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "質量保存の法則を発見したのは？",
+   "back": "ラボアジエ",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "プルースト",
+    "ドルトン",
+    "ゲーリュサック"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "定比例の法則を発見したのは？",
+   "back": "プルースト",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "ラボアジエ",
+    "ドルトン",
+    "ゲーリュサック"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "原子説を提唱し、倍数比例の法則を発見したのは？",
+   "back": "ドルトン",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "ラボアジエ",
+    "プルースト",
+    "ゲーリュサック"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "気体反応の法則を発見したのは？",
+   "back": "ゲーリュサック",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "ラボアジエ",
+    "プルースト",
+    "ドルトン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "気体反応の法則を説明するために分子説を提唱したのは？",
+   "back": "アボガドロ",
+   "note": "",
+   "importance": 2,
+   "distractors": [
+    "ラボアジエ",
+    "プルースト",
+    "ドルトン"
+   ]
+  },
+  {
+   "type": "qa",
+   "front": "固体の溶解度とは？（化学基礎でよく使う定義）",
+   "back": "溶媒（水）100 g に溶ける溶質の最大質量 [g]",
+   "note": "再結晶的计算要用",
+   "importance": 1
+  }
+ ]
+}
