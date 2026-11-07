@@ -1,6 +1,6 @@
 // Offline cache for the app shell. Bump VERSION whenever files change so
 // phones pick up the new version.
-const VERSION = 'sq-v11';
+const VERSION = 'sq-v12';
 const FILES = [
   './',
   'index.html',
@@ -61,7 +61,9 @@ self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
   e.respondWith(
-    fetch(e.request)
+    // no-cache: always ask the server whether the file changed (cheap 304 if not),
+    // so a new version shows up right away instead of after the 10-minute HTTP cache
+    fetch(e.request.url, { cache: 'no-cache', credentials: 'same-origin' })
       .then(res => {
         if (res.ok) {
           const copy = res.clone();

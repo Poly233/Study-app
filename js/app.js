@@ -1571,7 +1571,7 @@ async function fetchImages(urls) {
 }
 
 async function importPack(pack) {
-  if (!SUBJ[pack.subject]) throw new Error(`未知科目：${pack.subject}`);
+  if (!SUBJ[pack.subject]) throw new Error(`这个卡包的科目（${pack.subject}）需要新版 App。请把 App 从后台完全关掉，联网后重新打开再试。`);
   const created = Date.now();
   if (pack.kind === 'cards') {
     await addSourceWithCards({
@@ -1654,11 +1654,15 @@ async function viewPacks() {
     err = e.message;
   }
   list.sort((a, b) => (b.created || '').localeCompare(a.created || ''));
+  // packs for a subject this version does not know yet: the app itself is out of date
+  const needUpdate = list.filter(p => !SUBJ[p.subject] && !imported.includes(p.id));
+  list = list.filter(p => SUBJ[p.subject] || imported.includes(p.id));
   const fresh = list.filter(p => !imported.includes(p.id));
   setView(`
     <button class="back" data-act="nav" data-to="add">‹ 拍照导入</button>
     <h2>📦 卡包</h2>
     <div class="card small">在 Claude 聊天里发プリント或错题的照片，Claude 做好的闪卡和解法会出现在这里。点“导入”就进 App，<b>不花 API 费用</b>。</div>
+    ${needUpdate.length ? `<div class="card warn small">🔄 有 ${needUpdate.length} 个新卡包需要新版 App 才能导入。请把 App 从后台完全关掉，联网后重新打开（刚更新时可能要等几分钟）。</div>` : ''}
     ${err ? `<div class="card warn small">没能读取卡包列表（${esc(err)}）。确认联网后再试，或者用下面的“粘贴卡包”。</div>` : ''}
     ${fresh.length > 1 ? `<button class="btn primary block" data-act="packImportAll">⬇️ 全部导入新的（${fresh.length}）</button>` : ''}
     <div class="list">
@@ -3131,7 +3135,7 @@ ${text}
   packImportAll: async () => {
     const imported = await db.getMeta('importedPacks', []);
     const idx = await fetchJSON(PACK_INDEX);
-    await runPackImports((idx.packs || []).filter(p => !imported.includes(p.id)));
+    await runPackImports((idx.packs || []).filter(p => !imported.includes(p.id) && SUBJ[p.subject]));
   },
   packPaste: () => {
     let data;
