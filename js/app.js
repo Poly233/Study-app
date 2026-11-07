@@ -70,6 +70,7 @@ function defaultSettings() {
     lang: 'zh',
     dailyGoal: 60,
     autoSpeak: false,
+    memoOnForget: true,
     exams: Object.fromEntries(SUBJECTS.map(s => [s.id, presetActive(s.id) ? EXAM_PRESET[s.id] : later])),
     eikenV1: true,
   };
@@ -735,6 +736,7 @@ async function savePreview() {
 // all their fields for the 4択 / reverse review formats.
 function makeCard(c, src, i) {
   const base = { id: uid(), subject: src.subject, note: c.note || '', importance: c.importance || 2, sourceId: src.id, srs: newSrs(), created: src.created + i };
+  if (c.memo) base.memo = c.memo;
   if (c.type === 'word' || c.word) {
     const form = c.form || c.word;
     return {
@@ -903,6 +905,11 @@ async function viewSession() {
       <span class="small">${session.idx + 1}/${session.items.length}</span>
       ${session.combo >= 3 ? `<span class="combo">🔥x${session.combo}</span>` : ''}
     </div>`;
+  if (session.memoCard) {
+    const mc = S.cards.find(c => c.id === session.memoCard);
+    if (mc) return renderMemoScreen(prog, mc);
+    session.memoCard = null;
+  }
   if (it.kind === 'card') return it.obj.type === 'word' ? renderWordItem(prog, it.obj) : renderCardItem(prog, it.obj);
   return renderProblemItem(prog, it.obj);
 }
@@ -924,6 +931,7 @@ function renderCardItem(prog, c) {
       ${c.type === 'method' ? '<div class="muted small">看到这道题，第一步做什么？用什么解法？先在脑中说出来。</div>' : ''}
       <div class="flash-front">${md(c.front)}</div>
       ${f ? `<div class="flash-sep"></div><div class="flash-back">${md(c.back)}</div>${c.note ? `<div class="note">${md(c.note)}</div>` : ''}
+        ${c.type === 'method' ? '' : memoHTML(c)}
         <div class="row wrap">${c.type === 'method' && c.problemId ? `<button class="btn ghost small" data-act="openProblemFromSession" data-id="${c.problemId}">看完整解法 →</button>` : ''}
         <button class="btn ghost small" data-act="feyStart" data-kind="card" data-id="${c.id}">🗣 讲给 AI 听</button></div>` : '<div class="tap-hint">点卡片看答案</div>'}
     </div>
@@ -943,8 +951,29 @@ function renderCardQuiz(prog, c, s, typeName) {
       <div class="flash-front">${md(c.front)}</div>
       <div class="choices">${q.choices.map((ch, i) => `<button class="choice ${done ? (ch === c.back ? 'ok' : ch === q.picked ? 'ng' : 'dim') : ''}" data-act="quizPick" data-i="${i}" ${done ? 'disabled' : ''}><b>${i + 1}</b><span>${md(ch)}</span></button>`).join('')}</div>
       ${done && c.note ? `<div class="note">${md(c.note)}</div>` : ''}
+      ${done ? memoHTML(c, !ok) : ''}
     </div>
     ${done ? `<button class="btn primary block big" data-act="grade" data-g="${g}">${ok ? (g === 3 ? '⚡ 秒答！继续' : '⭕ 正确！继续') : '❌ 记住了，继续'}</button>` : ''}`);
+}
+
+// 💡 记法・語呂合わせ: collapsed on a flipped card, open after a miss
+function memoHTML(c, open = false) {
+  if (c.memo) return `<details class="memo" ${open ? 'open' : ''}><summary>💡 记法・語呂合わせ</summary><div>${md(c.memo)}</div></details>`;
+  return `<button class="btn ghost small memo-ask" data-act="memoAI" data-id="${c.id}">💡 帮我想个记法</button>`;
+}
+
+function renderMemoScreen(prog, c) {
+  const s = SUBJ[c.subject];
+  const front = c.type === 'word' ? `<div class="w-word big">${esc(c.word)}</div>` : `<div class="flash-front">${md(c.front)}</div>`;
+  const back = c.type === 'word' ? `<div class="w-mean">${esc(c.ja)}${c.zh ? `<span class="w-zh">${esc(c.zh)}</span>` : ''}</div>` : `<div class="flash-back">${md(c.back)}</div>`;
+  setView(`${prog}
+    <div class="flash memo-screen" style="--c:${s.color}">
+      <div class="flash-meta"><span>${s.icon} ${s.name}</span><span>💡 这样记</span></div>
+      ${front}<div class="flash-sep"></div>${back}
+      ${c.memo ? `<div class="memo-box">${md(c.memo)}</div>`
+        : `<div class="muted small">这张卡还没有记法。</div><button class="btn block" data-act="memoAI" data-id="${c.id}">🤖 让 AI 想一个記法</button>`}
+    </div>
+    <button class="btn primary block big" data-act="memoNext">记住了，下一张 →</button>`);
 }
 
 function gradeBar(labels) {
@@ -1033,6 +1062,21 @@ async function grade(g) {
     const pos = Math.min(session.items.length, session.idx + 4);
     session.items.splice(pos, 0, { kind: it.kind, id: o.id });
   }
+  // forgot / unsure on a flipped card → show how to remember it before moving on
+  // (4択 already shows the 记法 on the answer screen)
+  const wantMemo = it.kind === 'card' && g <= 1 && session.wmode !== 'quiz' && o.type !== 'method'
+    && S.settings.memoOnForget !== false && (o.memo || S.settings.apiKey);
+  if (wantMemo) {
+    session.memoCard = o.id;
+    header();
+    viewSession();
+    return;
+  }
+  advance();
+}
+
+function advance() {
+  session.memoCard = null;
   session.idx++;
   session.flipped = false;
   session.wmode = null;
@@ -1152,7 +1196,7 @@ function renderWordItem(prog, c) {
         ${meta('4択・大問1 形式')}
         <div class="w-cloze">${md(c.cloze)}</div>
         <div class="choices">${q.choices.map((ch, i) => `<button class="choice ${done ? (ch === correct ? 'ok' : ch === q.picked ? 'ng' : 'dim') : ''}" data-act="quizPick" data-i="${i}" ${done ? 'disabled' : ''}><b>${i + 1}</b>${esc(ch)}</button>`).join('')}</div>
-        ${done ? `<div class="flash-sep"></div><div class="w-word">${esc(c.word)} ${pos} ${sayBtn(c.word)}</div>${wordDetails(c)}` : ''}
+        ${done ? `<div class="flash-sep"></div><div class="w-word">${esc(c.word)} ${pos} ${sayBtn(c.word)}</div>${wordDetails(c)}${memoHTML(c, !ok)}` : ''}
       </div>
       ${done ? `<button class="btn primary block big" data-act="grade" data-g="${g}">${ok ? (g === 3 ? '⚡ 秒答！继续' : '⭕ 正确！继续') : '❌ 记住了，继续'}</button>` : ''}`);
     return;
@@ -1165,7 +1209,7 @@ function renderWordItem(prog, c) {
         <div class="muted small">看意思，说出（或写出）这个英文单词</div>
         <div class="w-mean big">${esc(c.ja)}${c.zh ? `<span class="w-zh">${esc(c.zh)}</span>` : ''}</div>
         ${f ? `<div class="flash-sep"></div><div class="w-word">${esc(c.word)} ${pos} ${sayBtn(c.word)}</div>
-          ${c.ex ? `<div class="w-ex">${md(highlightWord(c.ex, c.form || c.word))}</div>` : ''}` : '<div class="tap-hint">点卡片看答案</div>'}
+          ${c.ex ? `<div class="w-ex">${md(highlightWord(c.ex, c.form || c.word))}</div>` : ''}${memoHTML(c)}` : '<div class="tap-hint">点卡片看答案</div>'}
       </div>
       ${f ? gradeBar(['忘了', '模糊', '记得', '秒答']) : '<button class="btn primary block big" data-act="flip">显示答案</button>'}`);
     if (f && S.settings.autoSpeak) speak(c.word);
@@ -1176,7 +1220,7 @@ function renderWordItem(prog, c) {
     <div class="flash" data-act="${f ? '' : 'flip'}" style="--c:${s.color}">
       ${meta('单词')}
       <div class="w-word big">${esc(c.word)} ${pos} ${sayBtn(c.word)}</div>
-      ${f ? `<div class="flash-sep"></div>${wordDetails(c)}` : '<div class="tap-hint">先想意思，再点卡片看答案</div>'}
+      ${f ? `<div class="flash-sep"></div>${wordDetails(c)}${memoHTML(c)}` : '<div class="tap-hint">先想意思，再点卡片看答案</div>'}
     </div>
     ${f ? gradeBar(['忘了', '模糊', '记得', '秒答']) : '<button class="btn primary block big" data-act="flip">显示答案</button>'}`);
   if (!f && S.settings.autoSpeak) speak(c.word);
@@ -1260,6 +1304,8 @@ function editCard(id) {
     <label class="lbl">正面（问题）</label><textarea id="ec-f" rows="3">${esc(c.front)}</textarea>
     <label class="lbl">背面（答案）</label><textarea id="ec-b" rows="3">${esc(c.back)}</textarea>
     <label class="lbl">备注</label><textarea id="ec-n" rows="2">${esc(c.note)}</textarea>
+    <label class="lbl">💡 记法・語呂合わせ（忘了时显示）</label><textarea id="ec-m" rows="3" placeholder="例：リアカー（Li 赤）無き（Na 黄）…">${esc(c.memo || '')}</textarea>
+    ${c.id ? `<button class="btn ghost small" data-act="memoAI" data-id="${c.id}">🤖 让 AI 想一个记法</button>` : ''}
     <div class="muted small">数式可以用 $x^2$，化学式 $\\ce{H2O}$</div>
     <div class="stack">
       <button class="btn primary block" data-act="saveCard" data-id="${c.id || ''}">保存</button>
@@ -1554,6 +1600,48 @@ async function importPack(pack) {
 }
 
 const PACK_ICON = { cards: '📄', problem: '✏️', lesson: '📖' };
+
+// Packs imported before they had 记法: copy each card's memo onto the cards
+// already in the deck (matched by front text). Runs once per pack.
+async function syncPackMemos() {
+  try {
+    const imported = await db.getMeta('importedPacks', []);
+    const synced = await db.getMeta('memoSynced', []);
+    const todo = imported.filter(id => id.startsWith('chemb-') && !synced.includes(id));
+    if (!todo.length) return;
+    const index = (await fetchJSON(PACK_INDEX)).packs || [];
+    let n = 0;
+    for (const id of todo) {
+      const e = index.find(x => x.id === id);
+      if (!e) continue;
+      const pack = await fetchJSON('packs/' + e.file);
+      const memos = new Map((pack.cards || []).filter(c => c.memo).map(c => [c.front, c.memo]));
+      const srcIds = new Set(S.sources.filter(x => x.packId === id).map(x => x.id));
+      for (const c of S.cards) {
+        if (srcIds.has(c.sourceId) && !c.memo && memos.has(c.front)) {
+          c.memo = memos.get(c.front);
+          await db.put('cards', c);
+          n++;
+        }
+      }
+      synced.push(id);
+    }
+    await db.setMeta('memoSynced', synced);
+    if (n) toast(`已给 ${n} 张化学卡加上记法 💡`, 3000);
+  } catch { /* offline: try again next time */ }
+}
+
+async function saveMemo(c, text, by) {
+  c.memo = text;
+  c.memoBy = by;
+  await putCard(c);
+  toast('已保存记法 💡');
+  const fromEditor = modalData.memoFromEditor || document.getElementById('ec-m');
+  modalData.memoFromEditor = false;
+  if (fromEditor) editCard(c.id);
+  else if (document.body.dataset.view === 'session' && session) viewSession();
+  else route();
+}
 
 async function viewPacks() {
   setView('<button class="back" data-act="nav" data-to="add">‹ 拍照导入</button><h2>📦 卡包</h2><div class="empty">正在检查新卡包…</div>');
@@ -2549,6 +2637,7 @@ async function viewSettings() {
       <h4>🎯 每日目标</h4>
       <div class="kv"><span>每天复习张数</span><input type="number" min="10" max="500" step="10" data-set-num="dailyGoal" value="${st.dailyGoal}"></div>
       <label class="toggle"><input type="checkbox" data-set-bool="autoSpeak" ${st.autoSpeak ? 'checked' : ''}><span>🔊 单词卡自动发音<br><small class="muted">出现单词时自动读出来（iPhone 静音模式下没有声音）</small></span></label>
+      <label class="toggle"><input type="checkbox" data-set-bool="memoOnForget" ${st.memoOnForget !== false ? 'checked' : ''}><span>💡 忘了时显示记法<br><small class="muted">点“忘了・模糊”后先看語呂合わせ／记法再进入下一张（没有记法的卡可以让 AI 想一个）</small></span></label>
     </div>
 
     <div class="card">
@@ -2677,6 +2766,8 @@ const acts = {
     const old = S.cards.find(c => c.id === d.id);
     const c = old ? { ...old } : { id: uid(), type: 'qa', importance: 2, srs: newSrs(), created: Date.now() };
     Object.assign(c, { front, back, note: document.getElementById('ec-n').value.trim(), subject: document.getElementById('ec-sub').value });
+    const memo = document.getElementById('ec-m').value.trim();
+    if (memo) { if (memo !== c.memo) c.memoBy = 'manual'; c.memo = memo; } else { delete c.memo; delete c.memoBy; }
     if (c.type === 'word') Object.assign(c, { word: front, ja: back });
     await putCard(c);
     closeModal();
@@ -2842,6 +2933,46 @@ const acts = {
     await saveSettings();
     toast('已保存（之后记录的结果按新设置排）');
     viewSheets();
+  },
+
+  // 💡 记法
+  memoNext: () => { if (session) advance(); },
+  memoAI: async d => {
+    const c = S.cards.find(x => x.id === d.id);
+    if (!c) return;
+    const prompt = AI.memoPrompt({ subject: SUBJ[c.subject], card: c, settings: S.settings });
+    modalData.memoFromEditor = !!document.getElementById('ec-m');
+    if (!S.settings.apiKey) {
+      modalData.prompt = `${prompt.system}\n\n${prompt.user}`;
+      modal(`
+        <h3>💡 让 AI 想记法</h3>
+        <div class="small">还没有设置 API Key，可以用免费的 Claude App：</div>
+        <ol class="small"><li>点“复制提示词”，到 Claude App（或 ChatGPT）粘贴发送</li><li>把回复复制回来，粘贴到下面保存</li></ol>
+        <button class="btn primary block" data-act="copyPrompt">📋 复制提示词</button>
+        <textarea id="memo-paste" rows="5" placeholder="把 AI 的回复粘贴到这里（也可以自己写）"></textarea>
+        <button class="btn primary block" data-act="memoSave" data-id="${c.id}">保存记法</button>`);
+      return;
+    }
+    if (busy) return;
+    busy = true;
+    const done = aiOverlay('AI 正在想记法…');
+    try {
+      const text = await AI.chat(S.settings, prompt.system, [{ role: 'user', content: prompt.user }], 'low');
+      done();
+      busy = false;
+      await saveMemo(c, text.trim(), 'ai');
+    } catch (e) {
+      done();
+      busy = false;
+      alertBox('出错了', e.message || String(e));
+    }
+  },
+  memoSave: async d => {
+    const c = S.cards.find(x => x.id === d.id);
+    const t = document.getElementById('memo-paste')?.value.trim();
+    if (!c || !t) return toast('先粘贴或写好记法');
+    closeModal();
+    await saveMemo(c, t, 'manual');
   },
 
   // 周期表
@@ -3228,6 +3359,7 @@ window.addEventListener('hashchange', route);
     return;
   }
   route();
+  setTimeout(syncPackMemos, 1500);
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   }

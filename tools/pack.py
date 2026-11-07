@@ -43,7 +43,7 @@ def check_cards(cards, where):
                 fail(f'{where}: card {i} ({c["front"][:30]}) needs 3 distinct distractors different from back')
         if c['type'] == 'cloze' and '（　　）' not in c['front']:
             fail(f'{where}: card {i} cloze has no （　　）')
-        if c['front'].count('$') % 2 or c['back'].count('$') % 2 or any(x.count('$') % 2 for x in d or []):
+        if any(x.count('$') % 2 for x in [c['front'], c['back'], c.get('memo', ''), *(d or [])]):
             fail(f'{where}: card {i} unbalanced $')
 
 

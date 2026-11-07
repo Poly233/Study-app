@@ -25,7 +25,8 @@ Claude 在聊天里根据照片做好的内容放在这里，App 的 **拍照 �
   "title": "意見論述で使える表現", "summary": "- 要点（Markdown）",
   "cards": [ { "type": "qa|cloze", "front": "问题", "back": "答案", "note": "中文提示", "importance": 1-3,
                "distractors": ["可选：3 个和 back 同格式的错误选项 → 复习时出 4 选 1"],
-               "quiz": "可选：true＝一直以 4 选 1 出现（「〇〇はどれ？」这种题）" } ],
+               "quiz": "可选：true＝一直以 4 选 1 出现（「〇〇はどれ？」这种题）",
+               "memo": "可选：记法・語呂合わせ（Markdown）。忘了或答错时显示；自创的语呂要写（自创）" } ],
   "images": [] }
 ```
 

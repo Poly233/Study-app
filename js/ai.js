@@ -405,6 +405,30 @@ ${isChem(subject) ? '- 计算题让学生先说出“要求什么量、先换成
 陷阱：${(problem.pitfalls || []).join(' / ')}`;
 }
 
+// ---------------- 忘れたカード → 覚え方・語呂合わせ ----------------
+
+export function memoPrompt({ subject, card, settings }) {
+  const L = explLang(settings);
+  const chem = isChem(subject);
+  const what = card.type === 'word'
+    ? `英语单词：${card.word}${card.pos ? `（${card.pos}）` : ''}\n意思：${card.ja}${card.zh ? `／${card.zh}` : ''}${card.ex ? `\n例句：${card.ex}` : ''}`
+    : `问题：${card.front}\n答案：${card.back}${card.note ? `\n备注：${card.note}` : ''}`;
+  const system = `你是一位很会教记忆方法的老师（${examOf(subject)}・${subject.name}）。学生复习闪卡时忘了这张卡，请教他一个好记、不容易再忘的方法。`;
+  const user = `${what}
+
+请用${L}写记法（Markdown，6 行以内）：
+- 先给最好用的 1 个方法，有余力再补充 1 个。
+${chem
+    ? `- 优先用日本考生常用的有名的語呂合わせ。只有确定是广泛使用的才写“（有名）”；自己编的要写“（自创）”。语呂要写出每个音对应哪个元素或答案，例如「リアカー（Li 赤）」。
+- 没有好的语呂时，用“为什么会这样”的理由、图像联想、和身边东西的联系、或和易混点的对比来记。
+- ${CHEM_FORMAT}`
+    : `- 可以用：词根词缀拆解、谐音联想（中文或日语都可以）、画面联想、同源词、和形近词的对比。
+- 谐音或联想要自然好记，不要太牵强；最后附一个包含这个词的超短例句。`}
+- 化学知识和语言事实必须正确，不确定的不要写。
+- 只输出记法本身，不要开场白。`;
+  return { system, user };
+}
+
 // ---------------- 英作文（要約・意見論述）批改 ----------------
 
 export function essayPrompt({ task, text, wordCount, settings }) {
