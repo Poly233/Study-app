@@ -4,6 +4,7 @@ import * as AI from './ai.js';
 import { esc, md, renderMath, resizeImage, blobToBase64, blobURL, toast, todayKey, shuffle, copyText } from './util.js';
 import { WRITING_TASKS, WRITING_RULES, countWords } from './eiken.js';
 import { ELEMENTS, PT_CATS, PT_TARGETS } from './chem.js';
+import { parse as kbParse, kakikudashi, hakubunHTML, kundokuHTML } from './kanbun.js';
 
 // ====================================================================
 // constants
@@ -17,6 +18,7 @@ export const SUBJECTS = [
   { id: 'listen', name: 'リスニング', book: '過去問', color: '#ff8a3d', icon: '🎧', modes: ['problem', 'cards'], exam: 'eiken' },
   // id は旧バージョンの「化学」(chem) と別にして、昔のデータが混ざらないようにする
   { id: 'chemb', name: '化学基礎', book: '教科書・プリント', color: '#9b5de5', icon: '⚗️', modes: ['cards', 'problem', 'lesson'], exam: 'kyotsu' },
+  { id: 'kanbun', name: '漢文', book: '教科書・過去問', color: '#0c8599', icon: '📜', modes: ['cards', 'problem', 'lesson'], exam: 'kyotsu' },
 ];
 const SUBJ = Object.fromEntries(SUBJECTS.map(s => [s.id, s]));
 const EXAMS = {
@@ -57,8 +59,9 @@ let busy = false;
 // 2026年度 第3回 英検 一次試験（本会場）。出願前に公式サイトで確認すること。
 const EXAM_DAY = '2027-01-24';
 // 令和10年度 共通テスト（2028年1月）。日程は未発表なので例年どおり1月中旬の土日の2日目（理科）と仮定。
-const KYOTSU_DAY = '2028-01-16';
-const EXAM_PRESET = Object.fromEntries(SUBJECTS.map(s => [s.id, s.exam === 'kyotsu' ? KYOTSU_DAY : EXAM_DAY]));
+const KYOTSU_DAY = '2028-01-16';   // 2日目：理科
+const KYOTSU_DAY1 = '2028-01-15';  // 1日目：国語（漢文）
+const EXAM_PRESET = Object.fromEntries(SUBJECTS.map(s => [s.id, s.exam !== 'kyotsu' ? EXAM_DAY : s.id === 'kanbun' ? KYOTSU_DAY1 : KYOTSU_DAY]));
 // the preset stays the default until the exam day has passed
 const presetActive = sid => daysUntil(EXAM_PRESET[sid]) >= 0;
 
@@ -222,11 +225,11 @@ function phase(d, ex = 'eiken') {
 
 function kyotsuPhase(d) {
   if (d == null) return { name: '设置考试日期', tip: '到 设置 里填写共通テスト的日期。' };
-  if (d > 300) return { name: '第0阶段：跟着学校打基础', tip: '每天把化学基礎闪卡清零（新卡每天约 15 张）。学校学到哪个单元，就把讲义拍进来做卡。' };
-  if (d > 150) return { name: '第1阶段：全范围过一遍', tip: '所有单元的卡都在复习中；用周期表练习把 1–20 号元素背熟；计算题（物质量・中和・氧化还原）错题拍进来。' };
-  if (d > 60) return { name: '第2阶段：共通テスト过去问', tip: '每周做 1 回化学基礎过去问（30 分钟），错题拍进来分析；闪卡继续每天清零。' };
-  if (d > 14) return { name: '第3阶段：实战演练', tip: '按考试时间做过去问和模拟题；用“考前冲刺”刷弱项；化学基礎和另一门基礎科目一共 60 分钟，练好时间分配。' };
-  if (d > 3) return { name: '第4阶段：冲刺', tip: '不再加新卡，只刷弱项和错题；重看炎色反应、指示薬、半反应式这些容易混的点。' };
+  if (d > 300) return { name: '第0阶段：跟着学校打基础', tip: '每天把化学基礎・漢文的闪卡清零（新卡自动分配）。漢文每周读 1–2 篇 📜 汉文阅读；学校学到哪，就把讲义拍进来做卡。' };
+  if (d > 150) return { name: '第1阶段：全范围过一遍', tip: '化学：周期表练到不看表也会、计算题错题拍进来。漢文：句形和再読文字要能立刻读出来，读完所有阅读篇目。' };
+  if (d > 60) return { name: '第2阶段：共通テスト过去问', tip: '每周做 1 回过去问（化学基礎 30 分钟、漢文约 20 分钟），错题拍进来分析；闪卡继续每天清零。' };
+  if (d > 14) return { name: '第3阶段：实战演练', tip: '按考试时间做过去问和模拟题；用“考前冲刺”刷弱项；国语要分配好现代文・古文・漢文的时间。' };
+  if (d > 3) return { name: '第4阶段：冲刺', tip: '不再加新卡，只刷弱项和错题；重看炎色反应、指示薬、半反应式、句形、再読文字这些容易混的点。' };
   if (d > 0) return { name: '最后调整', tip: '只复习弱项，早点睡！' };
   if (d === 0) return { name: '考试当天', tip: '早上用冲刺模式过一遍弱项，然后相信自己！' };
   return { name: '考试结束', tip: '辛苦了！可以在设置里改成下次考试的日期。' };
@@ -307,9 +310,9 @@ async function route() {
   const map = { home: viewHome, add: viewAdd, review: viewReview, session: viewSession, lib: viewLib,
     problem: viewProblem, tutor: viewTutor, source: viewSource, settings: viewSettings,
     feynman: viewFeynmanList, fey: viewFey, packs: viewPacks, writing: viewWriting, essay: viewEssay, essayr: viewEssayResult,
-    sheets: viewSheets, ptable: viewPtable };
+    sheets: viewSheets, ptable: viewPtable, kanbun: viewKanbun };
   tabs({ problem: 'lib', tutor: 'lib', source: 'lib', session: 'review', feynman: 'review', fey: 'review', packs: 'add',
-    writing: 'review', essay: 'review', essayr: 'review', ptable: 'review' }[name] || name);
+    writing: 'review', essay: 'review', essayr: 'review', ptable: 'review', kanbun: 'review' }[name] || name);
   await (map[name] || viewHome)(arg);
 }
 
@@ -481,7 +484,8 @@ async function viewAdd() {
   const isP = draft.mode === 'problem';
   const isL = draft.mode === 'lesson';
   const isW = draft.mode === 'cards' && draft.subject === 'vocab';
-  const isC = s.exam === 'kyotsu';
+  const isC = s.id === 'chemb';
+  const isK = s.id === 'kanbun';
   setView(`
   <h2>📷 拍照导入</h2>
   <button class="big-btn pack-entry" data-act="nav" data-to="packs"><b>📦 导入卡包</b><span>Claude 在聊天里帮你做好的闪卡・错题解法・补课（不花 API 费用）</span></button>
@@ -495,7 +499,7 @@ async function viewAdd() {
 
   ${isL ? `
   <div class="card">
-    <b>看不懂？</b>把看不懂的${isC ? '<b>教科书・讲义・过去问的解说</b>（概念、反应、计算方法）' : '<b>语法、长难句、过去问的长文或解说、写作范文</b>'}拍进来，AI 会像一对一补课一样从零讲起，一节一节讲到你懂，最后自动做成闪卡。
+    <b>看不懂？</b>把看不懂的${isC ? '<b>教科书・讲义・过去问的解说</b>（概念、反应、计算方法）' : isK ? '<b>漢文的句形・返り点・文章</b>' : '<b>语法、长难句、过去问的长文或解说、写作范文</b>'}拍进来，AI 会像一对一补课一样从零讲起，一节一节讲到你懂，最后自动做成闪卡。
     <div class="muted small">💡 一次拍一个主题（2–4 张）效果最好。</div>
   </div>` : isW ? `
   <div class="card">
@@ -503,13 +507,14 @@ async function viewAdd() {
     <div class="muted small">💡 例句和解释由 AI 原创，不会照抄书上的内容。一次 1–2 页最好。</div>
   </div>` : !isP ? `
   <div class="card">
-    ${isC ? '<b>资料 → 闪卡</b>：教科书、学校讲义、图录、笔记……AI 会挑出共通テスト要背的知识（物质的性质・颜色・反应式・定义・实验操作），能出选择题的卡还会附 4 选 1。'
+    ${isK ? '<b>资料 → 闪卡</b>：漢文的教科书、讲义、参考书……AI 会挑出句形・再読文字・重要语的读法、和中文意思不同的字、書き下し练习，能出选择题的卡会附 4 选 1。'
+      : isC ? '<b>资料 → 闪卡</b>：教科书、学校讲义、图录、笔记……AI 会挑出共通テスト要背的知识（物质的性质・颜色・反应式・定义・实验操作），能出选择题的卡还会附 4 选 1。'
       : '<b>资料 → 闪卡</b>：笔记、参考书、过去问的解说、写作范文……AI 会挑出值得背的单词、搭配和能直接套用的表达。'}
     ${draft.subject === 'write' ? '<button class="btn block" data-act="nav" data-to="writing" style="margin-top:8px">✍️ 去英作文练习（写作并批改）</button>' : ''}
   </div>` : `
   <div class="card">
     <label class="lbl">题号（可选）</label>
-    <input data-bind="ref" placeholder="${isC ? '例：2026 共通テスト 化学基礎 第1問 問3' : '例：2025年度第1回 大問1 (5)'}" value="${esc(draft.ref)}">
+    <input data-bind="ref" placeholder="${isC ? '例：2026 共通テスト 化学基礎 第1問 問3' : isK ? '例：2026 共通テスト 国語 第4問 問2' : '例：2025年度第1回 大問1 (5)'}" value="${esc(draft.ref)}">
     <label class="lbl">错因（可多选）</label>
     <div class="chips">${reasonsFor(draft.subject).map(r => `<button class="chip ${draft.reason.includes(r) ? 'on' : ''}" data-act="toggleReason" data-r="${r}">${r}</button>`).join('')}</div>
   </div>`}
@@ -565,7 +570,7 @@ function aiOverlay(msg) {
   return () => { clearInterval(h); el.classList.remove('show'); };
 }
 
-const cardsSchema = () => ({ vocab: 'words', chemb: 'chemcards' }[draft.subject] || 'cards');
+const cardsSchema = () => ({ vocab: 'words', chemb: 'chemcards', kanbun: 'chemcards' }[draft.subject] || 'cards');
 
 function draftPrompt() {
   const subject = SUBJ[draft.subject];
@@ -797,6 +802,7 @@ async function viewReview() {
     <button class="big-btn danger" data-act="startMode" data-mode="cram"><b>🔥 考前冲刺</b><span>不管到期，专刷弱项</span></button>
   </div>
   <button class="big-btn write-entry" data-act="nav" data-to="writing"><b>✍️ 英作文（要約・意見論述）</b><span>写作 → 按英検 4 个观点评分 → 范文和表达变成闪卡</span></button>
+  <button class="big-btn kb-entry" data-act="nav" data-to="kanbun"><b>📜 汉文阅读</b><span>论语・韩非子・战国策・唐诗… 白文 → 训读 → 書き下し → 中文，点字看读法</span></button>
   <button class="big-btn chem-entry" data-act="nav" data-to="ptable"><b>🧪 周期表练习（化学基礎）</b><span>看表记位置 → 点出元素在哪里 → 看位置认元素</span></button>
   <button class="big-btn fey" data-act="nav" data-to="feynman"><b>🗣 费曼模式：讲给 AI 听</b><span>用自己的话讲出来 → AI 追问 → 评分 → 漏洞自动变成闪卡${S.feynman.filter(f => f.result).length ? ` · 已讲 ${S.feynman.filter(f => f.result).length} 次` : ''}</span></button>
   <h3 class="sec">按科目</h3>
@@ -825,6 +831,7 @@ function subjectMenu(sid) {
       <button class="btn primary block" data-act="startMode" data-mode="today" data-sid="${sid}">▶ 今日任务（卡 ${p.dueCards.length + p.newCards.length} · 题 ${p.dueProblems.length}）</button>
       <button class="btn block" data-act="startMode" data-mode="cards" data-sid="${sid}">🃏 只刷闪卡</button>
       ${sid === 'chemb' ? '<button class="btn block" data-act="nav" data-to="ptable">🧪 周期表练习</button>' : ''}
+      ${sid === 'kanbun' ? '<button class="btn block" data-act="nav" data-to="kanbun">📜 汉文阅读</button>' : ''}
       <button class="btn block" data-act="startMode" data-mode="method" data-sid="${sid}">🧠 解法闪卡</button>
       <button class="btn block" data-act="startMode" data-mode="problems" data-sid="${sid}">✏️ 错题重做</button>
       <button class="btn block danger" data-act="startMode" data-mode="cram" data-sid="${sid}">🔥 考前冲刺（弱项 50）</button>
@@ -1607,7 +1614,7 @@ async function syncPackMemos() {
   try {
     const imported = await db.getMeta('importedPacks', []);
     const synced = await db.getMeta('memoSynced', []);
-    const todo = imported.filter(id => id.startsWith('chemb-') && !synced.includes(id));
+    const todo = imported.filter(id => /^(chemb|kanbun)-/.test(id) && !synced.includes(id));
     if (!todo.length) return;
     const index = (await fetchJSON(PACK_INDEX)).packs || [];
     let n = 0;
@@ -2591,6 +2598,109 @@ function viewPtable() {
 }
 
 // ====================================================================
+// 汉文阅读 (漢文)
+// ====================================================================
+
+const kb = { texts: null, mode: 'haku' };
+const KB_MODES = [['haku', '白文'], ['kun', '訓読'], ['kaki', '書き下し'], ['zh', '中文']];
+
+async function kbTexts() {
+  if (!kb.texts) kb.texts = (await fetchJSON('data/kanbun.json')).texts || [];
+  return kb.texts;
+}
+
+// 返り点 and 送り仮名 written inline, the way kunten is typed in books: 習フレ之ヲ
+function kuntenPlain(src) {
+  return kbParse(src).map(t => t.base + (t.ok || '') + (t.mark || '')).join('');
+}
+
+async function viewKanbun(id) {
+  let texts;
+  try {
+    texts = await kbTexts();
+  } catch (e) {
+    setView(`<button class="back" data-act="nav" data-to="review">‹ 复习</button><h2>📜 汉文阅读</h2><div class="card warn">读不到文章（${esc(e.message)}）。联网后再打开一次，之后离线也能看。</div>`);
+    return;
+  }
+  const read = await db.getMeta('kanbunRead', []);
+  const t = id && texts.find(x => x.id === id);
+  if (!t) {
+    const li = x => `<button class="li" data-act="nav" data-to="kanbun/${esc(x.id)}" style="--c:${SUBJ.kanbun.color}">
+      <span class="dot"></span><span class="li-t">${read.includes(x.id) ? '✅ ' : ''}${esc(x.title)}<br><small class="muted">${esc(x.source)}${x.form ? ` · ${esc(x.form)}` : ''} · ${'★'.repeat(x.level || 1)}</small></span></button>`;
+    setView(`
+      <button class="back" data-act="nav" data-to="review">‹ 复习</button>
+      <h2>📜 汉文阅读</h2>
+      <div class="card small">
+        <b>怎么读</b>：先看<b>白文</b>自己试着读，点有下划线的字看读法和意思 → 切到<b>訓読</b>看返り点・送り仮名（竖排，和考试一样）→ <b>書き下し</b>对答案 → <b>中文</b>确认意思。<br>
+        读完点「把重点加入闪卡」，字词和書き下し练习就会进入每天的复习。
+      </div>
+      <div class="muted small">已读 ${read.filter(x => texts.some(y => y.id === x)).length} / ${texts.length} 篇</div>
+      <h3 class="sec">文章</h3><div class="list">${texts.filter(x => x.kind !== '詩').map(li).join('')}</div>
+      <h3 class="sec">漢詩</h3><div class="list">${texts.filter(x => x.kind === '詩').map(li).join('')}</div>`);
+    return;
+  }
+  const i = texts.indexOf(t);
+  const prev = texts[i - 1];
+  const next = texts[i + 1];
+  const added = S.sources.some(x => x.packId === 'kb-' + t.id);
+  const body = {
+    haku: () => `<div class="kb-haku">${hakubunHTML(t.lines, t.gloss)}</div><div class="muted small">💡 先自己读一遍；点下划线的字看读法和意思。</div>`,
+    kun: () => `<div class="kb-vert">${kundokuHTML(t.lines)}</div><div class="muted small">竖排，从右边那一列开始往下读。字的右边＝送り仮名，左下的红字＝返り点，淡色的字＝置き字（不读）。</div>`,
+    kaki: () => `<div class="kb-kaki">${t.lines.map(l => `<p>${esc(kakikudashi(l))}</p>`).join('')}</div>`,
+    zh: () => `<div class="kb-zh">${esc(t.zh)}</div>`,
+  }[kb.mode]();
+  setView(`
+    <button class="back" data-act="nav" data-to="kanbun">‹ 汉文阅读</button>
+    <h2>${esc(t.title)}</h2>
+    <div class="muted small">${esc(t.source)}${t.form ? ` · ${esc(t.form)}` : ''}${t.rhyme ? ` · 押韻：${esc(t.rhyme)}` : ''}</div>
+    <div class="card small">${esc(t.intro)}</div>
+    <div class="seg small kb-seg">${KB_MODES.map(([m, label]) => `<button class="${kb.mode === m ? 'on' : ''}" data-act="kbMode" data-mode="${m}" data-id="${esc(t.id)}">${label}</button>`).join('')}</div>
+    <div class="card kb-body">${body}</div>
+    <h3 class="sec">重点字词</h3>
+    <div class="card kb-gloss">${(t.gloss || []).map(g => `<div class="kb-g"><b>${esc(g.w)}</b><span>${esc(g.y)}</span><span>${esc(g.m)}</span><small class="muted">${esc(g.zh)}</small></div>`).join('')}</div>
+    <h3 class="sec">句法・要点</h3>
+    <div class="card small">${md((t.points || []).map(x => '- ' + x).join('\n'))}</div>
+    <div class="stack">
+      <button class="btn primary block" data-act="kbCards" data-id="${esc(t.id)}" ${added ? 'disabled' : ''}>${added ? '✅ 已加入闪卡' : `📥 把重点加入闪卡（字词 ${(t.gloss || []).length} ＋ 書き下し练习）`}</button>
+      <button class="btn block" data-act="kbRead" data-id="${esc(t.id)}">${read.includes(t.id) ? '✅ 读过了（点一下取消）' : '☑️ 标记为读完'}</button>
+    </div>
+    <div class="row kb-nav">
+      ${prev ? `<button class="btn ghost small" data-act="nav" data-to="kanbun/${esc(prev.id)}">‹ ${esc(prev.title)}</button>` : '<span></span>'}
+      ${next ? `<button class="btn ghost small" data-act="nav" data-to="kanbun/${esc(next.id)}">${esc(next.title)} ›</button>` : '<span></span>'}
+    </div>`);
+  if (kb.mode === 'kun') {
+    // vertical text starts at the right edge
+    const v = document.querySelector('.kb-vert');
+    if (v) v.scrollLeft = v.scrollWidth;
+  }
+}
+
+// 重点字词 → 读法卡；有返り点的句子 → 書き下し练习卡
+async function kbAddCards(id) {
+  const texts = await kbTexts();
+  const t = texts.find(x => x.id === id);
+  if (!t || S.sources.some(x => x.packId === 'kb-' + t.id)) return;
+  const fmt = g => `${g.y}（${g.m}）`;
+  const pool = texts.flatMap(x => x.gloss || []).map(fmt);
+  const raw = (t.gloss || []).map(g => ({
+    type: 'qa', front: `「${g.w}」の読みと意味は？（${t.source}「${t.title}」）`, back: fmt(g), note: g.zh, importance: 2,
+    distractors: shuffle([...new Set(pool.filter(x => x !== fmt(g)))]).slice(0, 3),
+  }));
+  for (const l of t.lines) {
+    if (!kbParse(l).some(x => x.mark)) continue;
+    raw.push({ type: 'qa', front: `書き下し文にせよ：\n${kuntenPlain(l)}`, back: kakikudashi(l), note: `${t.source}「${t.title}」`, importance: 2 });
+  }
+  const src = {
+    id: uid(), subject: 'kanbun', kind: 'kanbun', title: `汉文阅读：${t.title}`, packId: 'kb-' + t.id,
+    summary: `${t.source}\n\n${(t.points || []).map(x => '- ' + x).join('\n')}`, imageIds: [], created: Date.now(),
+  };
+  const cards = await addSourceWithCards(src, raw);
+  addXP(5);
+  toast(`已加入 ${cards.length} 张闪卡 📥`);
+  viewKanbun(id);
+}
+
+// ====================================================================
 // SETTINGS
 // ====================================================================
 
@@ -2612,7 +2722,7 @@ async function viewSettings() {
 
     <div class="card">
       <h4>📅 考试日期（共通テスト）</h4>
-      <div class="muted small">2028 年 1 月的日程还没公布，先按往年（1 月中旬的周六・周日，理科在第 2 天）设成 1/16。大学入試センター公布后请修改。</div>
+      <div class="muted small">2028 年 1 月的日程还没公布，先按往年（1 月中旬的周六・周日）设定：漢文（国语）在第 1 天 1/15，化学基礎（理科）在第 2 天 1/16。大学入試センター公布后请修改。</div>
       ${examSubjects('kyotsu').map(s => `<div class="kv"><span>${s.icon} ${s.name}</span><input type="date" data-exam="${s.id}" value="${st.exams[s.id] || ''}"></div>`).join('')}
     </div>
 
@@ -2977,6 +3087,26 @@ const acts = {
     if (!c || !t) return toast('先粘贴或写好记法');
     closeModal();
     await saveMemo(c, t, 'manual');
+  },
+
+  // 汉文阅读
+  kbMode: d => { kb.mode = d.mode; viewKanbun(d.id); },
+  kbGloss: async d => {
+    const g = (await kbTexts()).flatMap(x => x.gloss || []).find(x => x.w === d.w);
+    if (!g) return;
+    modal(`<h3 class="kb-pop-w">${esc(g.w)}</h3>
+      <div class="kv"><span>読み</span><b>${esc(g.y)}</b></div>
+      <div class="kv"><span>意味</span><b>${esc(g.m)}</b></div>
+      <div class="kv"><span>中文</span><b>${esc(g.zh)}</b></div>
+      <button class="btn primary block" data-act="closeModal">好</button>`);
+  },
+  kbCards: d => kbAddCards(d.id),
+  kbRead: async d => {
+    const read = await db.getMeta('kanbunRead', []);
+    const was = read.includes(d.id);
+    await db.setMeta('kanbunRead', was ? read.filter(x => x !== d.id) : [...read, d.id]);
+    if (!was) { addXP(3); toast('读完一篇 +3 XP 📜'); }
+    viewKanbun(d.id);
   },
 
   // 周期表

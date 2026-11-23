@@ -450,3 +450,30 @@ ul { margin: 4px 0; padding-left: 1.3em; }
 .memo-screen .memo-box { margin-top: 14px; padding: 12px; border-radius: 12px; font-size: 15px; font-weight: 500; line-height: 1.7; color: var(--text);
   background: color-mix(in srgb, var(--primary) 12%, transparent); border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--line)); }
 .memo-screen .memo-box::before { content: '💡 记法'; display: block; font-weight: 700; margin-bottom: 4px; }
+
+/* 📜 汉文阅读 */
+.kb-entry { border-color: color-mix(in srgb, #0c8599 45%, var(--line)); }
+.kb-seg { margin-top: 12px; }
+.kb-body { font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif CJK JP", "Songti SC", serif; }
+.kb-haku p, .kb-kaki p { font-size: 20px; line-height: 1.9; margin: 0 0 8px; letter-spacing: .04em; }
+.kb-kaki p { font-size: 18px; }
+.kb-zh { font-size: 16px; line-height: 1.9; font-family: inherit; }
+.kb-w { border-bottom: 2px dotted var(--primary); cursor: pointer; }
+.kb-w:active { background: color-mix(in srgb, var(--primary) 20%, transparent); }
+.kb-vert { display: flex; flex-direction: row-reverse; gap: 6px; overflow-x: auto; padding: 4px 8px 8px; font-size: 24px; -webkit-overflow-scrolling: touch; }
+.kcol { display: flex; flex-direction: column; flex-shrink: 0; }
+.kc { position: relative; display: grid; grid-template-columns: .55em 1em .55em; height: 1.3em; }
+.kc b { font-weight: 400; text-align: center; line-height: 1.2em; }
+.kc .ok, .kc .ok2 { display: flex; flex-direction: column; font-size: .44em; line-height: 1.02; padding-top: 1.15em; font-family: system-ui, sans-serif; z-index: 1; }
+.kc .ok2 { position: absolute; left: 0; top: 0; color: var(--muted); }
+.kc .ok i, .kc .ok2 i { font-style: normal; }
+.kc .kr { align-self: end; justify-self: end; font-size: .4em; line-height: 1; color: var(--bad); font-weight: 700; font-family: system-ui, sans-serif;
+  writing-mode: horizontal-tb; margin-bottom: .1em; }
+.kc.p { height: .7em; }
+.kc.p b { color: var(--muted); line-height: .5em; text-align: left; padding-left: .5em; }
+.kc.oki b { opacity: .4; }
+.kb-gloss { display: grid; gap: 8px; }
+.kb-g { display: grid; grid-template-columns: auto 1fr; column-gap: 10px; font-size: 14px; }
+.kb-g b { grid-row: span 3; font-size: 22px; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; min-width: 1.6em; }
+.kb-nav { justify-content: space-between; margin-top: 10px; }
+.kb-pop-w { font-size: 34px; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; }

@@ -188,6 +188,105 @@
    "file": "chemb-12-life.json",
    "count": 39,
    "created": "2026-11-07T20:33+09:00"
+  },
+  {
+   "id": "kanbun-01-kunten",
+   "title": "漢文① 訓読のきまり（返り点・書き下し・置き字）",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-01-kunten.json",
+   "count": 23,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-02-saidoku",
+   "title": "漢文② 再読文字",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-02-saidoku.json",
+   "count": 29,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-03-negation",
+   "title": "漢文③ 否定・二重否定・部分否定",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-03-negation.json",
+   "count": 22,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-04-question",
+   "title": "漢文④ 疑問・反語",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-04-question.json",
+   "count": 20,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-05-causative",
+   "title": "漢文⑤ 使役・受身",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-05-causative.json",
+   "count": 11,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-06-compare",
+   "title": "漢文⑥ 比較・選択・限定・累加・抑揚",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-06-compare.json",
+   "count": 16,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-07-hypo",
+   "title": "漢文⑦ 仮定・願望・詠嘆",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-07-hypo.json",
+   "count": 14,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-08-words1",
+   "title": "漢文⑧ 重要語：副詞・接続詞の読み",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-08-words1.json",
+   "count": 42,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-09-words2",
+   "title": "漢文⑨ 多義語・文脈で読む字",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-09-words2.json",
+   "count": 25,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-10-meaning",
+   "title": "漢文⑩ 意味に注意する語（中国語・日本語と違う）",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-10-meaning.json",
+   "count": 26,
+   "created": "2026-11-24T08:31+09:00"
+  },
+  {
+   "id": "kanbun-11-poem",
+   "title": "漢文⑪ 漢詩のきまり",
+   "subject": "kanbun",
+   "kind": "cards",
+   "file": "kanbun-11-poem.json",
+   "count": 14,
+   "created": "2026-11-24T08:31+09:00"
   }
  ]
 }
