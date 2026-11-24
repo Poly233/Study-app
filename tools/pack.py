@@ -11,7 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = ROOT / 'packs'
-SUBJECTS = {'vocab', 'read', 'write', 'listen', 'chemb'}
+SUBJECTS = {'vocab', 'read', 'write', 'listen', 'chemb', 'kanbun'}
 JST = timezone(timedelta(hours=9))
 
 PROBLEM_KEYS = ['title', 'ref', 'problemText', 'topic', 'pattern', 'trigger', 'keyIdea', 'firstStep',

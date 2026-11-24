@@ -1,6 +1,6 @@
 // Offline cache for the app shell. Bump VERSION whenever files change so
 // phones pick up the new version.
-const VERSION = 'sq-v12';
+const VERSION = 'sq-v13';
 const FILES = [
   './',
   'index.html',
@@ -13,6 +13,8 @@ const FILES = [
   'js/util.js',
   'js/eiken.js',
   'js/chem.js',
+  'js/kanbun.js',
+  'data/kanbun.json',
   'vendor/anthropic.js',
   'vendor/katex/katex.min.js',
   'vendor/katex/katex.min.css',

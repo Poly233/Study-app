@@ -141,16 +141,22 @@ export const SCHEMAS = {
 
 const EXAM = '英検準1級';
 const CHEM = '大学入学共通テスト「化学基礎」';
-const isChem = subject => subject?.exam === 'kyotsu';
-const examOf = subject => (isChem(subject) ? CHEM : EXAM);
-const teacherOf = subject => (isChem(subject) ? `${CHEM}的化学老师` : `${EXAM}英语老师`);
-const exampleOf = subject => (isChem(subject) ? '具体的物质、化学式或身边的例子' : '英文例子');
+const KANBUN = '大学入学共通テスト「国語（漢文）」';
+const isChem = subject => subject?.id === 'chemb';
+const isKanbun = subject => subject?.id === 'kanbun';
+const examOf = subject => (isChem(subject) ? CHEM : isKanbun(subject) ? KANBUN : EXAM);
+const teacherOf = subject => (isChem(subject) ? `${CHEM}的化学老师` : isKanbun(subject) ? `${KANBUN}的汉文老师` : `${EXAM}英语老师`);
+const exampleOf = subject => (isChem(subject) ? '具体的物质、化学式或身边的例子' : isKanbun(subject) ? '汉文例句（附書き下し文）' : '英文例子');
+// The student is a native Chinese speaker from Malaysia who studied 文言文 at school.
+const KANBUN_STUDENT = '学生是马来西亚华人，母语是中文，在马来西亚学过文言文，所以字义多半能凭中文理解；难点是日语的训读（返り点・送り仮名・書き下し文・句形的固定读法）和与中文意思不同的字。讲解时可以多用中文文言文/成语来类比。';
+const KANBUN_FORMAT = '汉文原文照常写汉字；書き下し文用历史假名遣い（例：曰はく、思ふ）；返り点可以用「レ」「一」「二」写在字后面（例：不レ知レ之）。';
 
 const CHEM_FORMAT = `化学式和反应式用 KaTeX 的 mhchem 写在 $ 里，例如 $\\ce{H2SO4}$、$\\ce{Cu^2+}$、$\\ce{MnO4- + 8H+ + 5e- -> Mn^2+ + 4H2O}$；数式也写在 $ 里，例如 $6.0 \\times 10^{23}$。`;
 
 // 资料（笔记・参考书・解说・范文）→ 普通闪卡
 export function cardsPrompt({ subject, note, settings }) {
   if (isChem(subject)) return chemCardsPrompt({ note, settings });
+  if (isKanbun(subject)) return kanbunCardsPrompt({ note, settings });
   const L = explLang(settings);
   const system = `你是${EXAM}对策的王牌讲师，也是制作闪卡的高手。学生会拍下英语学习资料（笔记、参考书、过去问的解说、写作范文等），你要把它变成“考试用得上”的闪卡。`;
   const user = `部分：${subject.name}
@@ -188,6 +194,24 @@ function chemCardsPrompt({ note, settings }) {
   return { system, user };
 }
 
+// 漢文の资料 → 闪卡（读法・句形・意思，可带 4 选 1）
+function kanbunCardsPrompt({ note, settings }) {
+  const L = explLang(settings);
+  const system = `你是${KANBUN}对策的王牌讲师，也是制作闪卡的高手。${KANBUN_STUDENT}`;
+  const user = `${note ? `学生备注：${note}\n` : ''}
+请把图片里的漢文资料（教科书、讲义、参考书、过去问的解说）做成闪卡：
+1. 挑出考试会问的：句形（否定・疑問・反語・使役・受身・比較・限定・抑揚・仮定・詠嘆）、再読文字、重要语的读法和意思、多义字、与中文/日语现代意思不同的字、文章里的关键句的書き下し文。
+2. 一张卡只考一个点；正面不泄露答案。
+3. front/back 用日语（考试的说法），例如 front「「蓋」の読みと意味は？」back「けだし（思うに）」；書き下し练习 front 写带返り点的原文，back 写書き下し文。${KANBUN_FORMAT}
+4. note 用${L}写一句提示，能用中文文言文/成语类比的就类比（例：盍＝何不）。
+5. type："qa"=问答；"cloze"=挖空成「（　　）」，back 只写填入的内容。
+6. distractors：答案短（读法、意思、書き下し文）时给 3 个同格式的错误选项（例如把读法、语序、送り仮名弄错），否则空数组。
+7. importance：3=常考，2=一般，1=补充。每页一般 10–30 张，不要重复。
+8. title：资料标题；summary：用${L}写要点（Markdown 列表 5–10 条）。
+9. 看不清的地方不要编造，在 summary 中说明。`;
+  return { system, user };
+}
+
 // 单词书・过去问・笔记的页面 → 单词卡（例句和解释全部原创）
 export function wordsPrompt({ note, settings }) {
   const L = explLang(settings);
@@ -217,6 +241,7 @@ export function wordsPrompt({ note, settings }) {
 // 过去问的错题 → 解题分析
 export function problemPrompt({ subject, ref, note, reason, hasSolution, settings }) {
   if (isChem(subject)) return chemProblemPrompt({ ref, note, reason, hasSolution, settings });
+  if (isKanbun(subject)) return kanbunProblemPrompt({ ref, note, reason, hasSolution, settings });
   const L = explLang(settings);
   const system = `你是${EXAM}的专业辅导老师。学生在做过去问，这道题（部分：${subject.name}）做错了或者没把握。
 你要讲清楚“为什么是这个答案、其他选项为什么不对”，再总结出这类题的解题套路，让他下次遇到同类题能做对。`;
@@ -266,9 +291,35 @@ function chemProblemPrompt({ ref, note, reason, hasSolution, settings }) {
   return { system, user };
 }
 
+function kanbunProblemPrompt({ ref, note, reason, hasSolution, settings }) {
+  const L = explLang(settings);
+  const system = `你是${KANBUN}的专业辅导老师。学生做过去问或模拟题时这道题错了或没把握。${KANBUN_STUDENT}
+你要讲清楚“为什么是这个答案、其他选项错在哪”，并总结解题套路（看哪个句形、哪个字的读法、根据在文中哪里）。`;
+  const user = `${ref ? `题号：${ref}\n` : ''}${reason ? `学生的错因：${reason}\n` : ''}${note ? `学生备注：${note}\n` : ''}${hasSolution ? '最后标注为【解答】的图片是官方解答或解说，以它为准。\n' : '没有提供官方解答，请自己认真判断并确认答案。\n'}
+请分析图片里的题目，说明用${L}，汉文术语保留日语。${KANBUN_FORMAT}
+- title：简短标题（例「2026 国語 第4問 問2」）
+- ref：题号（不知道就留空字符串）
+- problemText：设问和选项的转写，以及相关的本文（白文或带返り点）
+- topic：题型（例「書き下し文」「返り点」「語の意味」「句形（反語）」「内容一致」「漢詩の形式」）
+- pattern：解题套路，一句话（例「『豈〜哉』は反語 → 否定の意味の選択肢」）
+- trigger：识别信号，格式“看到〇〇 → 想到△△”
+- keyIdea：正确答案为什么对、每个错误选项错在哪（读法、语序、句形、意思）
+- firstStep：第一步（例「先找句形的标志字（豈・安・使・不・未…）」）
+- hints：3 个逐步加强的提示
+- steps：解题过程，每步有 title 和 detail（相关句子写出書き下し文和中文意思）
+- answer：正确答案（编号加内容），附相关句的書き下し文和中文翻译
+- pitfalls：陷阱（尤其是中文母语者容易按中文意思理解错的地方）
+- formulas：值得背的句形・读法（格式「漢字 — 読み — 意味」）
+- recallFront：“解法闪卡”正面：1–2 句概括题目问什么
+- recallBack：“解法闪卡”背面：解题套路 + 第一步 + 关键句形
+不确定的地方要说明，不要编造。`;
+  return { system, user };
+}
+
 // 看不懂的内容 → 一对一补课
 export function lessonPrompt({ subject, note, settings }) {
   if (isChem(subject)) return chemLessonPrompt({ note, settings });
+  if (isKanbun(subject)) return kanbunLessonPrompt({ note, settings });
   const L = explLang(settings);
   const system = `你是一位非常会讲课的${EXAM}英语老师，正在给学生一对一辅导（部分：${subject.name}）。
 学生拍下了他没看懂的内容（参考书、语法、过去问的长文或解说、写作范文等）。请你从零开始讲到他懂，目标是在${EXAM}拿分。`;
@@ -312,6 +363,21 @@ function chemLessonPrompt({ note, settings }) {
   return { system, user };
 }
 
+function kanbunLessonPrompt({ note, settings }) {
+  const L = explLang(settings);
+  const system = `你是一位非常会讲课的汉文老师，正在给准备${KANBUN}的学生一对一辅导。${KANBUN_STUDENT}`;
+  const user = `${note ? `学生说哪里不懂：${note}\n\n` : ''}请根据图片里的内容讲解，讲解用${L}，术语保留日语。${KANBUN_FORMAT}
+- title：本节标题（例：「反語の句形」「返り点のきまり」）。
+- overview：这一节在学什么、共通テスト怎么考，2–3 句。
+- prerequisites：需要先会的旧知识（“旧知识：一句话复习”），没有就给空数组。
+- sections：3–6 个小节，从易到难。每节：heading；explain（先用中文文言文的感觉讲意思，再讲日语的训读和書き下し规则，最后讲注意点，Markdown，300 字以内）；example（一个汉文例句＋書き下し文＋中文翻译）；checkQ（检查理解的小问题）；checkA（答案＋一句解释）。
+- keyPoints：考试要点 5–10 条。
+- formulas：本节的句形公式（例「使AB＝AをしてBしむ」），没有就空数组。
+- cards：10–25 张闪卡，front 问题、back 答案（日语）；note 用${L}写提示。importance：3=常考。
+- 只讲资料里的内容和必需的基础；看不清的地方说明，不要编造。`;
+  return { system, user };
+}
+
 export function lessonMorePrompt({ subject, lesson, section, settings }) {
   const L = explLang(settings);
   const system = `你是一位非常有耐心的${teacherOf(subject)}，正在一对一辅导（部分：${subject.name}）。`;
@@ -326,7 +392,7 @@ ${(section.more || []).length ? `\n之前已经换过的讲法：\n${section.mor
 请用${L}，换一个完全不同的角度重新讲：
 - 用更生活化的比喻，或者从更基础的地方讲起
 - 步骤拆得更细，每一步只讲一件事
-- 给一个比原来更简单的${isChem(subject) ? '例子（具体的物质或数字）' : '英文例子'}，并讲解
+- 给一个比原来更简单的${isChem(subject) ? '例子（具体的物质或数字）' : isKanbun(subject) ? '汉文例句（附書き下し文和中文翻译）' : '英文例子'}，并讲解
 - 15 行以内
 - 不要超出这一节的范围`;
   return { system, user };
@@ -334,6 +400,19 @@ ${(section.more || []).length ? `\n之前已经换过的讲法：\n${section.mor
 
 export function variantPrompt({ subject, problem, settings }) {
   if (isChem(subject)) return chemVariantPrompt({ problem, settings });
+  if (isKanbun(subject)) {
+    const L = explLang(settings);
+    return {
+      system: `你是${KANBUN}的出题老师。请出一道和原题考同一个句形或读法的新题。${KANBUN_STUDENT}`,
+      user: `原题：\n${problem.problemText}\n\n题型：${problem.topic}\n解题套路：${problem.pattern}\n要点：${problem.keyIdea}\n
+请用一段新的、真实的古典汉文（经典原文或常见的短句，不要编造假的出处）出 1 道共通テスト风格的题，选项写成 ①〜⑤。${KANBUN_FORMAT}
+- problem：本文（带返り点）、设问和选项
+- changed：用${L}一句话说明这道题练的是什么
+- steps：解题过程（用${L}，写出書き下し文和中文意思）
+- answer：正确答案（编号加内容）
+出题后自己检查，确保只有一个正确答案。`,
+    };
+  }
   const L = explLang(settings);
   const system = `你是${EXAM}的出题老师。你要出一道和原题同一题型、考同一个知识点或解题套路的新题。`;
   const user = `部分：${subject.name}
@@ -382,7 +461,7 @@ export function tutorSystem({ subject, problem, settings }) {
   return `你是一位耐心的苏格拉底式家教，正在辅导${examOf(subject)}（部分：${subject.name}）。学生在复习一道曾经做错的过去问，目标是让他自己找到答案的根据，而不是直接看答案。
 
 规则：
-- 全部用${L}回复，${isChem(subject) ? `化学用语保留日语。${CHEM_FORMAT}` : '英文原文照常引用。'}
+- 全部用${L}回复，${isChem(subject) ? `化学用语保留日语。${CHEM_FORMAT}` : isKanbun(subject) ? `汉文术语保留日语。${KANBUN_FORMAT}${KANBUN_STUDENT}` : '英文原文照常引用。'}
 ${isChem(subject) ? '- 计算题让学生先说出“要求什么量、先换成多少 mol”，每一步带单位。\n' : ''}
 - 每次回复简短（不超过 6 行），一次只问一个问题或只推进一步。
 - 先问学生：题目在问什么、他觉得根据在哪里。
@@ -410,6 +489,7 @@ ${isChem(subject) ? '- 计算题让学生先说出“要求什么量、先换成
 export function memoPrompt({ subject, card, settings }) {
   const L = explLang(settings);
   const chem = isChem(subject);
+  const kanbun = isKanbun(subject);
   const what = card.type === 'word'
     ? `英语单词：${card.word}${card.pos ? `（${card.pos}）` : ''}\n意思：${card.ja}${card.zh ? `／${card.zh}` : ''}${card.ex ? `\n例句：${card.ex}` : ''}`
     : `问题：${card.front}\n答案：${card.back}${card.note ? `\n备注：${card.note}` : ''}`;
@@ -418,7 +498,11 @@ export function memoPrompt({ subject, card, settings }) {
 
 请用${L}写记法（Markdown，6 行以内）：
 - 先给最好用的 1 个方法，有余力再补充 1 个。
-${chem
+${kanbun
+    ? `- ${KANBUN_STUDENT}
+- 优先用中文（文言文、成语、现代汉语）来联想读法和意思（例：盍＝何不 → なんぞ〜ざる；纵然 → 縦（たとひ））；日本考生常用的有名的語呂合わせ也可以，要写“（有名）”，自己编的写“（自创）”。
+- 指出和中文意思不同、容易误解的地方。${KANBUN_FORMAT}`
+    : chem
     ? `- 优先用日本考生常用的有名的語呂合わせ。只有确定是广泛使用的才写“（有名）”；自己编的要写“（自创）”。语呂要写出每个音对应哪个元素或答案，例如「リアカー（Li 赤）」。
 - 没有好的语呂时，用“为什么会这样”的理由、图像联想、和身边东西的联系、或和易混点的对比来记。
 - ${CHEM_FORMAT}`
@@ -466,11 +550,16 @@ ${text}
 function feynmanRef(reference, subject) {
   return reference
     ? `参考资料（讲解者看不到，只用来判断对错和遗漏，不要照抄给他）：\n${reference}`
-    : `没有参考资料，请用你对${isChem(subject) ? `${CHEM}范围内化学知识` : `${EXAM}所需英语知识`}的理解来判断对错和遗漏。`;
+    : `没有参考资料，请用你对${isChem(subject) ? `${CHEM}范围内化学知识` : isKanbun(subject) ? `${KANBUN}范围内漢文知识` : `${EXAM}所需英语知识`}的理解来判断对错和遗漏。`;
 }
 
 // Keeps both the questions and the grading inside what the exam can ask.
 function feynmanScope(reference, subject) {
+  if (isKanbun(subject)) {
+    return reference
+      ? '范围以参考资料为准：资料里有的才算考试范围。训诂学、音韵学等学术内容一律视为超纲。'
+      : '范围是高中「古典（漢文）」的教科书内容：训读规则、句形、重要语、漢詩的规则和名篇的内容。学术研究级别的内容一律视为超纲。';
+  }
   if (isChem(subject)) {
     return reference
       ? '范围以参考资料为准：资料里有的才算考试范围。资料里没有的内容（化学（专门科目）才学的内容、大学水平的理论等）一律视为超纲。'
